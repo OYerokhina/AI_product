@@ -161,6 +161,47 @@ Paperbell — немає, лише адаптивний веб. Dubsado — є, 
 > як європейського представника групи не підтверджена. Якщо вона не з ЄС —
 > у ХАРД-групі немає жодного європейця, і це змінює картину для ринку ЄС.
 
+### Перевірка Mobbin
+
+Перевірено 2026-09-08, платформа iOS.
+
+**Жодного з п'яти ХАРД-конкурентів у базі Mobbin немає** — пошук за назвою кожного
+повертав сторонні продукти (Shopify, Jira, Asana, Noom). Причина зрозуміла: троє з
+п'яти взагалі не мають нативного застосунку (CoachAccountable — свідомо,
+Paperbell і Delenta), а Mobbin курує переважно споживчі продукти, не нішевий B2B.
+
+| Продукт | Стан у Mobbin |
+|---|---|
+| CoachAccountable | **немає в Mobbin** |
+| Practice Better | **немає в Mobbin** |
+| Paperbell | **немає в Mobbin** |
+| Dubsado | **немає в Mobbin** |
+| Delenta | **немає в Mobbin** |
+
+### Mobbin пошук — дотичні патерни
+
+Оскільки прямих конкурентів у базі немає, шукав застосунки з потрібними нам
+юзер-флоу. Файли з префіксом `mobbin-search-` у `screens/`.
+
+| Екран | Що показує | Для чого нам |
+|---|---|---|
+| [Universe](https://mobbin.com/screens/28fbf3b8-51a0-4a7f-884b-6f972f9e5391) `universe-template-or-start-blank` | «Choose a template», де **«Start without a template» — рівноправна плитка** серед шаблонів | **Найцінніша знахідка.** Буквально наша розвилка §4.2: пресет або з нуля, обидва в одному екрані без окремого кроку |
+| [Depop](https://mobbin.com/screens/1c65c862-ae15-426c-81fe-9996ce711261) `depop-template-or-skip` | «Use this template» головною кнопкою, «Skip for now» — вторинною | Протилежний підхід: пропуск навмисно приглушено. Дві стратегії для A/B на онбордингу (H4) |
+| [Todoist](https://mobbin.com/screens/e3664e12-9fd4-4240-aca2-522f44003b9e) `todoist-today-overdue-group` | «Today 13» з окремою групою **«Overdue»** нагорі, червоні дати, дія **«Reschedule»** | Еталон для §4.5. Особливо `Reschedule` — масовий перенос дедлайнів після завантаженого тижня |
+| [ClickUp](https://mobbin.com/screens/ecb1790e-e9b8-494c-8022-224b41476d34) `clickup-mywork-overdue-today` | Смуга днів + групи «Today» / «Overdue», темна тема | Другий варіант групування для §4.5, перевірка палітри статусів у темній темі |
+| [My BMW](https://mobbin.com/screens/fbbd81ca-7614-4e75-8d50-94907c1cc870) `mybmw-overdue-since-date` | «Vehicle inspection — **Overdue since November 2024**» | Неочевидний, але точний референс: показує **тривалість** прострочення, не просто прапорець. Формулювання для стану `overdue` |
+| [Jobber](https://mobbin.com/screens/38846169-ee93-4324-b289-726e28d5f669) `jobber-client-card-work-notes-tabs` | Картка клієнта з вкладками Client / Work / Notes і фільтрами | Найближчий аналог §4.1 у сервісному бізнесі |
+| [Attio](https://mobbin.com/screens/0884c9ae-96d3-4771-81dc-6d6a322e30bb) `attio-contact-notes-tab` | Картка контакту, вкладка Notes із нотаткою й датою | §4.1 — як подати нотатки в картці |
+| [Attio](https://mobbin.com/screens/83ca81e1-1d87-432a-b862-8ee43f7ed0e1) `attio-activity-timeline-grouped` | Стрічка активності, згрупована «This week» / «August», змішує нотатки й системні події | Пряма модель для §4.4 — групування хронології за періодами |
+| [Mesh](https://mobbin.com/screens/1abd0775-ea84-4221-a72a-69c9fdb7ade7) `mesh-contact-timeline-meetings` | Вкладка Timeline: «You met with…», «You emailed…», плюс закріплена нотатка «Meeting every Tuesday 1pm» | Найближче до нашого таймлайну зустрічей §4.4 разом із §4.3 |
+| [OpenPhone](https://mobbin.com/screens/ca358375-86ec-4dd0-97e3-186892572115) `openphone-note-composer` | Вкладки Details / Notes, поле «Write a note…» з клавіатурою напоготові | §4.3 — швидке захоплення нотатки одразу після зустрічі |
+
+**Висновок, що суперечить нашому брифу.**
+Jobber, Attio й OpenPhone однаково ховають нотатки **за вкладку**. Наш §4.1 вимагає
+протилежного: поточний етап і найближча дія видні одразу, без жодного тапу.
+Або ми маємо рацію і патерн ринку помилковий, або ми недооцінюємо, скільки всього
+має вміщати картка клієнта. Перевірити на вайрфреймах у Ф2.
+
 ## 4. JTBD
 
 Формулювання після інтерв'ю. Каркас:
