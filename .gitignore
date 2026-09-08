@@ -1,0 +1,29 @@
+# Claude Code — local, machine-specific
+.claude/settings.local.json
+.playwright-mcp/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build output
+dist/
+build/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
