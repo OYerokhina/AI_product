@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дослідження TheBrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Палітра — темний набір із tokens/tokens.json проєкту.
+   Статуси доказовості виведені з трійки статусів §8 брифу
+   й підняті по світлоті, щоб читатись на тлі #141311. */
+:root{
+  --ground:#141311; --surface:#1E1D1A; --raised:#24221F;
+  --border:#33312D; --border-soft:#2A2825;
+  --text:#F2F0ED; --dim:#A19C95; --faint:#6E6862;
+  --accent:#8A97F0; --accent-soft:rgba(138,151,240,.13);
+  --verified:#8A97F0;
+  --selfreport:#D9A05B; --selfreport-soft:rgba(217,160,91,.12);
+  --thirdparty:#A19C95; --thirdparty-soft:rgba(161,156,149,.10);
+  --unverified:#E08A80; --unverified-soft:rgba(224,138,128,.13);
+  --ok:#5FBF92;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0; background:var(--ground); color:var(--text);
+  font-family:var(--sans); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+
+/* ---------- каркас ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.prose{max-width:68ch}
+main{padding-bottom:96px}
+
+/* ---------- навігація ---------- */
+nav{
+  position:sticky;top:0;z-index:20;background:rgba(20,19,17,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft);
+}
+nav .wrap{display:flex;gap:4px;align-items:center;height:52px;overflow-x:auto}
+nav a{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;border-bottom:none;
+  padding:7px 11px;border-radius:6px;white-space:nowrap;
+  transition:color .15s,background .15s;
+}
+nav a:hover{color:var(--text);background:var(--raised)}
+nav .num{color:var(--faint);margin-right:7px}
+
+/* ---------- шапка ---------- */
+header{padding:72px 0 44px;border-bottom:1px solid var(--border)}
+h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(38px,6vw,60px);
+  line-height:1.06;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance;
+}
+.lede{font-size:19px;line-height:1.6;color:var(--dim);max-width:60ch;margin:0 0 28px}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.03em}
+
+/* ---------- доказова зведенка ---------- */
+.evidence{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);
+  border-radius:10px;overflow:hidden;margin:36px 0 0;
+}
+.ev{background:var(--surface);padding:18px 20px}
+.ev .n{font-family:var(--mono);font-size:30px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.ev .l{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin-top:9px}
+.ev.v .n{color:var(--verified)} .ev.s .n{color:var(--selfreport)}
+.ev.t .n{color:var(--thirdparty)} .ev.u .n{color:var(--unverified)}
+
+/* ---------- секції ---------- */
+section{padding:76px 0 0}
+.shead{display:flex;gap:20px;align-items:baseline;margin-bottom:10px}
+.shead .idx{
+  font-family:var(--mono);font-size:12px;color:var(--faint);
+  letter-spacing:.1em;padding-top:8px;flex:none;
+}
+h2{
+  font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);
+  line-height:1.14;margin:0;letter-spacing:-.01em;text-wrap:balance;
+}
+h3{
+  font-family:var(--sans);font-weight:600;font-size:17px;line-height:1.4;
+  margin:40px 0 12px;letter-spacing:-.005em;
+}
+h4{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--dim);margin:34px 0 12px}
+p{margin:0 0 15px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(138,151,240,.32)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:600;color:#fff}
+ul{margin:0 0 15px;padding-left:20px}
+li{margin-bottom:8px}
+li::marker{color:var(--faint)}
+
+/* ---------- позначки джерел ---------- */
+.tag{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+  padding:2px 6px;border-radius:4px;white-space:nowrap;vertical-align:1px;
+}
+.tag.s{color:var(--selfreport);background:var(--selfreport-soft)}
+.tag.t{color:var(--thirdparty);background:var(--thirdparty-soft)}
+.tag.u{color:var(--unverified);background:var(--unverified-soft);font-weight:500}
+
+/* ---------- виноски й ключ ---------- */
+.callout{
+  border-left:2px solid var(--unverified);background:var(--unverified-soft);
+  padding:18px 22px;border-radius:0 8px 8px 0;margin:28px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.note{
+  border-left:2px solid var(--border);background:var(--surface);
+  padding:16px 22px;border-radius:0 8px 8px 0;margin:24px 0;color:var(--dim);font-size:15px;
+}
+.note p:last-child{margin-bottom:0}
+.key{display:flex;flex-wrap:wrap;gap:10px 22px;margin:22px 0 0;
+  font-size:13.5px;color:var(--dim);align-items:center}
+.key span.tag{margin-right:5px}
+
+/* ---------- таблиці ---------- */
+.tscroll{overflow-x:auto;margin:22px 0 8px;border:1px solid var(--border-soft);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border-soft);vertical-align:top}
+thead th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.018)}
+td.name{white-space:nowrap;font-weight:500}
+td.name .grp{
+  font-family:var(--mono);font-size:10px;color:var(--faint);
+  border:1px solid var(--border);border-radius:3px;padding:1px 4px;margin-right:7px;
+}
+.cap{font-size:12.5px;color:var(--faint);margin:8px 0 0;font-family:var(--mono);line-height:1.5}
+
+/* оцінки 1–5 */
+table.scores{min-width:560px}
+table.scores td.s{text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums;width:78px}
+table.scores td.crit{color:var(--dim)}
+.s5{color:var(--ok);background:rgba(95,191,146,.10)}
+.s4{color:var(--text)}
+.s3{color:var(--dim)}
+.s2,.s1{color:var(--unverified);background:var(--unverified-soft)}
+table.scores tr.total td{border-top:1px solid var(--border);font-weight:600;background:var(--surface)}
+
+/* ---------- галереї ---------- */
+.gal{display:grid;gap:14px;margin:20px 0 4px}
+.gal.wide{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.gal.tall{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+figure{margin:0;background:var(--surface);border:1px solid var(--border-soft);
+  border-radius:9px;overflow:hidden;display:flex;flex-direction:column}
+figure img{width:100%;display:block;background:var(--raised)}
+.gal.tall figure img{aspect-ratio:299/649;object-fit:cover;object-position:top}
+figcaption{
+  font-family:var(--mono);font-size:10.5px;line-height:1.45;color:var(--dim);
+  padding:9px 11px;border-top:1px solid var(--border-soft);
+}
+figcaption a{border-bottom:none}
+figcaption b{display:block;color:var(--text);font-weight:500;margin-bottom:3px}
+figure.restricted{border-color:rgba(224,138,128,.35)}
+figure.restricted figcaption b{color:var(--unverified)}
+
+/* ---------- механізми ---------- */
+.mechs{display:grid;gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);
+  border-radius:10px;overflow:hidden;margin:22px 0}
+.mech{background:var(--surface);padding:20px 22px}
+.mech .from{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+.mech h5{font-family:var(--sans);font-size:16px;font-weight:600;margin:0 0 8px}
+.mech p{font-size:14.5px;color:var(--dim);margin:0}
+.mech p strong{color:var(--text)}
+
+footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
+  font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px}
+  header{padding:48px 0 32px}
+  .shead{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#konkurenty"><span class="num">01</span>Конкуренти</a>
+  <a href="#benchmark"><span class="num">02</span>Бенчмарк</a>
+  <a href="#paterny"><span class="num">03</span>Патерни</a>
+  <a href="#vysnovky"><span class="num">04</span>Висновки</a>
+</div></nav>
+
+<header><div class="wrap">
+  <h1>Дослідження TheBrain</h1>
+  <p class="lede">Аналіз п'ятнадцяти продуктів, виміру ручного вводу й патернів
+  введення після зустрічі. Зібрано у фазі Ф1 як основа для вайрфреймів.</p>
+  <p class="meta">Ф1 · 8–10 вересня 2026 · джерело: research/research.md</p>
+
+  <div class="evidence">
+    <div class="ev v"><div class="n">34</div><div class="l">Посилання</div></div>
+    <div class="ev"><div class="n">31</div><div class="l">Скріншот</div></div>
+    <div class="ev s"><div class="n">11</div><div class="l">Самозвіт</div></div>
+    <div class="ev t"><div class="n">9</div><div class="l">Третя сторона</div></div>
+    <div class="ev u"><div class="n">9</div><div class="l">Не підтверджено</div></div>
+  </div>
+
+  <div class="key">
+    <div><a href="#konkurenty">Посилання</a> — перевірено на сторінці в дату збору</div>
+    <div><span class="tag s">самозвіт</span>з власного сайту продукту</div>
+    <div><span class="tag t">третя сторона</span>огляд або агрегатор</div>
+    <div><span class="tag u">дані не підтверджені</span>джерела немає</div>
+  </div>
+
+  <div class="callout prose">
+    <p><strong>Головне обмеження.</strong> Проведено нуль інтерв'ю з користувачами.
+    Усе нижче — аналіз пропозиції: що роблять інші продукти. Про попит — чого справді
+    хочуть фахівці — <span class="tag u">дані не підтверджені</span>. Це не недогляд,
+    це стан на кінець Ф1.</p>
+  </div>
+</div></header>
+
+<main>
+
+<!-- ================= 01 ================= -->
+<section id="konkurenty"><div class="wrap">
+  <div class="shead"><div class="idx">01</div><h2>Конкуренти</h2></div>
+  <div class="prose">
+    <p>П'ятнадцять продуктів у трьох групах, обраних під конкретні рішення брифу.
+    Дані з сайтів і сторінок тарифів, доповнені оглядами. Продуктові екрани всіх
+    п'яти ХАРД-конкурентів за логіном, акаунтів немає — знято стіни логіну
+    з підписом «доступ обмежений» просто на зображенні.</p>
+    <p>Перевірка Mobbin: <strong>жодного з п'яти ХАРД-конкурентів у базі немає</strong>.
+    Із СОФТ і аспіраційних є шість із десяти. Немає: Monica, Sunsama, Craft, Day One.</p>
+  </div>
+
+  <h4>Матриця · Х хард · С софт · А аспіраційні</h4>
+  <div class="tscroll"><table>
+    <thead><tr>
+      <th>Продукт</th><th>Аудиторія</th><th>Основа продукту</th>
+      <th>Ключовий механізм</th><th>Довіра</th><th>Монетизація</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="name"><span class="grp">Х</span><a href="https://www.coachaccountable.com">CoachAccountable</a></td>
+        <td>«All kinds of coaches»</td><td>Дії, метрики, нотатки сесій</td>
+        <td>Підзвітність між сесіями</td>
+        <td>З 2012, GDPR, явно «не HIPAA» <span class="tag s">самозвіт</span></td>
+        <td>За клієнта; ладдер цін <span class="tag t">третя сторона</span></td></tr>
+      <tr><td class="name"><span class="grp">Х</span><a href="https://practicebetter.io">Practice Better</a></td>
+        <td>«Health and wellness professionals»</td><td>EHR + управління практикою</td>
+        <td>Портал, протоколи, журнали</td>
+        <td>HIPAA + PIPEDA + GDPR, «50,000 practitioners» <span class="tag s">самозвіт</span></td>
+        <td><a href="https://practicebetter.io/pricing">Free 3 → $35 → $69 → $99 → $155</a></td></tr>
+      <tr><td class="name"><span class="grp">Х</span><a href="https://paperbell.com">Paperbell</a></td>
+        <td>«Coaches like you»</td><td>Сайт + продаж пакетів</td>
+        <td>Клієнт купує пакет сам</td>
+        <td>«$47 million paid to coaches», ICF <span class="tag s">самозвіт</span></td>
+        <td>$57/міс, клієнтів ∞, free tier</td></tr>
+      <tr><td class="name"><span class="grp">Х</span><a href="https://www.dubsado.com">Dubsado</a></td>
+        <td>Сервісний бізнес, креативні</td><td>Рахунки, контракти, форми, воркфлоу</td>
+        <td>Node-based Flows</td>
+        <td>На головній не заявлено</td>
+        <td><a href="https://www.dubsado.com/pricing">$335 / $525 на рік; воркфлоу лише Premier</a></td></tr>
+      <tr><td class="name"><span class="grp">Х</span><a href="https://www.delenta.com">Delenta</a></td>
+        <td>Соло → команди → корпорації</td><td>CRM + курси + AI-нотатки</td>
+        <td>Портали, дашборди</td>
+        <td>ISO 27001 + HIPAA + GDPR <span class="tag s">самозвіт</span></td>
+        <td><a href="https://www.delenta.com/pricing">$29 (10) → $49 (40) → $79 ∞</a></td></tr>
+      <tr><td class="name"><span class="grp">С</span><a href="https://www.notion.com">Notion</a></td>
+        <td>«For individuals… and small teams»</td><td>Блоки й бази даних</td>
+        <td>Користувач будує схему сам</td><td>Масштаб; SAML/SCIM на верхніх тарифах</td>
+        <td><a href="https://www.notion.com/pricing">Free → $10 → $20 за учасника</a></td></tr>
+      <tr><td class="name"><span class="grp">С</span>Apple Notes</td>
+        <td>Власники пристроїв Apple</td><td>Нотатка в папці</td>
+        <td>Миттєве захоплення</td><td>Входить у систему</td>
+        <td>Безкоштовно; окремо <span class="tag u">дані не підтверджені</span></td></tr>
+      <tr><td class="name"><span class="grp">С</span><a href="https://www.monicahq.com">Monica</a></td>
+        <td>«Friends, family, colleagues»</td><td>Персональна CRM</td>
+        <td>Обіцянки, події, нагадування зв'язатись</td>
+        <td>«Private by design», відкритий код <span class="tag s">самозвіт</span></td>
+        <td>Самохост безкоштовно; хмара платна, цін на сайті немає</td></tr>
+      <tr><td class="name"><span class="grp">С</span><a href="https://me.sh">Mesh</a> <em>(був Clay)</em></td>
+        <td>«Executives, founders, and teams»</td><td>«Every relationship, remembered»</td>
+        <td><strong>Автозбір із пошти, календаря, соцмереж</strong></td>
+        <td>«100 million relationships», SOC 2 <span class="tag s">самозвіт</span></td>
+        <td><a href="https://me.sh/pricing">Free 1000 контактів → $10 → $40 за місце</a></td></tr>
+      <tr><td class="name"><span class="grp">С</span><a href="https://trello.com">Trello</a></td>
+        <td>Ведення роботи списками</td><td>Дошка → список → картка</td>
+        <td>Візуальні стадії</td><td>Atlassian</td>
+        <td><a href="https://trello.com/pricing">Free 10 дошок → $5 → $10 → $17.50</a></td></tr>
+      <tr><td class="name"><span class="grp">А</span><a href="https://culturedcode.com/things/pricing/">Things 3</a></td>
+        <td>Індивідуальні користувачі Apple</td><td>Задача в проєкті; екран Today</td>
+        <td>Поділ дня «зараз / ввечері»</td>
+        <td>Apple Design Award <span class="tag t">третя сторона</span></td>
+        <td>Цін на сайті немає <span class="tag u">дані не підтверджені</span></td></tr>
+      <tr><td class="name"><span class="grp">А</span><a href="https://www.sunsama.com">Sunsama</a></td>
+        <td>«Serious planning… serious workplaces»</td><td>Ритуал щоденного планування</td>
+        <td>Свідоме витягування задач у день</td>
+        <td>Позиція: free-forever «create bad incentives»</td>
+        <td><a href="https://www.sunsama.com/pricing">$25/міс, $20 річно; без free</a></td></tr>
+      <tr><td class="name"><span class="grp">А</span><a href="https://linear.app">Linear</a></td>
+        <td>Команди розробки</td><td>Issue зі статусом</td>
+        <td>Групування за статусом, швидкість</td>
+        <td>«40,000 companies» <span class="tag s">самозвіт</span></td>
+        <td><a href="https://linear.app/pricing">Free 250 issues → $10 → $16</a></td></tr>
+      <tr><td class="name"><span class="grp">А</span><a href="https://www.craft.do">Craft</a></td>
+        <td>Автори документів</td><td>Документ із блоків</td>
+        <td>Типографіка й структура на мобільному</td>
+        <td>Репутація дизайну <span class="tag u">дані не підтверджені</span></td>
+        <td><a href="https://www.craft.do/pricing">Free 1500 блоків</a>; ціни віддано в UAH</td></tr>
+      <tr><td class="name"><span class="grp">А</span><a href="https://dayoneapp.com">Day One</a></td>
+        <td>Ведення щоденника</td><td>Запис із датою в хронології</td>
+        <td>Підказки, серії, On This Day</td>
+        <td><strong>E2E на всіх рівнях, включно з free</strong></td>
+        <td><a href="https://dayoneapp.com/pricing/">Free → $49.99 → $74.99 на рік</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note prose">
+    <p><strong>Що варто перевірити окремо.</strong> Ладдер цін CoachAccountable
+    ($20 за 2 клієнтів … $4000 за 1000) і відсутність нативного застосунку — з
+    <a href="https://paperbell.com/coachaccountable-vs-paperbell/">порівняння на сайті Paperbell</a>,
+    тобто зі сторінки прямого конкурента; на власному сайті цих цифр немає.
+    Мобільні застосунки Practice Better і «timeline» у картці —
+    <a href="https://www.getapp.com/healthcare-pharmaceuticals-software/a/practice-better/">GetApp</a>.
+    Складність Dubsado, 15–25 годин налаштування —
+    <a href="https://taskip.net/dubsado-reviews/">taskip.net</a>.
+    Перейменування Clay → Mesh підтверджено спостереженим 301-редиректом
+    clay.earth → me.sh.</p>
+    <p><strong>Юрисдикція Delenta</strong> <span class="tag u">дані не підтверджені</span> —
+    на сайті HQ не вказано. У кроці 3 її взято як європейського представника групи;
+    підстава не витримала перевірки. Якщо вона не з ЄС, у ХАРД-групі немає жодного європейця.</p>
+  </div>
+
+  <h3>Три спільні патерни ринку</h3>
+  <div class="prose">
+    <p><strong>1. Безкоштовний рівень обмежують обсягом, а не функціями.</strong>
+    Practice Better — 3 клієнти, Mesh — 1000 контактів, Trello — 10 дошок,
+    Linear — 250 issues, Craft — 1500 блоків, Day One — 1 фото на запис. Єдиний
+    свідомий виняток — Sunsama.</p>
+    <p><strong>2. Ніхто не монетизує пам'ять</strong> — беруть за обсяг або за місце
+    в команді. Жоден із 15 не бере грошей за глибину контексту. Це спостереження про
+    відсутність, окремого джерела на нього немає.</p>
+    <p><strong>3. Довіру будують двома мовами.</strong> Споживчі продукти —
+    приватністю: Monica «Private by design», Day One дає E2E навіть у безкоштовному
+    тарифі. B2B — сертифікатами: HIPAA, ISO 27001, PIPEDA.</p>
+  </div>
+
+  <h3>Три відмінності</h3>
+  <div class="prose">
+    <p><strong>1. Ручний ввід проти автозбору.</strong> Mesh наповнює таймлайн сам
+    через інтеграції з поштою, календарем і соцмережами. Решта 14 вимагають ручного
+    вводу. Найглибша розвилка списку.</p>
+    <p><strong>2. Разова покупка проти підписки.</strong> Things 3 — єдиний, хто
+    продає разово. Модель разової покупки на кожну платформу
+    <span class="tag u">дані не підтверджені</span>: Cultured Code цін не публікує.</p>
+    <p><strong>3. Що вважається одиницею продукту.</strong> Клієнт (хард-група),
+    людина або стосунок (Monica, Mesh), задача (Things 3, Linear), документ (Notion,
+    Craft), запис у часі (Day One). У TheBrain одиниця — <strong>клієнт з етапами</strong>,
+    і цієї комбінації немає в жодного з 15.</p>
+  </div>
+
+  <h4>Сайти ХАРД-групи · Playwright, 1440×900</h4>
+  <div class="gal wide">
+    <figure><img src="research/screens/coachaccountable-home-positioning.png" alt="Головна CoachAccountable" loading="lazy">
+      <figcaption><b>CoachAccountable · головна</b>Позиціонування на підзвітності, не на адмініструванні</figcaption></figure>
+    <figure><img src="research/screens/coachaccountable-action-plans-stage-model.png" alt="Плани дій CoachAccountable" loading="lazy">
+      <figcaption><b>CoachAccountable · плани дій</b>Модель етапів — прямий референс §4.2</figcaption></figure>
+    <figure><img src="research/screens/practicebetter-home-positioning.png" alt="Головна Practice Better" loading="lazy">
+      <figcaption><b>Practice Better · головна</b>«50,000 practitioners», EHR-позиціонування</figcaption></figure>
+    <figure><img src="research/screens/practicebetter-pricing-client-limit-tiers.png" alt="Тарифи Practice Better" loading="lazy">
+      <figcaption><b>Practice Better · тарифи</b>Сходинки за кількістю клієнтів, free = 3</figcaption></figure>
+    <figure><img src="research/screens/paperbell-home-positioning.png" alt="Головна Paperbell" loading="lazy">
+      <figcaption><b>Paperbell · головна</b>Пласка ціна, «simple way to sell coaching»</figcaption></figure>
+    <figure><img src="research/screens/dubsado-home-positioning.png" alt="Головна Dubsado" loading="lazy">
+      <figcaption><b>Dubsado · головна</b>Широкий сервісний бізнес, не коучинг</figcaption></figure>
+    <figure><img src="research/screens/dubsado-workflows-template-automation.png" alt="Воркфлоу Dubsado" loading="lazy">
+      <figcaption><b>Dubsado · воркфлоу</b>Шаблони й автоматизація — референс §4.2</figcaption></figure>
+    <figure><img src="research/screens/delenta-home-positioning.png" alt="Головна Delenta" loading="lazy">
+      <figcaption><b>Delenta · головна</b>Ухил у команди й корпорації</figcaption></figure>
+  </div>
+
+  <h4>Продукт за логіном · доступу немає</h4>
+  <div class="gal wide">
+    <figure class="restricted"><img src="research/screens/coachaccountable-app-login-access-restricted.png" alt="Стіна логіну CoachAccountable" loading="lazy">
+      <figcaption><b>Доступ обмежений</b>CoachAccountable · екран за логіном</figcaption></figure>
+    <figure class="restricted"><img src="research/screens/practicebetter-app-login-access-restricted.png" alt="Стіна логіну Practice Better" loading="lazy">
+      <figcaption><b>Доступ обмежений</b>Practice Better · екран за логіном</figcaption></figure>
+    <figure class="restricted"><img src="research/screens/paperbell-app-bookings-access-restricted.png" alt="Стіна логіну Paperbell" loading="lazy">
+      <figcaption><b>Доступ обмежений</b>Paperbell · /provider/bookings перекидає на логін</figcaption></figure>
+    <figure class="restricted"><img src="research/screens/dubsado-app-login-access-restricted.png" alt="Стіна логіну Dubsado" loading="lazy">
+      <figcaption><b>Доступ обмежений</b>Dubsado · екран за логіном</figcaption></figure>
+    <figure class="restricted"><img src="research/screens/delenta-app-login-access-restricted.png" alt="Стіна логіну Delenta" loading="lazy">
+      <figcaption><b>Доступ обмежений</b>Delenta · екран за логіном</figcaption></figure>
+  </div>
+
+  <h4>СОФТ та аспіраційні · Mobbin</h4>
+  <div class="gal tall">
+    <figure><img src="research/screens/soft-notion-mobile-database-table-cramped.webp" alt="Notion на мобільному" loading="lazy">
+      <figcaption><b>Notion</b>Колонки бази обрізані краєм екрана — доказ проблеми на телефоні</figcaption></figure>
+    <figure><img src="research/screens/soft-apple-notes-folders-list.webp" alt="Папки Apple Notes" loading="lazy">
+      <figcaption><b>Apple Notes</b>Уся навігація — папка й тег</figcaption></figure>
+    <figure><img src="research/screens/soft-apple-notes-editor-format-panel.webp" alt="Редактор Apple Notes" loading="lazy">
+      <figcaption><b>Apple Notes</b>Планка швидкості письма</figcaption></figure>
+    <figure><img src="research/screens/soft-clay-profile-notes-cadence.webp" alt="Профіль Clay" loading="lazy">
+      <figcaption><b>Mesh (Clay)</b>Вкладка ритму контакту — джерело гіпотези H13</figcaption></figure>
+    <figure><img src="research/screens/soft-trello-board-lists-cards.webp" alt="Дошка Trello" loading="lazy">
+      <figcaption><b>Trello</b>На телефоні читається лише одна колонка</figcaption></figure>
+    <figure><img src="research/screens/aspirational-things3-today-evening-grouping.webp" alt="Today у Things 3" loading="lazy">
+      <figcaption><b>Things 3</b>День поділено на «зараз» і «This Evening»</figcaption></figure>
+    <figure><img src="research/screens/aspirational-linear-issues-grouped-by-status.webp" alt="Issues у Linear" loading="lazy">
+      <figcaption><b>Linear</b>Статус читається іконкою до тексту</figcaption></figure>
+    <figure><img src="research/screens/aspirational-linear-my-issues-dark-theme.webp" alt="Linear темна тема" loading="lazy">
+      <figcaption><b>Linear · темна</b>Ті самі статуси на темному тлі</figcaption></figure>
+  </div>
+
+  <h4>Дотичні патерни · знято, бо ХАРД-групи в Mobbin немає</h4>
+  <div class="gal tall">
+    <figure><img src="research/screens/mobbin-search-universe-template-or-start-blank.webp" alt="Вибір шаблону в Universe" loading="lazy">
+      <figcaption><b>Universe</b>«Start without a template» — рівноправна плитка. Джерело H4</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-depop-template-or-skip.webp" alt="Шаблон у Depop" loading="lazy">
+      <figcaption><b>Depop</b>Протилежна стратегія: «Skip for now» приглушено</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-todoist-today-overdue-group.webp" alt="Today у Todoist" loading="lazy">
+      <figcaption><b>Todoist</b>Група Overdue плюс дія Reschedule</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-clickup-mywork-overdue-today.webp" alt="My Work у ClickUp" loading="lazy">
+      <figcaption><b>ClickUp</b>Групування Today / Overdue у темній темі</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-mybmw-overdue-since-date.webp" alt="Сервіси My BMW" loading="lazy">
+      <figcaption><b>My BMW</b>«Overdue since November 2024» — тривалість, не прапорець</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-jobber-client-card-work-notes-tabs.webp" alt="Картка клієнта Jobber" loading="lazy">
+      <figcaption><b>Jobber</b>Вкладки Client / Work / Notes</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-attio-contact-notes-tab.webp" alt="Нотатки Attio" loading="lazy">
+      <figcaption><b>Attio</b>Нотатки в картці контакту</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-attio-activity-timeline-grouped.webp" alt="Таймлайн Attio" loading="lazy">
+      <figcaption><b>Attio</b>Хронологія за періодами: This week / August</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-mesh-contact-timeline-meetings.webp" alt="Таймлайн Mesh" loading="lazy">
+      <figcaption><b>Mesh</b>«You met with…» плюс закріплена нотатка</figcaption></figure>
+    <figure><img src="research/screens/mobbin-search-openphone-note-composer.webp" alt="Поле нотатки OpenPhone" loading="lazy">
+      <figcaption><b>OpenPhone</b>«Write a note…» з клавіатурою напоготові</figcaption></figure>
+  </div>
+</div></section>
+
+<!-- ================= 02 ================= -->
+<section id="benchmark"><div class="wrap">
+  <div class="shead"><div class="idx">02</div><h2>Бенчмарк</h2></div>
+  <div class="prose">
+    <p>З матриці: 14 із 15 продуктів покладаються на ручний ввід. Для TheBrain це
+    найбільша зона ризику — §4.3 і §4.4 брифу не працюють, якщо фахівець не запише
+    нотатку. Тому окремо розібрано продукти <strong>поза нашою категорією</strong>,
+    які вирішують саме це.</p>
+  </div>
+
+  <h4>Критерії, шкала 1–5</h4>
+  <div class="tscroll"><table>
+    <thead><tr><th>№</th><th>Критерій</th><th>1 бал</th><th>5 балів</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Час до цінності без вводу</td><td>Порожньо, поки не введеш</td><td>Змістовний екран одразу після підключення</td></tr>
+      <tr><td>2</td><td>Момент запиту дозволу</td><td>Блокуючий запит на першому екрані</td><td>Після демонстрації цінності, можна відкласти</td></tr>
+      <tr><td>3</td><td>Гранулярність і оборотність</td><td>Все або нічого</td><td>Вузьке джерело, видно що читається, легко відкликати</td></tr>
+      <tr><td>4</td><td>Конкретність «навіщо»</td><td>Загальні слова</td><td>Названо джерело, що читається, що з'явиться</td></tr>
+      <tr><td>5</td><td>Вартість одного запису</td><td>Довга форма з нуля</td><td>Кілька секунд, мінімум тапів</td></tr>
+      <tr><td>6</td><td>Чернетка замість порожнього поля</td><td>Порожнє поле й курсор</td><td>Готовий чорновик, який лише правиш</td></tr>
+      <tr><td>7</td><td>Природний тригер</td><td>Абстрактне нагадування</td><td>Прив'язка до події, що щойно сталася</td></tr>
+      <tr><td>8</td><td>Відновлення після пропуску</td><td>Пропуск = борг і сором</td><td>Наздоганяється само або без штрафу</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note prose"><p><strong>Бали — експертна оцінка, а не виміряні дані.</strong>
+  Джерелами підтверджено механіки продуктів; переведення механік у бали — судження,
+  і воно оспорюване.</p></div>
+
+  <div class="tscroll"><table class="scores">
+    <thead><tr><th>Критерій</th><th>Granola</th><th>Mesh</th><th>Copilot</th><th>Day One</th><th>MacroFactor</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">1. Час до цінності без вводу</td><td class="s s5">5</td><td class="s s5">5</td><td class="s s4">4</td><td class="s s1">1</td><td class="s s1">1</td></tr>
+      <tr><td class="crit">2. Момент запиту дозволу</td><td class="s s4">4</td><td class="s s2">2</td><td class="s s5">5</td><td class="s s3">3</td><td class="s s3">3</td></tr>
+      <tr><td class="crit">3. Гранулярність і оборотність</td><td class="s s4">4</td><td class="s s3">3</td><td class="s s3">3</td><td class="s s4">4</td><td class="s s4">4</td></tr>
+      <tr><td class="crit">4. Конкретність «навіщо»</td><td class="s s5">5</td><td class="s s3">3</td><td class="s s4">4</td><td class="s s3">3</td><td class="s s3">3</td></tr>
+      <tr><td class="crit">5. Вартість одного запису</td><td class="s s5">5</td><td class="s s4">4</td><td class="s s4">4</td><td class="s s3">3</td><td class="s s5">5</td></tr>
+      <tr><td class="crit">6. Чернетка замість порожнього</td><td class="s s5">5</td><td class="s s5">5</td><td class="s s5">5</td><td class="s s2">2</td><td class="s s4">4</td></tr>
+      <tr><td class="crit">7. Природний тригер</td><td class="s s5">5</td><td class="s s4">4</td><td class="s s3">3</td><td class="s s4">4</td><td class="s s3">3</td></tr>
+      <tr><td class="crit">8. Відновлення після пропуску</td><td class="s s4">4</td><td class="s s5">5</td><td class="s s5">5</td><td class="s s5">5</td><td class="s s2">2</td></tr>
+      <tr class="total"><td>Разом із 40</td><td class="s">37</td><td class="s">31</td><td class="s">33</td><td class="s">25</td><td class="s">25</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">Механіки: <a href="https://www.granola.ai">Granola</a> ·
+  <a href="https://zapier.com/blog/granola-ai/">Zapier <span class="tag t">третя сторона</span></a> ·
+  <a href="https://me.sh">Mesh</a> · <a href="https://copilot.money">Copilot Money</a> ·
+  <a href="https://dayoneapp.com/guides/tips-and-tutorials/daily-writing-prompts/">Day One</a> ·
+  <a href="https://help.macrofactorapp.com/en/articles/215-how-to-log-food-in-macrofactor">MacroFactor</a>.
+  «24 дії проти 36 у MyFitnessPal» — <a href="https://macrofactor.com/new-food-logger/">блог MacroFactor</a>,
+  самозвіт про власну перевагу над конкурентом.</p>
+
+  <h3>Три механізми в MVP</h3>
+  <div class="mechs">
+    <div class="mech">
+      <div class="from">від Granola</div>
+      <h5>Чернетка замість порожнього поля</h5>
+      <p>Завершення етапу відкриває не форму, а чорновик із відомого: назва етапу,
+      дата зустрічі, що планували, незакритий фідбек з минулого разу.
+      <strong>Два з трьох полів §4.3 система вже має</strong> в <code>stages</code> і
+      <code>stage_notes.client_feedback</code> — чернетка збирається з даних, не з здогадок.</p>
+    </div>
+    <div class="mech">
+      <div class="from">від Copilot Money</div>
+      <h5>Демо до дозволу</h5>
+      <p>Календар не просимо на першому екрані. Спершу один клієнт вручну → екран
+      «Сьогодні» з ним → тоді пропозиція з конкретною обіцянкою. <strong>§7 обіцяє
+      посилену приватність</strong>, а запит доступу до показу цінності цій обіцянці
+      суперечить.</p>
+    </div>
+    <div class="mech">
+      <div class="from">від Day One</div>
+      <h5>Повернення без сорому</h5>
+      <p>Після тижня відсутності «Сьогодні» не показує стіну прострочених. Замість
+      цього — <strong>«що змінилось, поки вас не було»</strong> плюс масовий перенос
+      дедлайнів. Патерн підглянуто в Todoist: дія Reschedule поруч із групою Overdue.</p>
+    </div>
+  </div>
+
+  <h3>Один, що не спрацює</h3>
+  <div class="prose">
+    <p><strong>Автозбір із пошти й соцмереж, як у Mesh.</strong> Три причини:</p>
+    <ul>
+      <li><strong>Аудиторія не та.</strong> Mesh адресується «executives, founders,
+      and teams», у яких контекст клієнта справді живе в пошті. Що коуч, репетитор
+      чи стиліст спілкується переважно в месенджері й голосом —
+      <span class="tag u">дані не підтверджені</span>, це припущення з §1 брифу,
+      не з інтерв'ю.</li>
+      <li><strong>Головне не збирається взагалі.</strong> Фідбек клієнта і «що
+      врахувати далі» не існує в цифрових джерелах, доки фахівець не сформулює.
+      Автозбір закриває §4.4 і не закриває §4.3 — саме те, заради чого продукт існує.</li>
+      <li><strong>Скопіювали б найслабше місце.</strong> Момент запиту дозволу —
+      єдина двійка Mesh у таблиці вище.</li>
+    </ul>
+    <p><strong>Рішення:</strong> календар — так, одне вузьке джерело зі зрозумілою
+    обіцянкою. Пошта й соцмережі — ні.</p>
+  </div>
+</div></section>
+
+<!-- ================= 03 ================= -->
+<section id="paterny"><div class="wrap">
+  <div class="shead"><div class="idx">03</div><h2>Патерни</h2></div>
+  <div class="prose">
+    <p>П'ять принципово різних механізмів введення результату зустрічі — різняться
+    тим, хто формулює текст, у якій модальності й хто задає темп. Повний розбір
+    кожного — у <code>research/entry-patterns.md</code>.</p>
+  </div>
+
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Патерн</th><th>Хто формулює</th><th>Де застосовується</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Структурована форма</td><td>Людина друкує у визначені поля</td><td>Practice Better, Jobber, EHR</td></tr>
+      <tr><td>2</td><td>Голос із розшифровкою</td><td>Людина говорить, система транскрибує</td><td>Otter, диктофони в клініках</td></tr>
+      <tr><td>3</td><td>Тап-фіксація мітками</td><td>Людина обирає, не формулює</td><td>Причини скасування в таксі, теги Uber</td></tr>
+      <tr><td>4</td><td>Системна чернетка</td><td>Система пише, людина править</td><td>Granola, Copilot Money</td></tr>
+      <tr><td>5</td><td>Керований діалог</td><td>Система питає порціями</td><td>Day One Daily Chat, Sunsama</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">Шоста вісь — відкладене захоплення в інбокс — ортогональна,
+  комбінується з будь-яким із п'яти, тому окремим патерном не рахується.</p>
+
+  <h3>Обраний: чернетка + поле, що приймає текст і голос</h3>
+  <div class="prose">
+    <p>Комбінація 4 + 2. Патерни працюють із різними частинами запису, тому це не
+    компроміс, а поділ: <strong>чернетка</strong> покриває те, що система знає —
+    етап, план, незакритий фідбек. <strong>Текст або голос</strong> — те, чого знати
+    не може: що сказав клієнт цього разу.</p>
+    <p><strong>Три причини з брифу.</strong> Два з трьох полів §4.3 система вже має
+    в <code>stages</code> і <code>stage_notes.client_feedback</code>, тож чернетка
+    збирається з даних. §2 задає вікно — смартфон, коротка сесія одразу після
+    зустрічі, де найдорожча операція це згадування, не друк. §12 робить головною
+    метрикою щоденне повернення, а порожня форма після кожного етапу — найімовірніший
+    спосіб цю звичку зламати.</p>
+    <p><strong>Чому голос як модальність поля, а не окремий сценарій.</strong>
+    Знімаються три з чотирьох слабких місць голосу: текст лишається запасним шляхом
+    для спільного простору; поле обмежене одним питанням, тож транскрипт короткий
+    і лягає у відоме місце; ім'я клієнта вимовляти не треба — система його знає.</p>
+    <p><strong>Відхилено: керований діалог.</strong> Не масштабується під частоту
+    з §2 (10–30 активних клієнтів); суперечить §10, де продукт має ставати ціннішим
+    зі зростанням бази; і лікує не ту хворобу — фахівець знає, що писати, у нього
+    немає чотирьох хвилин.</p>
+  </div>
+
+  <div class="note prose"><p><strong>Що змінилось у брифі.</strong> §4.3 переписано
+  з форми на чернетку. Супутньо: <code>stage_notes</code> отримав
+  <code>input_method</code> і <code>draft_accepted</code> (§5); §7 вимагає
+  транскрипції на пристрої; §12 має діагностичну метрику прийняття чернетки;
+  §13 фіксує відкрите питання офлайн-розпізнавання української.</p></div>
+</div></section>
+
+<!-- ================= 04 ================= -->
+<section id="vysnovky"><div class="wrap">
+  <div class="shead"><div class="idx">04</div><h2>Висновки</h2></div>
+  <div class="prose">
+    <p>Прогалини, гіпотези та їхнє походження. H1–H6 сформульовані на початку Ф1
+    з брифу, H7–H13 виросли з розділів 01–03.</p>
+  </div>
+
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Прогалина</th><th>Гіпотеза</th><th>Звідки випливає</th></tr></thead>
+    <tbody>
+      <tr><td>H1</td><td>Чи справді втрачають контекст <span class="tag u">не підтверджено</span></td>
+        <td>Фахівець із 10–30 клієнтами не втримує контекст без зовнішньої пам'яті</td>
+        <td>§1 брифу; жодним розділом не перевірено</td></tr>
+      <tr><td>H2</td><td>Коли болить — до чи після зустрічі</td>
+        <td>Найгостріший момент — згадати контекст <strong>перед</strong> зустріччю</td>
+        <td>§1 брифу</td></tr>
+      <tr><td>H3</td><td>Чи потрібен фідбек окремим полем</td>
+        <td>Фідбек клієнта треба зберігати окремо від власних нотаток</td>
+        <td>§1 брифу; §4.3 на цьому побудовано</td></tr>
+      <tr><td>H4</td><td>Чи вбиває порожній екран активацію</td>
+        <td>Пресети потрібні; старт з нуля має бути рівноправним, а не запасним</td>
+        <td>Розділ 01: Universe проти Depop — дві протилежні стратегії</td></tr>
+      <tr><td>H5</td><td>Чи формує дайджест звичку</td>
+        <td>Ранковий дайджест дає щоденне повернення</td>
+        <td>Розділ 02: Day One має 5 із 5 за відновленням після пропуску</td></tr>
+      <tr><td>H6</td><td>Чи достатньо 3 клієнтів у free</td>
+        <td>Ліміт 3 достатній, щоб відчути цінність до оплати</td>
+        <td>Розділ 01: у Practice Better free = рівно 3. Причина збігу
+        <span class="tag u">не підтверджена</span></td></tr>
+      <tr><td>H7</td><td>Мобільність як перевага</td>
+        <td>Мобільність б'є не весь ринок, а конкретних гравців</td>
+        <td>Розділ 01: Practice Better має застосунки, CoachAccountable ні — обидва
+        <span class="tag t">третя сторона</span></td></tr>
+      <tr><td>H8</td><td>Чи знизить чернетка відмову від запису</td>
+        <td>Чернетка дає більше заповнених нотаток, ніж порожня форма</td>
+        <td>Розділи 02 і 03: Granola 37/40 — оцінка механіки, не виміряний ефект</td></tr>
+      <tr><td>H9</td><td>Голос українською офлайн</td>
+        <td>iOS розпізнає <code>uk-UA</code> на пристрої без сервера</td>
+        <td>Розділ 03. <span class="tag u">Не підтверджено</span>: Apple переліку
+        офлайн-мов не публікує, перевіряється лише на живому пристрої</td></tr>
+      <tr><td>H10</td><td>Мова довіри</td>
+        <td>Словник приватності працює краще за словник сертифікатів</td>
+        <td>Розділ 01, патерн 3. Наслідок — відмова від клінічної ніші, яку §1 сам перелічує</td></tr>
+      <tr><td>H11</td><td>Одиниця «клієнт з етапами»</td>
+        <td>Комбінації немає, бо ніша незайнята, а не бо немає попиту</td>
+        <td>Розділ 01, відмінність 3. Яка з причин вірна —
+        <span class="tag u">не підтверджено</span></td></tr>
+      <tr><td>H12</td><td>Ризик сліпого підтвердження</td>
+        <td>Люди прийматимуть чернетку не читаючи, і в картці осяде неточність</td>
+        <td>Розділ 03. Тому §12 трактує прийняття без правок як діагностику, не ціль</td></tr>
+      <tr><td>H13</td><td>Ритм контакту</td>
+        <td>Повторюваність зустрічей заслуговує на явну сутність у моделі даних</td>
+        <td>Розділ 01: у Mesh є вкладка ритму; у §5 брифу поняття ритму немає</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Як це перевіряти</h3>
+  <div class="prose">
+    <p><strong>Інтерв'ю — 8–12 фахівців</strong> різних професій із повторюваними
+    зустрічами. Закриває H1, H2, H3, H11 і частково H10. Ключові питання:</p>
+    <ul>
+      <li>Покажіть, як ви готуєтесь до зустрічі з клієнтом. Що відкриваєте?</li>
+      <li>Коли востаннє забули щось важливе про клієнта? Що сталося далі?</li>
+      <li>Де живуть ваші нотатки? Чому саме там?</li>
+      <li>Що ви робите одразу після зустрічі?</li>
+      <li>Ви ділите роботу з клієнтом на етапи? Вони однакові для всіх клієнтів?</li>
+      <li>За що ви вже платите у своїй роботі?</li>
+    </ul>
+    <p>Тест онбордингу — H4. Бета-метрики — H5, H6, H8, H12. Перевірка на пристрої —
+    H9, зробити на початку Ф4, до реалізації §4.3.</p>
+  </div>
+
+  <div class="callout prose"><p>Поки таблиця інтерв'ю порожня, розділи 01–03 описують
+  ринок, а не користувача. Це головне обмеження Ф1.</p></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  TheBrain · дослідження Ф1 · зібрано 8–10 вересня 2026<br>
+  Джерело: research/research.md · Скріни: research/screens/ · Палітра: tokens/tokens.json
+</div></footer>
+
+</body>
+</html>
