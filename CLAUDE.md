@@ -119,24 +119,37 @@ workspaces            id, name, owner_id, plan
 workspace_members     workspace_id, user_id, role (owner|member)
 profiles              user_id, display_name, locale, tz, digest_time
 
-clients               workspace_id, name, photo, contacts, status, tags, notes
+clients               workspace_id, name, photo, contacts, status, tags, about
 workflow_templates    workspace_id (null = глобальний пресет), name, profession
 template_stages       template_id, position, title, description, offset_days
 
 client_workflows      client_id, template_id (null), name, started_at
 stages                client_workflow_id, position, title, description,
                       due_date, status, completed_at
-stage_notes           stage_id, body, client_feedback, created_at,
+notes                 client_id, body, client_feedback, created_at,
+                      stage_id (null), meeting_id (null),
                       input_method (text|voice), draft_accepted
 
 meetings              client_id, stage_id (null), starts_at, duration, kind, status
-meeting_notes         meeting_id, body, client_feedback, created_at
 
 notification_prefs    user_id, digest_enabled, digest_time, deadline_alerts, meeting_alerts
 subscriptions         workspace_id, product, status, renews_at
 ```
 
 Екран «Сьогодні» — обчислюване подання, не таблиця.
+
+**Нотатка належить клієнту, а не кроку.** `client_id` обов'язковий; `stage_id`
+і `meeting_id` — необов'язкові посилання «звідки вона взялася». Коли маршрут
+перебудовують і крок зникає, посилання обнуляється (`ON DELETE SET NULL`),
+а нотатка лишається з клієнтом і своєю датою.
+
+Раніше нотатки лежали у двох таблицях, прив'язаних до кроку й до зустрічі.
+Обидві мали ту саму ваду: видалиш крок — втратиш те, що казав клієнт. Тепер
+таблиця одна, і вона переживає будь-яку зміну маршруту.
+
+**Завершені кроки при перебудові не видаляються.** Перебудова маршруту міняє
+тільки те, що попереду. Пройдене лишається історією — інакше «без втрати
+контексту» не працює.
 
 ## 6. Архітектура
 
