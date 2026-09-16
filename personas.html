@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Персони та Jobs TheBrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Ті самі токени, що в research.html — темний набір із tokens/tokens.json.
+   Статуси тут інші: підтверджено / рішення / гіпотеза / невідомо. */
+:root{
+  --ground:#141311; --surface:#1E1D1A; --raised:#24221F;
+  --border:#33312D; --border-soft:#2A2825;
+  --text:#F2F0ED; --dim:#A19C95; --faint:#6E6862;
+  --accent:#8A97F0;
+  --backed:#5FBF92;   --backed-soft:rgba(95,191,146,.12);
+  --decision:#8A97F0; --decision-soft:rgba(138,151,240,.13);
+  --guess:#D9A05B;    --guess-soft:rgba(217,160,91,.12);
+  --unknown:#E08A80;  --unknown-soft:rgba(224,138,128,.13);
+  --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--ground);color:var(--text);
+  font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.prose{max-width:68ch}
+main{padding-bottom:96px}
+
+nav{position:sticky;top:0;z-index:20;background:rgba(20,19,17,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft)}
+nav .wrap{display:flex;gap:4px;align-items:center;height:52px;overflow-x:auto}
+nav a{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;border-bottom:none;padding:7px 11px;border-radius:6px;
+  white-space:nowrap;transition:color .15s,background .15s}
+nav a:hover{color:var(--text);background:var(--raised)}
+nav .num{color:var(--faint);margin-right:7px}
+
+header{padding:72px 0 44px;border-bottom:1px solid var(--border)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5.5vw,56px);
+  line-height:1.07;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
+.lede{font-size:19px;line-height:1.6;color:var(--dim);max-width:60ch;margin:0 0 26px}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.03em}
+
+section{padding:76px 0 0}
+.shead{display:flex;gap:20px;align-items:baseline;margin-bottom:12px}
+.shead .idx{font-family:var(--mono);font-size:12px;color:var(--faint);
+  letter-spacing:.1em;padding-top:8px;flex:none}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);
+  line-height:1.14;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h4{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--dim);margin:34px 0 12px}
+p{margin:0 0 15px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(138,151,240,.32)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:600;color:#fff}
+ul{margin:0 0 14px;padding-left:19px} li{margin-bottom:7px} li::marker{color:var(--faint)}
+
+/* ---- позначки статусу ---- */
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+  padding:3px 7px;border-radius:4px;white-space:nowrap;display:inline-block;vertical-align:1px}
+.chip.backed{color:var(--backed);background:var(--backed-soft)}
+.chip.decision{color:var(--decision);background:var(--decision-soft)}
+.chip.guess{color:var(--guess);background:var(--guess-soft)}
+.chip.unknown{color:var(--unknown);background:var(--unknown-soft);font-weight:500}
+.key{display:flex;flex-wrap:wrap;gap:10px 20px;margin:24px 0 0;font-size:13.5px;color:var(--dim)}
+.key span.chip{margin-right:6px}
+
+.callout{border-left:2px solid var(--unknown);background:var(--unknown-soft);
+  padding:18px 22px;border-radius:0 8px 8px 0;margin:28px 0}
+.callout p:last-child{margin-bottom:0}
+.note{border-left:2px solid var(--border);background:var(--surface);
+  padding:16px 22px;border-radius:0 8px 8px 0;margin:22px 0;color:var(--dim);font-size:15px}
+.note p:last-child{margin-bottom:0}
+.note strong{color:var(--text)}
+
+/* ---- картки персон ---- */
+.persona{background:var(--surface);border:1px solid var(--border-soft);
+  border-radius:12px;padding:28px 30px;margin:20px 0}
+.persona.primary{border-color:rgba(138,151,240,.42);background:linear-gradient(180deg,rgba(138,151,240,.05),transparent 200px),var(--surface)}
+.phead{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin-bottom:6px}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 9px;border-radius:5px;background:var(--raised);color:var(--dim)}
+.persona.primary .badge{background:var(--decision-soft);color:var(--accent);font-weight:500}
+.pname{font-family:var(--serif);font-size:27px;font-weight:400;letter-spacing:-.01em}
+.pid{font-family:var(--mono);font-size:13px;color:var(--faint)}
+.psit{color:var(--dim);font-size:15px;margin:0 0 20px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px 36px;margin-top:4px}
+/* непарний останній блок займає обидві колонки, щоб не висів сам */
+.pgrid > div:last-child:nth-child(odd){grid-column:1 / -1}
+@media (max-width:720px){.pgrid{grid-template-columns:1fr}
+  .pgrid > div:last-child:nth-child(odd){grid-column:auto}}
+.pgrid h5{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);margin:0 0 9px}
+.pgrid ul{margin:0;padding-left:17px;font-size:14.5px}
+.pgrid li{margin-bottom:6px}
+blockquote{margin:22px 0 0;padding:18px 22px;background:var(--raised);
+  border-radius:9px;border-left:2px solid var(--backed)}
+blockquote p{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.5;
+  margin:0 0 9px;color:var(--text)}
+blockquote cite{font-family:var(--mono);font-size:11.5px;font-style:normal;color:var(--dim);display:block}
+blockquote + blockquote{margin-top:10px}
+
+/* ---- jobs ---- */
+.job{background:var(--surface);border:1px solid var(--border-soft);border-radius:10px;
+  padding:20px 24px;margin:14px 0}
+.job.main{border-color:rgba(138,151,240,.4);padding:26px 28px}
+.job.orphan{border-color:rgba(224,138,128,.35)}
+.jhead{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:12px}
+.jid{font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.06em}
+.jname{font-weight:600;font-size:15.5px}
+.jstmt{font-family:var(--serif);font-size:19px;line-height:1.5;margin:0 0 12px;color:var(--text)}
+.job.main .jstmt{font-size:23px;line-height:1.42}
+.jmeta{font-size:14px;color:var(--dim);margin:0}
+.jmeta strong{color:var(--text)}
+.empty{border:1px dashed var(--border);border-radius:10px;padding:26px 28px;
+  text-align:center;color:var(--dim);margin:14px 0}
+.empty .big{font-family:var(--serif);font-size:24px;color:var(--unknown);display:block;margin-bottom:8px}
+
+/* ---- таблиці ---- */
+.tscroll{overflow-x:auto;margin:20px 0 8px;border:1px solid var(--border-soft);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border-soft);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;background:var(--surface);border-bottom:1px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.018)}
+td.jobname{white-space:nowrap;font-weight:500}
+td.sc{text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums;width:92px}
+td.sc.s3{color:var(--backed);background:var(--backed-soft);font-weight:500}
+td.sc.s2{color:var(--text)}
+td.sc.q{color:var(--unknown);background:var(--unknown-soft)}
+td.sc.none{color:var(--unknown);background:var(--unknown-soft);font-size:10.5px;letter-spacing:.03em}
+td.ev{font-size:12.5px;color:var(--dim)}
+.cap{font-size:12.5px;color:var(--faint);margin:8px 0 0;font-family:var(--mono);line-height:1.5}
+
+footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
+  font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
+@media (max-width:640px){
+  .wrap{padding:0 18px} header{padding:48px 0 32px}
+  .persona{padding:22px 20px} .shead{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#personas"><span class="num">01</span>Персони</a>
+  <a href="#jobs"><span class="num">02</span>Jobs</a>
+  <a href="#matrix"><span class="num">03</span>Матриця</a>
+  <a href="#conclusion"><span class="num">04</span>Висновки</a>
+</div></nav>
+
+<header><div class="wrap">
+  <h1>Персони та Jobs</h1>
+  <p class="lede">Три гіпотези-персони, зібрані з ринкових доказів, і jobs,
+  розсортовані за тим, що за ними стоїть. Основа для вайрфреймів Ф2.</p>
+  <p class="meta">TheBrain · Ф1 · оновлено 16 вересня 2026 · джерела: research/personas.md, research/jtbd.md</p>
+
+  <div class="key">
+    <div><span class="chip backed">підтверджено</span>перевірена цитата або поведінка ринку</div>
+    <div><span class="chip decision">рішення</span>вибір власника, дослідження не перевіряло</div>
+    <div><span class="chip guess">гіпотеза</span>не стоїть нічого</div>
+    <div><span class="chip unknown">[?]</span>даних немає</div>
+  </div>
+
+  <div class="callout prose">
+    <p><strong>Проведено нуль інтерв'ю.</strong> Персони зібрані з відгуків і довідок
+    конкурентів, не з розмов із живими людьми. Усі дев'ять цитат — від користувачів
+    <strong>одного продукту</strong>, Practice Better, тобто від тих, хто вже платить
+    за спеціалізований інструмент. Тих, хто ще нічого не купив, ми не чуємо —
+    а це і є заявлена аудиторія.</p>
+  </div>
+</div></header>
+
+<main>
+
+<!-- ============ 01 ПЕРСОНИ ============ -->
+<section id="personas"><div class="wrap">
+  <div class="shead"><div class="idx">01</div><h2>Персони</h2></div>
+
+  <div class="persona primary">
+    <div class="phead">
+      <span class="badge">Primary</span>
+      <span class="pname">Переросла нотатки</span>
+      <span class="pid">P1</span>
+    </div>
+    <p class="psit">Соло-фахівець. Усі клієнти живуть в одному загальному застосунку —
+    нотатки плюс календар — і там уже тісно.</p>
+
+    <div class="pgrid">
+      <div>
+        <h5>Контекст</h5>
+        <ul>
+          <li>Професія: велнес, коучинг, навчання, догляд <span class="chip backed">підтверджено</span></li>
+          <li>Вік, стать, стаж, дохід <span class="chip unknown">[?]</span></li>
+          <li>Скільки клієнтів <span class="chip unknown">[?]</span> — 10–30 у брифі не перевірено</li>
+          <li>Чим користується зараз <span class="chip guess">гіпотеза</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Jobs</h5>
+        <ul>
+          <li>Згадати контекст перед зустріччю <span class="chip guess">гіпотеза</span></li>
+          <li>Записати домовленості, поки свіжо <span class="chip backed">підтверджено</span></li>
+          <li>Не забути, що обіцяла <span class="chip guess">гіпотеза</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Болі</h5>
+        <ul>
+          <li>Загальний нотатник не знає, що таке клієнт і крок</li>
+          <li>Календар показує коли, але не що <span class="chip unknown">[?]</span></li>
+          <li>Що болить найгостріше <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Тригери довіри</h5>
+        <ul>
+          <li><strong>Переконує:</strong> робота цілком з телефона <span class="chip backed">підтверджено</span></li>
+          <li><strong>Переконує:</strong> приватність мовою продукту, не сертифікатів</li>
+          <li><strong>Відлякує:</strong> запит доступів до показу цінності</li>
+          <li>Чи є страх приватності взагалі <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <blockquote>
+      <p>«The ability to work 100% from my phone makes my life as a busy mom/doctor that much easier.»</p>
+      <cite>Melissa V., Doctor, Alternative Medicine · <a href="https://capterra.com/p/159263/Better/reviews/">Capterra</a></cite>
+    </blockquote>
+
+    <div class="note"><p><strong>Чому primary, і чесне заперечення.</strong> Збігається
+    з первинним користувачем §2 брифу, у неї б'є free-межа на трьох клієнтах, під неї
+    переписано §4.3. Але найкращу доказову базу має не вона, а P3 — три цитати проти
+    однієї. P1 обрано за відповідністю продукту, який ми вже спроєктували.
+    Перевіряти цей вибір треба першим.</p></div>
+  </div>
+
+  <div class="persona">
+    <div class="phead">
+      <span class="badge">Secondary</span>
+      <span class="pname">Зшила кілька платформ</span>
+      <span class="pid">P2</span>
+    </div>
+    <p class="psit">Веде клієнтів не в одному місці, а в кількох. Кожен інструмент
+    працює, разом вони не складаються. Приходить по консолідацію.</p>
+
+    <div class="pgrid">
+      <div>
+        <h5>Jobs</h5>
+        <ul>
+          <li>Звести все в одне місце <span class="chip backed">підтверджено</span></li>
+          <li>Перестати платити за кілька підписок <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Болі</h5>
+        <ul>
+          <li>Контекст розсипаний між інструментами</li>
+          <li>Стек буває зовсім не профільний: Adobe Acrobat, WordPress, Keap</li>
+          <li>Що ламається першим <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Тригери довіри</h5>
+        <ul>
+          <li><strong>Переконує:</strong> одне місце замість багатьох</li>
+          <li><strong>Відлякує:</strong> ще один інструмент на додачу, а не замість</li>
+          <li>Складність переносу накопиченого <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <blockquote>
+      <p>«I have solved the problem of too many platforms to manage my business.»</p>
+      <cite>Samantha C., CEO / Lead Dietitian · <a href="https://capterra.com/p/159263/Better/reviews/">Capterra</a></cite>
+    </blockquote>
+    <blockquote>
+      <p>«I wanted a one stop solution for everything instead of multiple products.»</p>
+      <cite>Breanna B., NBC-HWC · раніше Adobe Acrobat Reader, WordPress, Keap · <a href="https://capterra.com/p/159263/Better/reviews/">Capterra</a></cite>
+    </blockquote>
+
+    <div class="note"><p><strong>Ризик.</strong> TheBrain не має ні запису, ні платежів,
+    ні поверхні для клієнта — а портал є у трьох із п'яти ХАРД-продуктів. Для P2 ми
+    виглядатимемо ще однією платформою в стеку, тобто працюватимемо проти її job.</p></div>
+  </div>
+
+  <div class="persona">
+    <div class="phead">
+      <span class="badge">Secondary</span>
+      <span class="pname">Вже платить і незадоволена</span>
+      <span class="pid">P3</span>
+    </div>
+    <p class="psit">Платить за спеціалізований інструмент. Накопичилось: дорого для її
+    розміру, підтримка повільна, чогось бракує. <strong>Найсильніша доказова база
+    в наборі</strong> — три цитати.</p>
+
+    <div class="pgrid">
+      <div>
+        <h5>Jobs</h5>
+        <ul>
+          <li>Платити за розміром практики <span class="chip backed">підтверджено</span></li>
+          <li>Отримати те, чого бракує — але чого саме <span class="chip unknown">[?]</span></li>
+          <li>Швидка допомога, коли щось не працює <span class="chip backed">підтверджено</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Болі</h5>
+        <ul>
+          <li>Ціна не сходиться на малій практиці</li>
+          <li>Підтримка недосяжна</li>
+          <li>Бракує функцій <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Тригери довіри</h5>
+        <ul>
+          <li><strong>Переконує:</strong> зрозуміла ціна для малого розміру</li>
+          <li><strong>Переконує:</strong> жива людина в підтримці <span class="chip guess">гіпотеза</span></li>
+          <li><strong>Відлякує:</strong> переносити накопичене <span class="chip unknown">[?]</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <blockquote>
+      <p>«Wanted a program that offered even more functionality.»</p>
+      <cite>Rima K., Owner RDN · про перехід із Healthie · <a href="https://capterra.com/p/159263/Better/reviews/">Capterra</a></cite>
+    </blockquote>
+    <blockquote>
+      <p>«The cost is not cost effective for small practices with less than 200 active clients.»</p>
+      <cite>Maria D., Owner · <a href="https://www.getapp.com/healthcare-pharmaceuticals-software/a/practice-better/">GetApp</a></cite>
+    </blockquote>
+    <blockquote>
+      <p>«It was difficult to work with customer service at times, reaching an actual person wasn't always the easiest.»</p>
+      <cite>Ashley E., Certified Peristeam Facilitator · <a href="https://www.getapp.com/healthcare-pharmaceuticals-software/a/practice-better/">GetApp</a></cite>
+    </blockquote>
+
+    <div class="note"><p><strong>Ризик, гостріший ніж у P2.</strong> Rima K. пішла
+    з Healthie, бо хотіла <strong>більше</strong> функцій. Ми пропонуємо менше, але
+    гостріше. Вона вже знає, як виглядає повний набір, і порівнюватиме з ним.</p></div>
+  </div>
+
+  <div class="note prose"><p><strong>Що спільного в усіх трьох.</strong> Жодна не просить
+  менший інструмент. P2 і P3 прямо хочуть більший — «one stop solution», «even more
+  functionality». Продукт, який ми будуємо, у цих доказах не має адресата.</p></div>
+</div></section>
+
+<!-- ============ 02 JOBS ============ -->
+<section id="jobs"><div class="wrap">
+  <div class="shead"><div class="idx">02</div><h2>Jobs</h2></div>
+  <p class="prose">Формат «коли — хочу — щоб», словами людини, без назв функцій.
+  Три статуси замість двох: підтверджено, рішення власника, гіпотеза.</p>
+
+  <h4>Main job</h4>
+  <div class="job main">
+    <div class="jhead"><span class="jid">MAIN</span>
+      <span class="jname">На чому ми зупинились і що далі</span>
+      <span class="chip decision">рішення</span></div>
+    <p class="jstmt">Коли я веду клієнта вже кілька місяців, я хочу в будь-який момент
+    бачити, на чому ми зупинились і що я маю зробити далі, щоб не починати кожну
+    зустріч із пригадування.</p>
+    <p class="jmeta"><strong>Персона:</strong> P1. Для P2 і P3 — <span class="chip unknown">[?]</span>
+    · CoachAccountable продає рівно це, але без застосунку. Доказів із боку людей немає.</p>
+  </div>
+
+  <h4>Related jobs</h4>
+
+  <div class="job orphan">
+    <div class="jhead"><span class="jid">R1</span>
+      <span class="jname">Переграти план, а не заводити новий</span>
+      <span class="chip decision">рішення</span>
+      <span class="chip unknown">немає персони</span></div>
+    <p class="jstmt">Коли клієнт посеред роботи передумав, я хочу змінити те, що
+    попереду, щоб не заводити ще один окремий план і не тримати в голові, який із них
+    тепер чинний.</p>
+    <p class="jmeta"><strong>Ситуацію підтверджено</strong> довідками трьох конкурентів:
+    Practice Better блокує план після відправлення, CoachAccountable має окрему FAQ
+    і функцію «Customize this course», Healthie радить створювати нове.
+    <strong>Але носія не знайдено</strong> — жодного відгуку від людини, яка це переживає.
+    Операція є, біль не доведений.</p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R2</span>
+      <span class="jname">Пам'ятати, що я кому пообіцяла</span>
+      <span class="chip decision">рішення</span></div>
+    <p class="jstmt">Коли я пообіцяла різним людям різні речі до різних дат, я хочу
+    тримати всі обіцянки перед очима, щоб не носити чужі дати у своїй голові.</p>
+    <p class="jmeta"><strong>Персона:</strong> P1 · Як фахівці тримають терміни сьогодні —
+    <span class="chip unknown">[?]</span></p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R3</span>
+      <span class="jname">Все в одному місці, а не в п'яти</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли все про клієнта лежить у різних місцях — листування тут, файли
+    там, записи ще десь — я хочу тримати це в одному місці, щоб не витрачати час на пошуки.</p>
+    <p class="jmeta"><strong>Персона:</strong> P2 · Samantha C., Breanna B.
+    <strong>Найсильніше підкріплення в наборі — і ми його не закриваємо.</strong></p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R4</span>
+      <span class="jname">Встигати між зустрічами, а не ввечері</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли я цілий день на ногах між клієнтами, я хочу встигати робити
+    справи в проміжках, щоб не сідати за них аж пізно ввечері.</p>
+    <p class="jmeta"><strong>Персона:</strong> P1 · Melissa V.</p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R5</span>
+      <span class="jname">Записати, поки не забула</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли зустріч щойно закінчилась і все ще свіже в голові, я хочу
+    відразу записати головне, щоб за тиждень не згадувати, про що ми домовились.</p>
+    <p class="jmeta"><strong>Персона:</strong> <span class="chip unknown">[?]</span>
+    — Lorraine A. працює в партнерстві, не соло, тож під P1 не підходить.</p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R6</span>
+      <span class="jname">Не платити як велика практика</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли в мене п'ять клієнтів, а не п'ятдесят, я хочу платити
+    відповідно до цього, щоб інструмент не з'їдав дохід, якого ще немає.</p>
+    <p class="jmeta"><strong>Персона:</strong> P3 · Maria D. · Ринок це вже закрив:
+    у Practice Better free теж рівно три клієнти.</p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">R7</span>
+      <span class="jname">Почати сьогодні, а не через тиждень</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли я нарешті беруся навести лад у своїх клієнтах, я хочу почати
+    цього ж вечора, щоб не витратити тиждень на налаштування й не кинути на півдорозі.</p>
+    <p class="jmeta"><strong>Персона:</strong> <span class="chip unknown">[?]</span>
+    — ринок налаштувальників Dubsado доводить біль, але не вказує, чий саме.</p>
+  </div>
+
+  <h4>Emotional jobs</h4>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">E1</span>
+      <span class="jname">Щоб робота не з'їдала вечори</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли в мене крім практики є ще й життя, я хочу відчувати, що
+    встигаю, щоб робота не забирала вечори й вихідні.</p>
+    <p class="jmeta"><strong>Персона:</strong> P1 · Melissa V. говорить не про
+    ефективність, а про життєве навантаження.</p>
+  </div>
+
+  <div class="job">
+    <div class="jhead"><span class="jid">E2</span>
+      <span class="jname">Бути спокійною, що нічого не випало</span>
+      <span class="chip backed">підтверджено</span></div>
+    <p class="jstmt">Коли я веду двадцять людей водночас, я хочу бути спокійною, що
+    нічого не випало, щоб не перевіряти все по три рази.</p>
+    <p class="jmeta"><strong>Персона:</strong> P1. Для P2 — <span class="chip unknown">[?]</span>
+    · Rose F. і Chris K. називають стан зібраності. Тривоги в цитатах немає.</p>
+  </div>
+
+  <h4>Social jobs</h4>
+  <div class="empty">
+    <span class="big">Порожньо</span>
+    Жодного доказу про соціальний вимір. Ми не знаємо, чи має значення, як фахівець
+    виглядає в очах клієнта, чи впливає думка колег. Не «мало даних» — нуль.
+  </div>
+
+  <h4>Гіпотези · не є підставою для рішень</h4>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Job</th><th>Персона</th><th>Звідки</th></tr></thead>
+    <tbody>
+      <tr><td>ГJ1</td><td>Коли я йду до людини, яку не бачила місяць, я хочу швидко згадати, на чому ми зупинились, щоб не перепитувати те, що вона вже розповідала</td><td>P1</td><td class="ev">§1 брифу. <strong>Виведено з ядра продукту</strong></td></tr>
+      <tr><td>ГJ2</td><td>Коли клієнт просить щось запам'ятати на майбутнє, я хочу, щоб це не загубилось серед іншого, щоб згадати про це саме тоді, коли треба</td><td>P1</td><td class="ev">§4.3 брифу</td></tr>
+      <tr><td>ГJ3</td><td>Коли я вранці не знаю, за що хапатися, я хочу побачити, що справді горить сьогодні, щоб не складати цей список подумки щоразу</td><td>P1</td><td class="ev">§4.5 брифу</td></tr>
+      <tr><td>ГJ4</td><td>Коли я тиждень була не в роботі, я хочу повернутись спокійно, щоб не злякатись купи прострочених справ і не кинути все</td><td>P1</td><td class="ev">Виведено з артефакту, не зі слів людей</td></tr>
+      <tr><td>ГJ5</td><td>Коли я зустрічаюся з клієнтом, я хочу виглядати підготовленою, щоб він бачив, що його ведуть уважно</td><td><span class="chip unknown">[?]</span></td><td class="ev">Соціальний. Даних нуль</td></tr>
+      <tr><td>ГJ6</td><td>Коли колеги радяться, чим вести клієнтів, я хочу називати інструмент, за який не соромно, щоб моя порада не підважувала мою репутацію</td><td><span class="chip unknown">[?]</span></td><td class="ev">Соціальний. Даних нуль</td></tr>
+      <tr><td>ГJ7</td><td>Коли я записую те, що людина довірила мені особисто, я хочу бути певною, що це нікуди не потрапить, щоб не боятися за неї</td><td>P1</td><td class="ev">§7 брифу</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- ============ 03 МАТРИЦЯ ============ -->
+<section id="matrix"><div class="wrap">
+  <div class="shead"><div class="idx">03</div><h2>Матриця</h2></div>
+  <p class="prose">Важливість 1–3 ставилась лише тоді, коли ситуація людини з перевіреного
+  відгуку збігається з ситуацією персони. Не збігається — <span class="chip unknown">[?]</span>.
+  Середніх значень немає: краще порожньо, ніж вигадано.</p>
+
+  <div class="tscroll"><table>
+    <thead><tr>
+      <th>Job</th><th>P1 primary</th><th>P2</th><th>P3</th>
+      <th>Функція в продукті</th><th>Закриває ринок?</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="jobname">Main · що далі</td>
+        <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Картка клієнта, кроки з термінами</td>
+        <td class="ev"><strong>Так.</strong> CoachAccountable. Але без застосунку</td></tr>
+      <tr><td class="jobname">R1 · переграти план</td>
+        <td class="sc none">немає персони</td><td class="sc none">немає персони</td><td class="sc none">немає персони</td>
+        <td><strong>Немає</strong></td>
+        <td class="ev"><strong>Частково.</strong> Закривають, але через окремі непов'язані копії</td></tr>
+      <tr><td class="jobname">R2 · що я кому пообіцяла</td>
+        <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Екран «Сьогодні»</td>
+        <td class="ev"><strong>Так</strong>, але не в розрізі клієнтів</td></tr>
+      <tr><td class="jobname">R3 · все в одному місці</td>
+        <td class="sc q">[?]</td><td class="sc s3">3</td><td class="sc q">[?]</td>
+        <td><strong>Немає</strong></td>
+        <td class="ev"><strong>Так, сильно.</strong> Три продукти продають саме це</td></tr>
+      <tr><td class="jobname">R4 · встигати між зустрічами</td>
+        <td class="sc s3">3</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Мобільний продукт, чернетка з голосом</td>
+        <td class="ev"><strong>Розколото.</strong> У двох із п'яти застосунку немає</td></tr>
+      <tr><td class="jobname">R5 · записати, поки не забула</td>
+        <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Чернетка, текст або голос</td>
+        <td class="ev"><strong>Частково.</strong> Найкраще робить Granola — поза категорією</td></tr>
+      <tr><td class="jobname">R6 · не платити як велика</td>
+        <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc s3">3</td>
+        <td>Free до 3 клієнтів</td>
+        <td class="ev"><strong>Так.</strong> У Practice Better free — теж рівно 3</td></tr>
+      <tr><td class="jobname">R7 · почати сьогодні</td>
+        <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Пресети й старт з нуля</td>
+        <td class="ev"><strong>Погано.</strong> Слабке місце ринку</td></tr>
+      <tr><td class="jobname">E1 · щоб не з'їдало вечори</td>
+        <td class="sc s2">2</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Прямої немає</td>
+        <td class="ev"><strong>Ніхто</strong> не адресує це прямо</td></tr>
+      <tr><td class="jobname">E2 · нічого не випало</td>
+        <td class="sc s2">2</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
+        <td>Екран «Сьогодні»</td>
+        <td class="ev"><strong>Частково.</strong> Будь-який трекер</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">Заповнено 5 клітинок із 30, ще три позначені як «немає персони».
+  У P1 три оцінки, у P2 одна, у P3 одна.</p>
+
+  <div class="note prose"><p><strong>Різниця між «[?]» і «немає персони».</strong>
+  Перше означає, що важливість невідома. Друге — що ми не знайшли людини, яка б цю
+  потребу мала. R1 — наша ключова ставка, і саме в неї стоїть друге.</p></div>
+</div></section>
+
+<!-- ============ 04 ВИСНОВКИ ============ -->
+<section id="conclusion"><div class="wrap">
+  <div class="shead"><div class="idx">04</div><h2>Висновки</h2></div>
+
+  <h4>Три jobs у ядро MVP</h4>
+  <div class="prose">
+    <p><strong>1. R1 — переграти план, а не заводити новий.</strong> Ринок закриває
+    погано: після дублювання чи spin-off у фахівця набір паралельних копій без зв'язку.
+    Прогалина не в тому, що функції немає, а в тому, що зв'язок він тримає в голові.
+    Персони досі немає.</p>
+    <p><strong>2. R4 — встигати між зустрічами.</strong> Єдиний job з оцінкою 3 для
+    primary, який ринок закриває лише наполовину. Найнадійніший вибір у трійці.</p>
+    <p><strong>3. Main job на телефоні.</strong> Сам job ринок закриває, але без
+    застосунку. Відкрите не «знати наступний крок», а «знати його, стоячи в коридорі».</p>
+    <p><strong>Чому не увійшли найкраще підкріплені.</strong> R3 має найсильніші докази —
+    і ми працюємо проти нього. R6 має оцінку 3 — але ринок його вже закрив, це вхідний
+    квиток, не перевага.</p>
+  </div>
+
+  <h4>Функції під питанням</h4>
+  <div class="prose">
+    <p><strong>Не закривають жодного job:</strong> теги й довільні поля в картці клієнта.</p>
+    <p><strong>Закривають тільки гіпотезу:</strong> таймлайн зустрічей (обслуговує ГJ1,
+    яку виведено з ядра), ранковий дайджест (ГJ3), посилена приватність — Face ID,
+    приховування в перемикачі застосунків, імена без push (ГJ7).</p>
+  </div>
+
+  <div class="callout prose"><p><strong>Застереження до приватності.</strong> Частину §7
+  різати не можна в принципі: експорт даних і видалення акаунта — вимога App Store,
+  GDPR — вимога закону. Під питанням саме <strong>посилена</strong> частина.</p></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  TheBrain · персони та jobs · Ф1, оновлено 16 вересня 2026<br>
+  Джерела: research/personas.md · research/jtbd.md · Палітра: tokens/tokens.json
+</div></footer>
+
+</body>
+</html>

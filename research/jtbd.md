@@ -131,7 +131,8 @@ easier.» — [Capterra](https://capterra.com/p/159263/Better/reviews/)
 > **Коли зустріч щойно закінчилась і все ще свіже в голові, я хочу відразу
 > записати головне, щоб за тиждень не згадувати, про що ми домовились.**
 
-**Персона:** P1
+**Персона: [?]** — Lorraine A. працює в партнерстві, а не соло, тож під P1
+вона не підходить.
 **На чому стоїть:** Lorraine A., Managing Partner: «I can keep notes, updates
 and **add what I need to when I need to** for each client.» —
 [Capterra](https://capterra.com/p/159263/Better/reviews/)
@@ -143,7 +144,7 @@ and **add what I need to when I need to** for each client.» —
 > **Коли в мене п'ять клієнтів, а не п'ятдесят, я хочу платити відповідно
 > до цього, щоб інструмент не з'їдав дохід, якого ще немає.**
 
-**Персона:** P1
+**Персона:** P3
 **На чому стоїть:** Maria D., Owner: «The cost is **not cost effective for
 small practices** with less than 200 active clients.» —
 [GetApp](https://www.getapp.com/healthcare-pharmaceuticals-software/a/practice-better/)
@@ -181,7 +182,7 @@ much easier» — людина говорить не про ефективніс
 > **Коли я веду двадцять людей водночас, я хочу бути спокійною, що нічого
 > не випало, щоб не перевіряти все по три рази.**
 
-**Персона:** P1, P2
+**Персона:** P1. Для P2 — **[?]**.
 **На чому стоїть:** Rose F.: «**I stay organized**»; Chris K.: «maintain
 **detailed and organized** records». Двоє незалежно називають стан зібраності,
 а не конкретну функцію. — [Capterra](https://capterra.com/p/159263/Better/reviews/)
