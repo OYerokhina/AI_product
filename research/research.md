@@ -276,6 +276,97 @@ HIPAA, ISO 27001, PIPEDA у Practice Better і Delenta.
 
 ---
 
+# Доресерч після персон
+
+## Питання 1 — чи існує потреба переграти план посеред роботи?
+
+Перевірено 2026-09-16. Привід: аудит персон показав, що job R1 не має ні персони,
+ні доказів — а під нього вже змінено модель даних у §5 брифу.
+
+### Що знайдено
+
+**Practice Better: план після відправлення заблоковано.**
+
+> «Published protocols are **locked and cannot be edited directly**. To revise
+> a protocol that's already been shared with a client, create an updated version
+> from the existing one.»
+
+Процедура: дублювати → відредагувати чернетку → опублікувати →
+«Optionally, delete the older version from the client's Protocols section».
+Окремо зазначено: «Each client protocol is a **standalone document**».
+— [Sharing Protocols With Clients](https://help.practicebetter.io/hc/en-us/articles/360052049372-Sharing-Protocols-With-Clients),
+першоджерело, знято браузером (WebFetch блокується 403)
+
+**CoachAccountable: окрема стаття FAQ саме на це питання** —
+«Can I edit a Course after it's been assigned?»
+
+> «Edits made to a Course for items in a participant's **future will** take
+> effect for that client.»
+> «Edits to items that have **already been delivered** to a client (in that
+> participant's past) **will not** take effect for that client.»
+> «We recommend that you take a close look at where a client is in the timeline
+> before making any changes.»
+— [CoachAccountable KB](https://www.coachaccountable.com/knowledgeBase/coaching/courses/editcoursepostassignment)
+
+Плюс окрема іменована функція «Customize this course» — spin-off копія курсу
+під одного клієнта:
+
+> «Once a Course is spun off for an individual participant, that course
+> participation will be **completely independent** of the original Course timeline.»
+> «Any changes you make to the original Course will have no effect in the
+> spin-off version, and vice-versa.»
+— [CoachAccountable KB](https://www.coachaccountable.com/knowledgeBase/courses/participations/customizeCourse)
+
+**Healthie: радить не редагувати, а створювати нове.** Редагування пакета не
+зачіпає наявних клієнтів; компанія радить створити новий пакет «to avoid
+confusion and prevent lapses in client service».
+— з пошукової видачі довідки Healthie, *першоджерело не відкривалось*
+
+### Підтверджено
+
+**Операція реальна й регулярна.** Три гравці задокументували її в довідці.
+У CoachAccountable під неї є **окрема стаття FAQ** — такі пишуть на питання,
+які ставлять часто, — і **окрема функція з власною назвою**. Це найсильніше,
+що можна дістати без інтерв'ю.
+
+**Поділ «минуле / майбутнє» вже існує на ринку.** CoachAccountable змінює тільки
+те, що попереду, і не чіпає вже доставленого. Це збігається з правилом, яке ми
+додали в §5 брифу: завершені кроки при перебудові не видаляються. Незалежний
+збіг — добрий знак для рішення.
+
+### Спростовано частково
+
+**Формулювання R1 неточне.** Job каже «щоб не викидати те, що ми вже зробили
+разом», тобто припускає, що чинні інструменти гублять напрацьоване.
+**Вони не гублять.** Practice Better зберігає стару версію окремим документом.
+CoachAccountable не чіпає вже доставленого.
+
+Реальна ціна інша: **не втрата, а роз'єднання.** Spin-off стає «completely
+independent». Копії протоколів — «standalone documents». Виходить набір
+паралельних об'єктів, які більше не пов'язані між собою, і зв'язок між ними
+тримає в голові сам фахівець.
+
+Тобто наша перевага — не «не втратити записане» (його ніхто не втрачає),
+а **не розсипатися на непов'язані копії**.
+
+### Не знайдено
+
+**Жодного голосу практика.** Ні у відгуках, ні на форумах не знайшлося скарги
+на цю процедуру. Пошуки за *duplicate, recreate, tedious* щодо протоколів
+Practice Better і за зміною цілей посеред програми на форумах не дали нічого
+придатного.
+
+**Операція підтверджена, біль — ні.** Ми знаємо, що люди це роблять.
+Ми не знаємо, чи їм від цього погано.
+
+### Побічна знахідка
+
+У тій самій статті Practice Better: «You can also use **AI Dictation** in any
+text field». Тобто диктування вже є в чинного конкурента. Це стосується питання 2
+з аудиту (чи прийнятно наговорювати нотатку про клієнта) і тут не досліджувалось.
+
+---
+
 # 4. ВИСНОВКИ
 
 Прогалини, гіпотези та їхнє походження. H1–H6 сформульовані на початку Ф1 з брифу,
