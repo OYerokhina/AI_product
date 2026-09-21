@@ -196,7 +196,8 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   <a href="#konkurenty"><span class="num">01</span>Конкуренти</a>
   <a href="#benchmark"><span class="num">02</span>Бенчмарк</a>
   <a href="#paterny"><span class="num">03</span>Патерни</a>
-  <a href="#vysnovky"><span class="num">04</span>Висновки</a>
+  <a href="#doresearch"><span class="num">04</span>Доресерч</a>
+  <a href="#vysnovky"><span class="num">05</span>Висновки</a>
 </div></nav>
 
 <header><div class="wrap">
@@ -506,7 +507,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
       <p>Завершення етапу відкриває не форму, а чорновик із відомого: назва етапу,
       дата зустрічі, що планували, незакритий фідбек з минулого разу.
       <strong>Два з трьох полів §4.3 система вже має</strong> в <code>stages</code> і
-      <code>stage_notes.client_feedback</code> — чернетка збирається з даних, не з здогадок.</p>
+      <code>notes.client_feedback</code> — чернетка збирається з даних, не з здогадок.</p>
     </div>
     <div class="mech">
       <div class="from">від Copilot Money</div>
@@ -574,7 +575,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     етап, план, незакритий фідбек. <strong>Текст або голос</strong> — те, чого знати
     не може: що сказав клієнт цього разу.</p>
     <p><strong>Три причини з брифу.</strong> Два з трьох полів §4.3 система вже має
-    в <code>stages</code> і <code>stage_notes.client_feedback</code>, тож чернетка
+    в <code>stages</code> і <code>notes.client_feedback</code>, тож чернетка
     збирається з даних. §2 задає вікно — смартфон, коротка сесія одразу після
     зустрічі, де найдорожча операція це згадування, не друк. §12 робить головною
     метрикою щоденне повернення, а порожня форма після кожного етапу — найімовірніший
@@ -590,15 +591,81 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   </div>
 
   <div class="note prose"><p><strong>Що змінилось у брифі.</strong> §4.3 переписано
-  з форми на чернетку. Супутньо: <code>stage_notes</code> отримав
+  з форми на чернетку. Супутньо: нотатки зведено в таблицю <code>notes</code>, що отримала
   <code>input_method</code> і <code>draft_accepted</code> (§5); §7 вимагає
   транскрипції на пристрої; §12 має діагностичну метрику прийняття чернетки;
   §13 фіксує відкрите питання офлайн-розпізнавання української.</p></div>
 </div></section>
 
 <!-- ================= 04 ================= -->
+<section id="doresearch"><div class="wrap">
+  <div class="shead"><div class="idx">04</div><h2>Доресерч після персон</h2></div>
+  <div class="prose">
+    <p><strong>Питання:</strong> чи існує взагалі потреба переграти план посеред
+    роботи? Привід — аудит персон: job R1 не мав ні персони, ні доказів, а під нього
+    вже змінено модель даних. Перевірено 2026-09-16 по довідках трьох конкурентів.</p>
+  </div>
+
+  <h4>Що знайдено</h4>
+  <div class="prose">
+    <p><strong>Practice Better — план після відправлення заблоковано.</strong></p>
+    <p>«Published protocols are <strong>locked and cannot be edited directly</strong>.
+    To revise a protocol that's already been shared with a client, create an updated
+    version from the existing one.» Процедура: дублювати → виправити → опублікувати →
+    «optionally, delete the older version». Кожен план — «standalone document».
+    — <a href="https://help.practicebetter.io/hc/en-us/articles/360052049372-Sharing-Protocols-With-Clients">першоджерело</a>,
+    знято браузером, WebFetch блокується.</p>
+
+    <p><strong>CoachAccountable — окрема стаття FAQ саме на це питання</strong>
+    «Can I edit a Course after it's been assigned?»</p>
+    <p>«Edits made to a Course for items in a participant's <strong>future will</strong>
+    take effect.» «Edits to items that have <strong>already been delivered</strong>
+    … <strong>will not</strong>.» Плюс іменована функція «Customize this course»:
+    spin-off стає «<strong>completely independent</strong> of the original Course timeline».
+    — <a href="https://www.coachaccountable.com/knowledgeBase/coaching/courses/editcoursepostassignment">FAQ</a> ·
+    <a href="https://www.coachaccountable.com/knowledgeBase/courses/participations/customizeCourse">spin-off</a></p>
+
+    <p><strong>Healthie</strong> — радить створювати нове замість редагування
+    <span class="tag t">третя сторона</span></p>
+  </div>
+
+  <h4>Підтверджено</h4>
+  <div class="prose">
+    <p><strong>Операція реальна й регулярна.</strong> Три гравці задокументували її
+    в довідці. У CoachAccountable під неї є окрема стаття FAQ — такі пишуть на часті
+    питання — і окрема функція з власною назвою.</p>
+    <p><strong>Поділ «минуле / майбутнє» вже існує на ринку.</strong> CoachAccountable
+    змінює тільки те, що попереду. Це збігається з правилом, яке ми додали в §5 брифу:
+    завершені кроки при перебудові не видаляються. Незалежний збіг.</p>
+  </div>
+
+  <h4>Спростовано частково</h4>
+  <div class="note prose">
+    <p><strong>Формулювання job було неточним.</strong> Воно припускало, що чинні
+    інструменти <strong>гублять</strong> напрацьоване. Вони не гублять: стара версія
+    лишається окремим документом, уже доставлене не чіпається.</p>
+    <p>Реальна ціна інша — <strong>роз'єднання</strong>. Spin-off стає «completely
+    independent», копії — «standalone documents». Набір паралельних об'єктів, зв'язок
+    між якими тримає в голові сам фахівець. Наша перевага не в збереженні записаного,
+    а в збереженні <strong>зв'язності</strong>.</p>
+  </div>
+
+  <h4>Не знайдено</h4>
+  <div class="callout prose">
+    <p><strong>Жодного голосу практика</strong> <span class="tag u">дані не підтверджені</span>
+    — ні у відгуках, ні на форумах. Операція підтверджена, <strong>біль — ні</strong>.
+    Ми знаємо, що люди це роблять. Не знаємо, чи їм від цього погано.</p>
+  </div>
+
+  <div class="note prose"><p><strong>Побічна знахідка.</strong> У тій самій статті
+  Practice Better: «You can also use <strong>AI Dictation</strong> in any text field».
+  Диктування вже є в чинного конкурента — це стосується окремого питання про голос
+  і тут не досліджувалось.</p></div>
+</div></section>
+
+<!-- ================= 05 ================= -->
 <section id="vysnovky"><div class="wrap">
-  <div class="shead"><div class="idx">04</div><h2>Висновки</h2></div>
+  <div class="shead"><div class="idx">05</div><h2>Висновки</h2></div>
   <div class="prose">
     <p>Прогалини, гіпотези та їхнє походження. H1–H6 сформульовані на початку Ф1
     з брифу, H7–H13 виросли з розділів 01–03.</p>

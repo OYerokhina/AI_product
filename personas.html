@@ -479,7 +479,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   <div class="tscroll"><table>
     <thead><tr><th>#</th><th>Job</th><th>Персона</th><th>Звідки</th></tr></thead>
     <tbody>
-      <tr><td>ГJ1</td><td>Коли я йду до людини, яку не бачила місяць, я хочу швидко згадати, на чому ми зупинились, щоб не перепитувати те, що вона вже розповідала</td><td>P1</td><td class="ev">§1 брифу. <strong>Виведено з ядра продукту</strong></td></tr>
+      <tr><td>ГJ1</td><td>Коли я йду до людини, яку не бачила місяць, я хочу швидко згадати, на чому ми зупинились, щоб не перепитувати те, що вона вже розповідала</td><td>P1</td><td class="ev">§1 брифу. Виведено з ядра, але хронологію обслуговують також Main і R1</td></tr>
       <tr><td>ГJ2</td><td>Коли клієнт просить щось запам'ятати на майбутнє, я хочу, щоб це не загубилось серед іншого, щоб згадати про це саме тоді, коли треба</td><td>P1</td><td class="ev">§4.3 брифу</td></tr>
       <tr><td>ГJ3</td><td>Коли я вранці не знаю, за що хапатися, я хочу побачити, що справді горить сьогодні, щоб не складати цей список подумки щоразу</td><td>P1</td><td class="ev">§4.5 брифу</td></tr>
       <tr><td>ГJ4</td><td>Коли я тиждень була не в роботі, я хочу повернутись спокійно, щоб не злякатись купи прострочених справ і не кинути все</td><td>P1</td><td class="ev">Виведено з артефакту, не зі слів людей</td></tr>
@@ -505,7 +505,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     <tbody>
       <tr><td class="jobname">Main · що далі</td>
         <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
-        <td>Картка клієнта, кроки з термінами</td>
+        <td>Картка клієнта, кроки з термінами, <strong>хронологія клієнта</strong></td>
         <td class="ev"><strong>Так.</strong> CoachAccountable. Але без застосунку</td></tr>
       <tr><td class="jobname">R1 · переграти план</td>
         <td class="sc none">немає персони</td><td class="sc none">немає персони</td><td class="sc none">немає персони</td>
@@ -513,7 +513,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
         <td class="ev"><strong>Частково.</strong> Закривають, але через окремі непов'язані копії</td></tr>
       <tr><td class="jobname">R2 · що я кому пообіцяла</td>
         <td class="sc q">[?]</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
-        <td>Екран «Сьогодні»</td>
+        <td>Екран «Сьогодні» + <strong>загальний таймлайн</strong></td>
         <td class="ev"><strong>Так</strong>, але не в розрізі клієнтів</td></tr>
       <tr><td class="jobname">R3 · все в одному місці</td>
         <td class="sc q">[?]</td><td class="sc s3">3</td><td class="sc q">[?]</td>
@@ -541,7 +541,7 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
         <td class="ev"><strong>Ніхто</strong> не адресує це прямо</td></tr>
       <tr><td class="jobname">E2 · нічого не випало</td>
         <td class="sc s2">2</td><td class="sc q">[?]</td><td class="sc q">[?]</td>
-        <td>Екран «Сьогодні»</td>
+        <td>Екран «Сьогодні» + <strong>загальний таймлайн</strong></td>
         <td class="ev"><strong>Частково.</strong> Будь-який трекер</td></tr>
     </tbody>
   </table></div>
@@ -575,9 +575,16 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   <h4>Функції під питанням</h4>
   <div class="prose">
     <p><strong>Не закривають жодного job:</strong> теги й довільні поля в картці клієнта.</p>
-    <p><strong>Закривають тільки гіпотезу:</strong> таймлайн зустрічей (обслуговує ГJ1,
-    яку виведено з ядра), ранковий дайджест (ГJ3), посилена приватність — Face ID,
-    приховування в перемикачі застосунків, імена без push (ГJ7).</p>
+    <p><strong>Закривають тільки гіпотезу:</strong> ранковий дайджест (ГJ3),
+    посилена приватність — Face ID, приховування в перемикачі застосунків,
+    імена без push (ГJ7).</p>
+    <div class="note"><p><strong>Знято з цього списку 21 вересня: таймлайн.</strong>
+    Раніше стояв тут як такий, що обслуговує лише ГJ1 — це була помилка мапування.
+    На нього працюють також <strong>Main</strong> («на чому ми зупинились» — питання
+    про минуле, на яке відповідає хронологія, а не поточний крок) і <strong>R1</strong>
+    (саме хронологія показує, що після зміни плану лишилась одна нитка, а не набір
+    копій). Заразом виявлено сутність, якої немає в брифі — <strong>загальний
+    таймлайн по всіх клієнтах</strong> для R2 і E2. Деталі: <code>sitemap.md</code>.</p></div>
   </div>
 
   <div class="callout prose"><p><strong>Застереження до приватності.</strong> Частину §7
