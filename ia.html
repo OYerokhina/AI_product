@@ -283,7 +283,16 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     COLD --&gt; NEW["Новий клієнт"]
     SYNC --&gt;|так| TODAY["Сьогодні"]
     STALE --&gt; TODAY
-    TODAY --&gt; PILE{"Після паузи накопичилась стіна прострочених?"}
+    TODAY --&gt; ANY{"Є що робити сьогодні?"}
+    ANY --&gt;|ні| WHY{"Чому порожньо?"}
+    WHY --&gt;|клієнтів ще немає| FIRST["Сьогодні — порожньо: «завести першого клієнта»"]
+    FIRST --&gt; NEW
+    WHY --&gt;|є клієнти без планів| GAPS["Сьогодні — порожньо, але N клієнтів без плану"]
+    GAPS --&gt; LIST
+    WHY --&gt;|усе під контролем| CALM["Сьогодні — порожньо: «на сьогодні нічого»"]
+    CALM --&gt; REST(["НЕЙТРАЛЬНО: спокій, нічого не забуто"])
+    CALM --&gt; LIST
+    ANY --&gt;|так| PILE{"Після паузи накопичилась стіна прострочених?"}
     PILE --&gt;|так| BACK["Сьогодні — стіна прострочених, «перенести все» одним тапом"]
     BACK --&gt; RESCH{"Що робить зі стіною?"}
     RESCH --&gt;|перенесла все| INLIST
@@ -320,10 +329,18 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
     classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
     classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class LOAD,STALE,COLD,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,CACHED,NOPLAN,NOHIST state
+    class LOAD,STALE,COLD,FIRST,GAPS,CALM,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,CACHED,NOPLAN,NOHIST state
     class OPEN act
-    class PARTIAL neutral
+    class PARTIAL,REST neutral
     class OK ok</pre>
+    <div class="note prose"><p><strong>Порожній день — три різні порожнечі.</strong>
+    Плаский екран «на сьогодні нічого» приховав би дві з них. Клієнтів ще немає
+    → «завести першого». Є клієнти <strong>без планів</strong> → «на сьогодні
+    нічого, але N клієнтів без плану». Усе під контролем → спокій.</p>
+    <p>Другий варіант закриває дефект 4.4: клієнт без кроків невидимий скрізь,
+    і людина вважає, що все гаразд, поки продукт мовчить. Порожній день —
+    єдине доречне місце для такої підказки, бо саме тут вона питає «що в мене
+    сьогодні».</p></div>
     <div class="callout prose"><p><strong>Залежність, яку виявив цей потік.</strong>
     План відповідає тільки на «що далі». На «що було» відповідає хронологія,
     а наповнюють її нотатки. Отже <strong>main job виконується лише тоді, коли
