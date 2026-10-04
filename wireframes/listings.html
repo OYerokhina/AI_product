@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вайрфрейм: Сьогодні — успіх</title>
+<style>
+/* ── Вайрфрейм. Тільки сіра шкала, системний шрифт, без іконок і тіней. ── */
+:root{
+  --page:#e4e4e4;      /* робоча поверхня навколо екрана */
+  --screen:#fff;       /* сам екран */
+  --surface:#f3f3f3;   /* блок усередині екрана */
+  --line:#c9c9c9;      /* межа */
+  --line-strong:#8e8e8e;
+  --ink:#1f1f1f;
+  --ink-dim:#6a6a6a;
+  --ink-faint:#949494;
+  --sys:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);
+  font-family:var(--sys);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ── службова шапка сторінки, не частина вайрфрейму ── */
+.docmeta{max-width:1100px;margin:0 auto;padding:36px 28px 0}
+.docmeta h1{font-size:21px;font-weight:600;margin:0 0 6px}
+.docmeta .sub{font-family:var(--mono);font-size:12px;color:var(--ink-dim);margin:0 0 18px}
+.docmeta dl{display:grid;grid-template-columns:132px 1fr;gap:6px 16px;
+  margin:0 0 10px;font-size:13.5px;max-width:720px}
+.docmeta dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.docmeta dd{margin:0;color:var(--ink-dim)}
+.docmeta dd b{color:var(--ink);font-weight:600}
+
+/* ── сцена: екран + підписи ── */
+.stage{max-width:1100px;margin:0 auto;padding:26px 28px 72px;
+  display:flex;gap:44px;align-items:flex-start;flex-wrap:wrap}
+
+/* ── телефон 390 ── */
+.phone{width:390px;flex:none;background:var(--screen);
+  border:1px solid var(--line-strong);display:flex;flex-direction:column;
+  min-height:760px}
+
+/* ── маркери зон ── */
+.mark{position:absolute;left:-26px;top:8px;width:19px;height:19px;
+  border:1px solid var(--line-strong);border-radius:50%;
+  font-family:var(--mono);font-size:11px;line-height:17px;text-align:center;
+  color:var(--ink-dim);background:var(--screen)}
+.zone{position:relative}
+
+/* ── шапка екрана ── */
+.phone > header{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.phone > header h1{font-size:19px;font-weight:600;margin:0 0 2px}
+.phone > header p{margin:0;font-size:13px;color:var(--ink-dim)}
+.window{display:flex;gap:0;margin-top:12px;border:1px solid var(--line)}
+.window button{flex:1;background:none;border:0;border-right:1px solid var(--line);
+  padding:7px 0;font:inherit;font-size:12.5px;color:var(--ink-dim);cursor:pointer}
+.window button:last-child{border-right:0}
+.window button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600}
+
+/* ── вміст ── */
+.phone > main{flex:1;padding:0}
+.phone section{border-bottom:1px solid var(--line);padding:14px 16px 16px}
+.phone section > h2{font-size:11px;font-family:var(--mono);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:400}
+.phone ul{list-style:none;margin:0;padding:0}
+.phone li + li{margin-top:10px}
+
+/* ── рядок справи ── */
+article.row{border:1px solid var(--line);background:var(--surface);padding:11px 12px}
+article.row .who{display:block;font-size:15px;font-weight:600;color:var(--ink);
+  text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:1px}
+article.row .step{margin:5px 0 0;font-size:13.5px;color:var(--ink-dim)}
+article.row .foot{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-top:9px}
+.when{font-family:var(--mono);font-size:11px;border:1px solid var(--line-strong);
+  padding:2px 6px;color:var(--ink-dim);white-space:nowrap}
+.when.late{border-width:2px;color:var(--ink);font-weight:600}
+article.row button{font:inherit;font-size:12.5px;background:var(--screen);
+  border:1px solid var(--line-strong);padding:6px 11px;cursor:pointer;color:var(--ink)}
+
+/* ── зустрічі ── */
+article.meet{border:1px dashed var(--line-strong);padding:10px 12px}
+article.meet .who{display:block;font-size:14.5px;font-weight:600;color:var(--ink);
+  text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:1px}
+article.meet p{margin:4px 0 0;font-size:13px;color:var(--ink-dim)}
+
+/* ── нижня навігація ── */
+.phone > footer{border-top:1px solid var(--line-strong)}
+.phone > footer nav{display:flex}
+.phone > footer nav a{flex:1;text-align:center;padding:13px 0 15px;font-size:12.5px;
+  color:var(--ink-dim);text-decoration:none;border-right:1px solid var(--line)}
+.phone > footer nav a:last-child{border-right:0}
+.phone > footer nav a[aria-current="page"]{color:var(--ink);font-weight:600;background:var(--surface)}
+
+/* ── підписи ── */
+.notes{flex:1;min-width:300px}
+.notes h2{font-size:13px;font-family:var(--mono);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:400;margin:0 0 14px}
+.notes ol{list-style:none;counter-reset:n;margin:0;padding:0}
+.notes li{counter-increment:n;position:relative;padding:0 0 16px 32px;
+  margin-bottom:16px;border-bottom:1px solid var(--line)}
+.notes li:last-child{border-bottom:0}
+.notes li::before{content:counter(n);position:absolute;left:0;top:1px;
+  width:19px;height:19px;border:1px solid var(--line-strong);border-radius:50%;
+  font-family:var(--mono);font-size:11px;line-height:17px;text-align:center;color:var(--ink-dim)}
+.notes .zn{font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.notes .ac{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);
+  display:block;margin:5px 0 4px}
+.notes p{margin:0;font-size:13.5px;color:var(--ink-dim)}
+.notes ol.plain li{counter-increment:none;padding-left:0}
+.notes ol.plain li::before{display:none}
+.notes .warn{border-left:2px solid var(--line-strong);padding-left:11px;margin-top:8px}
+
+footer.doc{max-width:1100px;margin:0 auto;padding:22px 28px 60px;
+  border-top:1px solid var(--line);font-family:var(--mono);
+  font-size:11.5px;color:var(--ink-faint);line-height:1.8}
+@media (max-width:880px){.stage{gap:28px}.phone{width:100%;max-width:390px}}
+</style>
+</head>
+<body>
+
+<div class="docmeta">
+  <h1>Сьогодні — базовий стан</h1>
+  <p class="sub">wireframes/listings.html · вайрфрейм, сіра шкала, 390 px</p>
+  <dl>
+    <dt>Екран</dt><dd><b>Сьогодні</b> — назва з sitemap.md</dd>
+    <dt>Стан</dt><dd><b>Успіх</b> — день, у якому є справи. Базова сторінка, суфікса не має</dd>
+    <dt>Персона</dt><dd>P1 «Переросла нотатки»</dd>
+    <dt>Головний job</dt><dd>Коли я веду клієнта вже кілька місяців, я хочу в будь-який момент бачити, на чому ми зупинились і що я маю зробити далі</dd>
+    <dt>Крок у flow</dt><dd><b>Перший.</b> У flows.md: <code>START → Сьогодні → людина в списку → Клієнт</code>. Цей екран закриває крок <b>«знайти, з ким саме працювати зараз»</b>; сам job закривається на картці клієнта</dd>
+    <dt>Інші jobs</dt><dd>E2 нічого не випало · R2 обіцянки перед очима · R4 встигати між зустрічами · R5 вхід у запис нотатки</dd>
+  </dl>
+</div>
+
+<div class="stage">
+
+  <div class="phone">
+
+    <header class="zone">
+      <span class="mark">1</span>
+      <h1>Сьогодні</h1>
+      <p>вівторок, 6 жовтня</p>
+      <div class="window" role="group" aria-label="Вікно перегляду">
+        <button type="button" aria-pressed="true">День</button>
+        <button type="button" aria-pressed="false">Тиждень</button>
+        <button type="button" aria-pressed="false">Місяць</button>
+      </div>
+    </header>
+
+    <main>
+
+      <section class="zone" aria-labelledby="h-late">
+        <span class="mark">2</span>
+        <h2 id="h-late">Прострочене</h2>
+        <ul>
+          <li>
+            <article class="row">
+              <a class="who" href="client.html">Богдан П.</a>
+              <p class="step">Розбір помилок після пробного</p>
+              <div class="foot">
+                <span class="when late">прострочено 3 дні</span>
+                <button type="button">Закрити крок</button>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="zone" aria-labelledby="h-today">
+        <span class="mark">3</span>
+        <h2 id="h-today">Сьогодні</h2>
+        <ul>
+          <li>
+            <article class="row">
+              <a class="who" href="client.html">Олена К.</a>
+              <p class="step">Пробний іспит</p>
+              <div class="foot">
+                <span class="when">сьогодні</span>
+                <button type="button">Закрити крок</button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="row">
+              <a class="who" href="client.html">Марта Д.</a>
+              <p class="step">Домашнє завдання 4 — перевірити</p>
+              <div class="foot">
+                <span class="when">сьогодні</span>
+                <button type="button">Закрити крок</button>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="zone" aria-labelledby="h-meet">
+        <span class="mark">4</span>
+        <h2 id="h-meet">Найближчі зустрічі</h2>
+        <ul>
+          <li>
+            <article class="meet">
+              <a class="who" href="client.html">Олена К.</a>
+              <p>сьогодні 16:00 · заняття</p>
+            </article>
+          </li>
+          <li>
+            <article class="meet">
+              <a class="who" href="client.html">Марта Д.</a>
+              <p>завтра 11:00 · заняття</p>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer class="zone">
+      <span class="mark">5</span>
+      <nav aria-label="Головна навігація">
+        <a href="listings.html" aria-current="page">Сьогодні</a>
+        <a href="clients.html">Клієнти</a>
+        <a href="templates.html">Шаблони</a>
+      </nav>
+    </footer>
+
+  </div>
+
+  <aside class="notes">
+    <h2>Зони і головна дія кожної</h2>
+    <ol>
+
+      <li>
+        <span class="zn">Шапка: де я і яке вікно бачу</span>
+        <span class="ac">головна дія: перемкнути вікно</span>
+        <p>Назва екрана й дата. Перемикач вікна — наслідок рекомендації
+        зі sitemap.md: загальний таймлайн проєктуємо як <b>режим «Сьогодні»</b>,
+        не окремий екран. «Тиждень» і «Місяць» закривають job R2 — тримати
+        всі обіцянки перед очима.</p>
+      </li>
+
+      <li>
+        <span class="zn">Прострочене</span>
+        <span class="ac">головна дія: закрити крок</span>
+        <p>Найгостріше стоїть першим — порядок зон заданий у sitemap.md:
+        прострочене → сьогодні → найближчі зустрічі.</p>
+        <div class="warn"><p>Кольору тут немає, тож прострочення читається
+        <b>словом і подвійною межею</b>: «прострочено 3 дні». За правилами
+        це перевірка структури — якщо без кольору незрозуміло, що горить,
+        це дефект, і побачити його треба зараз.</p></div>
+      </li>
+
+      <li>
+        <span class="zn">Сьогодні</span>
+        <span class="ac">головна дія: закрити крок</span>
+        <p>Те, що треба зробити сьогодні. <b>Дві дії на рядку, і вони різні:</b>
+        кнопка «Закрити крок» веде в нотатку (job R5), ім'я клієнта —
+        у картку (головний job). Саме ім'я й робить цей екран першим кроком
+        головного шляху.</p>
+        <div class="warn"><p>Глобального CTA немає — головна дія живе
+        <b>на рядку</b>, як записано в sitemap.md. Плаваюча кнопка була б
+        повільнішою за тап по рядку.</p></div>
+      </li>
+
+      <li>
+        <span class="zn">Найближчі зустрічі</span>
+        <span class="ac">головна дія: відкрити клієнта</span>
+        <p>Це контекст дня, а не справи — тому пунктирна межа й немає кнопки
+        «закрити». Зустріч не закривають, після неї пишуть нотатку.</p>
+      </li>
+
+      <li>
+        <span class="zn">Навігація</span>
+        <span class="ac">головна дія: перехід у «Клієнти»</span>
+        <p>Три пункти зі sitemap.md: Сьогодні · Клієнти · Шаблони.
+        «Клієнти» — другий шлях до картки, коли потрібної людини немає
+        в сьогоднішньому списку.</p>
+      </li>
+
+    </ol>
+
+    <h2 style="margin-top:28px">Що перевіряє цей вайрфрейм</h2>
+    <ol class="plain">
+      <li style="border-bottom:0">
+        <span class="zn">R4: однією рукою за секунди</span>
+        <p>Перевірка з конвенцій — чи вміщається головне у верхню третину.
+        Зараз прострочене видно одразу, перша справа сьогодні — на межі.
+        Якщо справ більше трьох, «Найближчі зустрічі» підуть за екран;
+        це нормально, вони найменш термінові.</p>
+      </li>
+    </ol>
+  </aside>
+
+</div>
+
+<footer class="doc">
+  TheBrain · вайрфрейм · правила в _conventions.md · замовлення в _screens.md<br>
+  Стани -loading, -empty ×3, -error і -overdue — окремими сторінками наступним кроком<br>
+  Імена клієнтів вигадані: репозиторій публічний
+</footer>
+
+</body>
+</html>
