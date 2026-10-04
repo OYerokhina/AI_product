@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TheBrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#141311; --surface:#1E1D1A; --raised:#24221F;
+  --border:#33312D; --border-soft:#2A2825;
+  --text:#F2F0ED; --dim:#A19C95; --faint:#6E6862;
+  --accent:#8A97F0; --ok:#5FBF92;
+  --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:760px;margin:0 auto;padding:0 28px}
+
+header{padding:96px 0 44px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(42px,7vw,64px);
+  line-height:1.04;letter-spacing:-.02em;margin:0 0 20px}
+.lede{font-size:19px;line-height:1.6;color:var(--dim);max-width:52ch;margin:0 0 28px}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.03em}
+
+h2{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--faint);margin:56px 0 16px}
+
+/* ---- стрічка документів ---- */
+.docs{display:flex;flex-direction:column;gap:1px;background:var(--border-soft);
+  border:1px solid var(--border-soft);border-radius:12px;overflow:hidden}
+a.doc{display:grid;grid-template-columns:38px 1fr;gap:18px;align-items:start;
+  background:var(--surface);padding:22px 24px;text-decoration:none;color:var(--text);
+  transition:background .15s}
+a.doc:hover{background:var(--raised)}
+a.doc:hover .t{color:var(--accent)}
+.doc .ph{font-family:var(--mono);font-size:11px;color:var(--faint);
+  letter-spacing:.06em;padding-top:4px}
+.doc .t{font-family:var(--serif);font-size:23px;line-height:1.25;margin-bottom:6px;
+  transition:color .15s}
+.doc .d{font-size:14.5px;color:var(--dim);line-height:1.55}
+.doc .m{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:9px;
+  letter-spacing:.03em}
+
+/* ---- стан ---- */
+.state{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--border-soft);border:1px solid var(--border-soft);
+  border-radius:12px;overflow:hidden;margin-top:16px}
+.state div{background:var(--surface);padding:18px 20px}
+.state .n{font-family:var(--mono);font-size:26px;line-height:1;color:var(--ok)}
+.state .n.open{color:var(--accent)}
+.state .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);margin-top:9px;line-height:1.5}
+
+.note{border-left:2px solid var(--border);background:var(--surface);
+  padding:16px 22px;border-radius:0 8px 8px 0;margin:20px 0 0;
+  color:var(--dim);font-size:14.5px}
+.note p{margin:0}
+.note strong{color:var(--text)}
+.note a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(138,151,240,.32)}
+
+footer{border-top:1px solid var(--border);margin-top:72px;padding:28px 0 64px;
+  font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.8}
+footer a{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--border)}
+footer a:hover{color:var(--text)}
+@media (max-width:640px){
+  .wrap{padding:0 18px} header{padding:56px 0 32px}
+  a.doc{grid-template-columns:1fr;gap:8px}
+  .doc .ph{padding-top:0}
+}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>TheBrain</h1>
+  <p class="lede">Планер для фахівців, які ведуть клієнтів через повторювані
+  зустрічі. Тримає контекст по кожному клієнту й підказує наступний крок.</p>
+  <p class="meta">Робочі документи проєкту · оновлено 4 жовтня 2026</p>
+</div></header>
+
+<main><div class="wrap">
+
+  <h2>Документи, у порядку роботи</h2>
+  <div class="docs">
+
+    <a class="doc" href="/research.html">
+      <div class="ph">Ф1</div>
+      <div>
+        <div class="t">Дослідження</div>
+        <div class="d">П'ятнадцять конкурентів у трьох групах, бенчмарк способів
+        вводу даних, п'ять патернів запису після зустрічі й висновки з гіпотезами.
+        Кожен факт із посиланням або з позначкою, що джерела немає.</div>
+        <div class="m">15 продуктів · 34 посилання · 31 скріншот</div>
+      </div>
+    </a>
+
+    <a class="doc" href="/personas.html">
+      <div class="ph">Ф1</div>
+      <div>
+        <div class="t">Персони та jobs</div>
+        <div class="d">Три персони, зібрані з перевірених відгуків, і jobs
+        у форматі «коли — хочу — щоб». Розділені за тим, що за ними стоїть:
+        підкріплено, рішення власника, гіпотеза.</div>
+        <div class="m">3 персони · 10 jobs · 9 верифікованих цитат</div>
+      </div>
+    </a>
+
+    <a class="doc" href="/ia.html">
+      <div class="ph">Ф2</div>
+      <div>
+        <div class="t">Інформаційна архітектура</div>
+        <div class="d">Сутності, дерево екранів із job біля кожного, навігація
+        з підрахунком тапів, шість потоків зі станами й виходами з відмов,
+        матриця покриття jobs × екрани.</div>
+        <div class="m">10 сутностей · 12 екранів · 6 потоків</div>
+      </div>
+    </a>
+
+  </div>
+
+  <h2>Стан на сьогодні</h2>
+  <div class="state">
+    <div><div class="n">7</div><div class="l">дефектів IA<br>закрито</div></div>
+    <div><div class="n">0</div><div class="l">тупиків<br>у потоках</div></div>
+    <div><div class="n open">18</div><div class="l">гіпотез<br>чекають інтерв'ю</div></div>
+    <div><div class="n open">0</div><div class="l">проведених<br>інтерв'ю</div></div>
+  </div>
+
+  <div class="note">
+    <p><strong>Головне обмеження.</strong> Інтерв'ю з користувачами не проводились.
+    Усе, що тут є, виведено з аналізу ринку й продуктових рішень — у документах
+    явно позначено, що підкріплене, а що ні.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>Публічний репозиторій.</strong> Без імен реальних клієнтів
+    і сирих записів інтерв'ю. Бриф у <code>CLAUDE.md</code>, дослідження
+    в <code>research/</code>, архітектура в <code>sitemap.md</code>
+    і <code>flows.md</code> — <a href="https://github.com/OYerokhina/AI_product">github.com/OYerokhina/AI_product</a></p>
+  </div>
+
+</div></main>
+
+<footer><div class="wrap">
+  TheBrain · Ф1 дослідження завершено · Ф2 інформаційна архітектура<br>
+  Далі: вайрфрейми ключових сценаріїв
+</div></footer>
+
+</body></html>
