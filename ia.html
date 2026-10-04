@@ -33,7 +33,7 @@ nav{position:sticky;top:0;z-index:20;background:rgba(20,19,17,.93);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft)}
 nav .wrap{display:flex;gap:4px;align-items:center;height:52px;overflow-x:auto}
 nav a{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--dim);text-decoration:none;border-bottom:none;padding:7px 11px;border-radius:6px;
+  color:var(--dim);text-decoration:none;padding:7px 11px;border-radius:6px;
   white-space:nowrap;transition:color .15s,background .15s}
 nav a:hover{color:var(--text);background:var(--raised)}
 nav .num{color:var(--faint);margin-right:7px}
@@ -48,9 +48,9 @@ section{padding:76px 0 0}
   letter-spacing:.1em;padding-top:8px;flex:none}
 h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);
   line-height:1.14;margin:0;letter-spacing:-.01em;text-wrap:balance}
-h3{font-family:var(--sans);font-weight:600;font-size:17px;margin:40px 0 12px}
+h3{font-family:var(--sans);font-weight:600;font-size:17px;margin:0 0 10px}
 h4{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.09em;
-  text-transform:uppercase;color:var(--dim);margin:34px 0 12px}
+  text-transform:uppercase;color:var(--dim);margin:38px 0 12px}
 p{margin:0 0 15px}
 a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(138,151,240,.32)}
 a:hover{border-bottom-color:var(--accent)}
@@ -69,7 +69,7 @@ ul{margin:0 0 15px;padding-left:20px}li{margin-bottom:8px}li::marker{color:var(-
   padding:18px 22px;border-radius:0 8px 8px 0;margin:26px 0}
 .callout p:last-child{margin-bottom:0}
 .note{border-left:2px solid var(--border);background:var(--surface);
-  padding:16px 22px;border-radius:0 8px 8px 0;margin:22px 0;color:var(--dim);font-size:15px}
+  padding:16px 22px;border-radius:0 8px 8px 0;margin:16px 0;color:var(--dim);font-size:15px}
 .note p:last-child{margin-bottom:0}
 .note strong{color:var(--text)}
 .tscroll{overflow-x:auto;margin:20px 0 8px;border:1px solid var(--border-soft);border-radius:10px}
@@ -81,23 +81,27 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:rgba(255,255,255,.018)}
 table.trace{min-width:880px}
 table.trace td.c{text-align:center;font-size:15px;color:var(--accent);width:40px}
-table.trace td.c.sec{color:var(--faint)}
-table.trace td.c.na{color:var(--faint);font-size:12px}
+table.trace td.c.new{color:var(--ok)}
 table.trace td.job{white-space:nowrap;font-weight:500}
-table.trace tr.empty td{background:rgba(224,138,128,.07)}
-pre.tree{font-family:var(--mono);font-size:12.5px;line-height:1.75;background:var(--surface);
-  border:1px solid var(--border-soft);border-radius:10px;padding:22px 24px;overflow-x:auto;
+table.trace tr.orphan td{background:rgba(224,138,128,.09)}
+table.trace tr.orphan td.job{color:var(--bad)}
+table.trace th.orphan{background:rgba(224,138,128,.09);color:var(--bad)}
+table.trace td.oc{background:rgba(224,138,128,.05)}
+pre.tree{font-family:var(--mono);font-size:12.5px;line-height:1.8;background:var(--surface);
+  border:1px solid var(--border-soft);border-radius:10px;padding:24px;overflow-x:auto;
   margin:20px 0;color:var(--dim)}
 pre.tree b{color:var(--text);font-weight:500}
 pre.tree i{color:var(--accent);font-style:normal}
 pre.tree u{color:var(--faint);text-decoration:none}
+pre.tree s{color:var(--warn);text-decoration:none}
+pre.tree em{color:var(--faint);font-style:normal;font-size:11px;letter-spacing:.09em}
 pre.mermaid{background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;
-  padding:26px 18px;margin:22px 0;overflow-x:auto;text-align:center}
+  padding:26px 18px;margin:20px 0;overflow-x:auto;text-align:center}
 pre.mermaid svg{max-width:100%;height:auto}
-.flow{margin:48px 0 0}
-.flow .jobq{font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--text);
-  border-left:2px solid var(--accent);padding:14px 20px;background:var(--surface);
-  border-radius:0 8px 8px 0;margin:10px 0 14px}
+.flow{margin:0 0 56px;padding:0}
+.flow .jobq{font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--text);
+  border-left:2px solid var(--accent);padding:12px 20px;background:var(--surface);
+  border-radius:0 8px 8px 0;margin:0 0 6px}
 .nav3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft);
   border:1px solid var(--border-soft);border-radius:10px;overflow:hidden;margin:22px 0}
 .nav3 div{background:var(--surface);padding:20px 22px}
@@ -124,8 +128,9 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   <a href="#navigation"><span class="num">03</span>Навігація</a>
   <a href="#flows"><span class="num">04</span>Потоки</a>
   <a href="#trace"><span class="num">05</span>Трасування</a>
-  <a href="#critique"><span class="num">06</span>Критика</a>
+  <a href="#open"><span class="num">06</span>Відкрите</a>
 </div></nav>
+
 <header><div class="wrap">
   <h1>Інформаційна архітектура</h1>
   <p class="lede">Від об'єктів, з якими людина має справу, до екранів, навігації
@@ -138,99 +143,91 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     <div><span class="chip bad">[?]</span>даних немає</div>
   </div>
 </div></header>
+
 <main>
+
 <section id="entities"><div class="wrap">
   <div class="shead"><div class="idx">01</div><h2>Сутності</h2></div>
-  <p class="prose">Десять об'єктів. Кожен породжений конкретним job — об'єктів,
-  яких jobs не вимагають, у списку немає. Операції (пошук, редагування, запис)
-  свідомо винесені окремо: це дії над об'єктами, не об'єкти.</p>
+  <p class="prose">Десять об'єктів, кожен породжений конкретним job. Операції —
+  пошук, редагування, запис — свідомо винесені окремо: це дії над об'єктами,
+  не об'єкти.</p>
   <div class="tscroll"><table>
     <thead><tr><th>Сутність</th><th>Що в неї входить</th><th>Job</th><th>Зв'язки</th></tr></thead>
     <tbody>
-      <tr><td><strong>Клієнт</strong></td><td>ім'я, контакти, статус, опис, дата початку</td>
-        <td>Main, R2, E2, R6</td><td>план, нотатки, зустрічі</td></tr>
-      <tr><td><strong>План роботи</strong></td><td>назва, початок, джерело, поточний крок</td>
-        <td>Main, R1</td><td>клієнт, кроки, шаблон</td></tr>
-      <tr><td><strong>Крок плану</strong></td><td>назва, опис, термін, позиція, стан</td>
-        <td>Main, R2, R1</td><td>план, нотатки</td></tr>
-      <tr><td><strong>Нотатка</strong></td><td>текст, <strong>фідбек окремим полем</strong>, спосіб вводу</td>
-        <td>R5, Main</td><td><strong>клієнт</strong>, крок і зустріч необов'язково</td></tr>
-      <tr><td><strong>Зустріч</strong></td><td>дата, тривалість, тип, стан</td>
-        <td>R5, R4, Main</td><td>клієнт, нотатка</td></tr>
-      <tr><td><strong>Шаблон плану</strong></td><td>назва, призначення, кроки з відносними термінами</td>
-        <td>R7</td><td>план, користувач</td></tr>
-      <tr><td><strong>Таймлайн клієнта</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td>
-        <td>нотатки, завершені кроки, минулі зустрічі</td><td>Main, R1</td><td>в межах клієнта</td></tr>
-      <tr><td><strong>Загальний таймлайн</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td>
-        <td>майбутні кроки й зустрічі по всій базі</td><td>R2, E2</td><td>кроки, зустрічі, клієнти</td></tr>
-      <tr><td><strong>Список на сьогодні</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td>
-        <td>прострочене, сьогодні, зустрічі</td><td>E2, R2</td><td>найвужчий зріз загального таймлайну</td></tr>
-      <tr><td><strong>Підписка й ліміт</strong></td><td>тариф, стан, активні клієнти проти ліміту</td>
-        <td>R6</td><td>акаунт, клієнти</td></tr>
+      <tr><td><strong>Клієнт</strong></td><td>ім'я, контакти, статус, опис, дата початку</td><td>Main, R2, E2, R6</td><td>план, нотатки, зустрічі</td></tr>
+      <tr><td><strong>План роботи</strong></td><td>назва, початок, джерело, поточний крок</td><td>Main, R1</td><td>клієнт, кроки, шаблон</td></tr>
+      <tr><td><strong>Крок плану</strong></td><td>назва, опис, термін, позиція, стан</td><td>Main, R2, R1</td><td>план, нотатки</td></tr>
+      <tr><td><strong>Нотатка</strong></td><td>текст, <strong>фідбек окремим полем</strong>, спосіб вводу</td><td>R5, Main</td><td><strong>клієнт</strong>, крок і зустріч необов'язково</td></tr>
+      <tr><td><strong>Зустріч</strong></td><td>дата, тривалість, тип, стан</td><td>R5, R4, Main</td><td>клієнт, нотатка</td></tr>
+      <tr><td><strong>Шаблон плану</strong></td><td>назва, призначення, кроки з відносними термінами</td><td>R7</td><td>план, користувач</td></tr>
+      <tr><td><strong>Таймлайн клієнта</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td><td>нотатки, завершені кроки, минулі зустрічі</td><td>Main, R1</td><td>в межах клієнта</td></tr>
+      <tr><td><strong>Загальний таймлайн</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td><td>майбутні кроки й зустрічі по всій базі</td><td>R2, E2</td><td>кроки, зустрічі, клієнти</td></tr>
+      <tr><td><strong>Список на сьогодні</strong><br><span style="color:var(--faint);font-size:12px">похідна</span></td><td>прострочене, сьогодні, зустрічі</td><td>E2, R2</td><td>найвужчий зріз загального таймлайну</td></tr>
+      <tr><td><strong>Підписка й ліміт</strong></td><td>тариф, стан, активні клієнти проти ліміту</td><td>R6</td><td>акаунт, клієнти</td></tr>
     </tbody>
   </table></div>
-  <div class="note prose"><p><strong>Головна вимога — не до полів, а до поведінки.</strong>
-  У конкурентів зміна плану породжує окрему незв'язану копію: у CoachAccountable
-  spin-off стає «completely independent», у Practice Better копія —
-  «standalone document». Наш план має змінюватись <strong>на місці</strong>,
-  лишаючись одним об'єктом.</p></div>
   <div class="callout prose"><p><strong>Нотатка належить клієнту, а не кроку.</strong>
   Якби вона висіла на кроці, перебудова плану забирала б її з собою — а це прямо
   суперечить R1. Крок і зустріч лишаються позначками «звідки вона взялася».</p></div>
+  <div class="note prose"><p><strong>Головна вимога — до поведінки, не до полів.</strong>
+  У конкурентів зміна плану породжує окрему незв'язану копію: spin-off
+  у CoachAccountable стає «completely independent», копія в Practice Better —
+  «standalone document». Наш план має змінюватись <strong>на місці</strong>,
+  лишаючись одним об'єктом.</p></div>
 </div></section>
+
 <section id="screens"><div class="wrap">
   <div class="shead"><div class="idx">02</div><h2>Екрани</h2></div>
-  <p class="prose">Дванадцять екранів у п'яти групах. Групи названі за моментами
-  в роботі людини, не за розділами продукту.</p>
-<pre class="tree"><b>МІЙ ДЕНЬ</b> — що робити зараз
-├── <b>Сьогодні</b>                       <i>E2, R2</i>        P1
-└── <b>Загальний таймлайн</b>             <i>R2, E2</i>        P1
-      <u>[?] окремий екран чи режим «Сьогодні»</u>
+  <p class="prose">Дванадцять поверхонь у п'яти групах. Групи названі за моментами
+  в роботі людини, не за розділами продукту. Біля кожної — job, який вона закриває.</p>
+<pre class="tree"><em>МІЙ ДЕНЬ</em> — що робити зараз
+├── <b>Сьогодні</b>                        <i>E2, R2, R4</i>      P1
+└── <b>Загальний таймлайн</b>              <i>R2, E2</i>          P1
+      <s>рекомендація: режим «Сьогодні», не окремий екран</s>
 
-<b>КОНКРЕТНА ЛЮДИНА</b> — перед зустріччю і після
-├── <b>Список клієнтів</b>                <i>Main, E2</i>      P1
-├── <b>Клієнт</b>                         <i>Main</i>          P1
-│     <u>хронологія всередині картки</u>
-└── <b>Нотатка після кроку</b>            <i>R5, Main</i>      [?]
+<em>КОНКРЕТНА ЛЮДИНА</em> — перед зустріччю і після
+├── <b>Список клієнтів</b>                 <i>Main, E2, R7</i>    P1
+├── <b>Клієнт</b>                          <i>Main, R1, R3, R5</i> P1
+│     <u>хронологія всередині картки, окремо не виноситься</u>
+└── <b>Нотатка після кроку</b>             <i>R5, Main, R4</i>    [?]
 
-<b>ШЛЯХ РОБОТИ</b> — як влаштована робота з клієнтом
-└── <b>План клієнта</b>                   <i>Main, R1</i>      P1
-      └── <b>режим «переграти план»</b>   <i>R1</i>            P1
+<em>ШЛЯХ РОБОТИ</em> — як влаштована робота з клієнтом
+└── <b>План клієнта</b>                    <i>Main, R1, R7</i>    P1
+      └── <b>режим «переграти план»</b>    <i>R1</i>              P1
+            <u>пройдене замкнене, змінюється тільки майбутнє</u>
 
-<b>ПОЧАТОК</b> — коли з'являється новий клієнт
-├── <b>Новий клієнт</b>                   <i>R7</i>            P1
-└── <b>Вибір шляху: пресет або з нуля</b> <i>R7, Main</i>      P1
+<em>ПОЧАТОК</em> — коли з'являється новий клієнт
+├── <b>Новий клієнт</b>                    <i>R7</i>              P1
+└── <b>Вибір шляху: пресет або з нуля</b>  <i>R7, Main</i>        P1
 
-<b>МОЄ ГОСПОДАРСТВО</b> — куди заходять рідко
-├── <b>Мої шаблони</b>                    <i>R7, R1</i>        [?]
-├── <b>Тариф і ліміт</b>                  <i>R6</i>            P3
-└── <b>Налаштування</b>                   <u>вимоги, не jobs</u> P1
-      <u>App Store 5.1.1(v) і GDPR</u>
+<em>МОЄ ГОСПОДАРСТВО</em> — куди заходять рідко
+├── <b>Мої шаблони</b>                     <i>R7</i>              [?]
+│     └── <b>аркуш «Додати крок із шаблону»</b>  <i>R1</i>        P1
+├── <b>Тариф і ліміт</b>                   <i>R6</i>              P3
+└── <b>Налаштування</b>                    <s>вимоги, не jobs</s> P1
 
-<u>Видалено: «Вхід і реєстрація» — екран-сирота, замінено
-системним аркушем Sign in with Apple</u></pre>
+<u>Видалено: «Вхід і реєстрація» — екран-сирота. Замінено
+системним аркушем Sign in with Apple.</u></pre>
   <div class="note prose"><p><strong>Два підкріплені jobs не дали жодного екрана.</strong>
-  R4 «встигати між зустрічами» і E1 «щоб не з'їдало вечори» — це вимоги
-  до <strong>всіх</strong> екранів одразу: відкриватись і закриватись однією
-  рукою за секунди. Якби ми зробили з них екран, вийшов би «мобільний режим»,
-  якого ніхто не просив.</p></div>
+  R4 «встигати між зустрічами» і E1 «щоб не з'їдало вечори» — вимоги до швидкості
+  <strong>всіх</strong> екранів, а не місця призначення. Вони прив'язані до «Сьогодні»
+  і «Нотатки» як критерій приймання: відкрити й закрити однією рукою за секунди.</p></div>
 </div></section>
+
 <section id="navigation"><div class="wrap">
   <div class="shead"><div class="idx">03</div><h2>Навігація</h2></div>
   <h4>Три пункти, кожен — вхід у кластер jobs</h4>
   <div class="nav3">
-    <div><div class="n">Сьогодні</div><div class="q">«Що мені робити зараз»</div>
-      <div class="j">E2 · R2</div></div>
-    <div><div class="n">Клієнти</div><div class="q">«Що в нас із цією людиною»</div>
-      <div class="j">Main · E2</div></div>
-    <div><div class="n">Шаблони</div><div class="q">«Як я працюю взагалі»</div>
-      <div class="j">R7</div></div>
+    <div><div class="n">Сьогодні</div><div class="q">«Що мені робити зараз»</div><div class="j">E2 · R2 · R4</div></div>
+    <div><div class="n">Клієнти</div><div class="q">«Що в нас із цією людиною»</div><div class="j">Main · E2 · R3</div></div>
+    <div><div class="n">Шаблони</div><div class="q">«Як я працюю взагалі»</div><div class="j">R7</div></div>
   </div>
   <div class="note prose"><p><strong>Третій пункт найслабший.</strong> Шаблони чіпають
-  раз на тиждень, не щодня — за частотою він глобального слота не заслуговує.
-  Підстава інша: R7 про зниження порога. Якщо метод роботи сховати в налаштуваннях,
-  продукт скаже, що це рідкісна технічна річ, а не те, з чого починають.
-  Аргумент від сенсу, і його треба перевірити на користувачах.</p></div>
+  раз на тиждень — за частотою глобального слота він не заслуговує. Підстава інша:
+  R7 про зниження порога. Якщо метод роботи сховати в налаштуваннях, продукт скаже,
+  що це рідкісна технічна річ, а не те, з чого починають. Аргумент від сенсу,
+  і його треба перевірити на користувачах.</p></div>
+
   <h4>Глибина до main job</h4>
   <div class="taps">
     <div><div class="n">1</div><div class="l">зі старту через «Сьогодні» → картка клієнта</div></div>
@@ -240,10 +237,10 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
   <div class="note prose"><p><strong>Що це коштувало.</strong> Спершу виходило три тапи:
   «що зроблено» лежало в картці, «що попереду» — на екрані «План», і main job був
   розірваний між ними. Картка тепер закриває job цілком, а «План» отримав власну
-  роль — місце перебудови.</p>
-  <p>Плата: картка стає щільною. Це свідомо, бо R4 вимагає встигати між зустрічами.
-  Але межа є — якщо картка перестане читатись із першого погляду, доведеться
-  згортати хронологію або повертати третій тап.</p></div>
+  роль — місце перебудови. Плата: картка стає щільною. Межа є — якщо вона перестане
+  читатись із першого погляду, доведеться згортати хронологію або повертати
+  третій тап.</p></div>
+
   <h4>Головна дія</h4>
   <p class="prose"><strong>Глобального CTA немає.</strong> Головна робота тут —
   читати, а не створювати. Новий клієнт з'являється раз-два на місяць, а найчастіша
@@ -260,537 +257,92 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     </tbody>
   </table></div>
 </div></section>
+
 <section id="flows"><div class="wrap">
   <div class="shead"><div class="idx">04</div><h2>Потоки</h2></div>
-  <p class="prose">Шість потоків із рішеннями, станами й виходами з відмов —
-  не лише щасливим шляхом. <code>[[подвійна рамка]]</code> — дія, не екран.</p>
+  <p class="prose">Шість потоків — по одному на кожен job, що має власний екран.
+  З рішеннями, станами й виходами з відмов, не лише щасливим шляхом.
+  <code>[[подвійна рамка]]</code> — дія, не екран.</p>
   <div class="note prose"><p><strong>Правило виходу.</strong> Кожен стан відмови
-  веде кудись: не завантажилось — повтор або кеш; не збереглося — локально,
-  набране не зникає; порожньо — причина плюс дія; людина перервалась —
-  незавершене лишається видимим. Кінець, де людина свідомо вийшла, не є тупиком:
-  тупик — це коли продукт не дав вибору.</p></div>
-  <div class="flow">
-    <h3>MAIN JOB — «На чому ми зупинились і що далі»</h3>
-    <p class="jobq">Коли я веду клієнта вже кілька місяців, я хочу в будь-який момент
-    бачити, на чому ми зупинились і що я маю зробити далі, щоб не починати кожну
-    зустріч із пригадування.</p>
-    <pre class="mermaid">flowchart TD
-    START(["Скоро зустріч, треба зорієнтуватись"]) --&gt; LOAD["Сьогодні — завантаження"]
-    LOAD --&gt; SYNC{"Дані підтягнулись?"}
-    SYNC --&gt;|ні| CACHE{"Є кеш на пристрої?"}
-    CACHE --&gt;|так| STALE["Сьогодні — кешовані дані, позначка «офлайн»"]
-    CACHE --&gt;|ні| COLD["Сьогодні — офлайн і порожньо: пояснення + «завести клієнта»"]
-    COLD --&gt; NEW["Новий клієнт"]
-    SYNC --&gt;|так| TODAY["Сьогодні"]
-    STALE --&gt; TODAY
-    TODAY --&gt; ANY{"Є що робити сьогодні?"}
-    ANY --&gt;|ні| WHY{"Чому порожньо?"}
-    WHY --&gt;|клієнтів ще немає| FIRST["Сьогодні — порожньо: «завести першого клієнта»"]
-    FIRST --&gt; NEW
-    WHY --&gt;|є клієнти без планів| GAPS["Сьогодні — порожньо, але N клієнтів без плану"]
-    GAPS --&gt; LIST
-    WHY --&gt;|усе під контролем| CALM["Сьогодні — порожньо: «на сьогодні нічого»"]
-    CALM --&gt; REST(["НЕЙТРАЛЬНО: спокій, нічого не забуто"])
-    CALM --&gt; LIST
-    ANY --&gt;|так| PILE{"Після паузи накопичилась стіна прострочених?"}
-    PILE --&gt;|так| BACK["Сьогодні — стіна прострочених, «перенести все» одним тапом"]
-    BACK --&gt; RESCH{"Що робить зі стіною?"}
-    RESCH --&gt;|перенесла все| INLIST
-    RESCH --&gt;|пропустила| INLIST
-    PILE --&gt;|ні| INLIST{"Потрібна людина є в списку на сьогодні?"}
-    INLIST --&gt;|так| OPEN
-    INLIST --&gt;|ні| LIST["Список клієнтів"]
-    LIST --&gt; FOUND{"Знайшла людину?"}
-    FOUND --&gt;|так| OPEN[["Відкрити клієнта"]]
-    FOUND --&gt;|ні| NOTFOUND["Список клієнтів — нічого не знайшлось, підказка про фільтр"]
-    NOTFOUND --&gt; PAUSED{"Може, вона на паузі або завершена?"}
-    PAUSED --&gt;|так| ARCHIVE["Список клієнтів — показані завершені"]
-    ARCHIVE --&gt; OPEN
-    PAUSED --&gt;|ні| NEW
-    OPEN --&gt; CLOAD["Клієнт — завантаження"]
-    CLOAD --&gt; CERR{"Картка завантажилась?"}
-    CERR --&gt;|ні| ERROR["Клієнт — не вдалося завантажити, «спробувати ще»"]
-    ERROR --&gt; RETRY{"Повторила?"}
-    RETRY --&gt;|так| CLOAD
-    RETRY --&gt;|ні| CACHED["Клієнт — кешована копія, позначка «дані можуть бути застарілі»"]
-    CACHED --&gt; CARD
-    CERR --&gt;|так| CARD["Клієнт"]
-    CARD --&gt; HASPLAN{"У клієнта є план?"}
-    HASPLAN --&gt;|ні| NOPLAN["Клієнт — плану ще немає, «обрати шлях роботи»"]
-    NOPLAN --&gt; PATH["Вибір шляху: пресет або з нуля"]
-    PATH --&gt; CARD
-    HASPLAN --&gt;|так| HIST{"У картці є історія попередніх зустрічей?"}
-    HIST --&gt;|ні| NOHIST["Клієнт — хронологія порожня: причина + «записати першу нотатку»"]
-    NOHIST --&gt; NOTE["Нотатка після кроку"]
-    NOHIST --&gt; PARTIAL(["ЧАСТКОВО: план видно, контексту розмов немає"])
-    HIST --&gt;|так| OK(["УСПІХ: видно поточний крок, що було і що попереду"])
+  веде кудись: не завантажилось — повтор або кеш; не збереглося — локально, набране
+  не зникає; порожньо — причина плюс дія; людина перервалась — незавершене лишається
+  видимим. Кінець, де людина свідомо вийшла, не є тупиком: тупик — це коли продукт
+  не дав вибору.</p></div>
+('  <article class="flow">\n    <h3>MAIN JOB — «На чому ми зупинились і що далі»</h3>\n    <p class="jobq">Коли я веду клієнта вже кілька місяців, я хочу в будь-який момент бачити, на чому ми зупинились і що я маю зробити далі, щоб не починати кожну зустріч із пригадування.</p>\n    <pre class="mermaid">flowchart TD\n    START(["Скоро зустріч, треба зорієнтуватись"]) --&gt; LOAD["Сьогодні — завантаження"]\n    LOAD --&gt; SYNC{"Дані підтягнулись?"}\n    SYNC --&gt;|ні| CACHE{"Є кеш на пристрої?"}\n    CACHE --&gt;|так| STALE["Сьогодні — кешовані дані, позначка «офлайн»"]\n    CACHE --&gt;|ні| COLD["Сьогодні — офлайн і порожньо: пояснення + «завести клієнта»"]\n    COLD --&gt; NEW["Новий клієнт"]\n    SYNC --&gt;|так| TODAY["Сьогодні"]\n    STALE --&gt; TODAY\n    TODAY --&gt; ANY{"Є що робити сьогодні?"}\n    ANY --&gt;|ні| WHY{"Чому порожньо?"}\n    WHY --&gt;|клієнтів ще немає| FIRST["Сьогодні — порожньо: «завести першого клієнта»"]\n    FIRST --&gt; NEW\n    WHY --&gt;|є клієнти без планів| GAPS["Сьогодні — порожньо, але N клієнтів без плану"]\n    GAPS --&gt; LIST\n    WHY --&gt;|усе під контролем| CALM["Сьогодні — порожньо: «на сьогодні нічого»"]\n    CALM --&gt; REST(["НЕЙТРАЛЬНО: спокій, нічого не забуто"])\n    CALM --&gt; LIST\n    ANY --&gt;|так| PILE{"Після паузи накопичилась стіна прострочених?"}\n    PILE --&gt;|так| BACK["Сьогодні — стіна прострочених, «перенести все» одним тапом"]\n    BACK --&gt; RESCH{"Що робить зі стіною?"}\n    RESCH --&gt;|перенесла все| INLIST\n    RESCH --&gt;|пропустила| INLIST\n    PILE --&gt;|ні| INLIST{"Потрібна людина є в списку на сьогодні?"}\n    INLIST --&gt;|так| OPEN\n    INLIST --&gt;|ні| LIST["Список клієнтів"]\n    LIST --&gt; FOUND{"Знайшла людину?"}\n    FOUND --&gt;|так| OPEN[["Відкрити клієнта"]]\n    FOUND --&gt;|ні| NOTFOUND["Список клієнтів — нічого не знайшлось, підказка про фільтр"]\n    NOTFOUND --&gt; PAUSED{"Може, вона на паузі або завершена?"}\n    PAUSED --&gt;|так| ARCHIVE["Список клієнтів — показані завершені"]\n    ARCHIVE --&gt; OPEN\n    PAUSED --&gt;|ні| NEW\n    OPEN --&gt; CLOAD["Клієнт — завантаження"]\n    CLOAD --&gt; CERR{"Картка завантажилась?"}\n    CERR --&gt;|ні| ERROR["Клієнт — не вдалося завантажити, «спробувати ще»"]\n    ERROR --&gt; RETRY{"Повторила?"}\n    RETRY --&gt;|так| CLOAD\n    RETRY --&gt;|ні| CACHED["Клієнт — кешована копія, позначка «дані можуть бути застарілі»"]\n    CACHED --&gt; CARD\n    CERR --&gt;|так| CARD["Клієнт"]\n    CARD --&gt; HASPLAN{"У клієнта є план?"}\n    HASPLAN --&gt;|ні| NOPLAN["Клієнт — плану ще немає, «обрати шлях роботи»"]\n    NOPLAN --&gt; PATH["Вибір шляху: пресет або з нуля"]\n    PATH --&gt; CARD\n    HASPLAN --&gt;|так| HIST{"У картці є історія попередніх зустрічей?"}\n    HIST --&gt;|ні| NOHIST["Клієнт — хронологія порожня: причина + «записати першу нотатку»"]\n    NOHIST --&gt; NOTE["Нотатка після кроку"]\n    NOHIST --&gt; PARTIAL(["ЧАСТКОВО: план видно, контексту розмов немає"])\n    HIST --&gt;|так| OK(["УСПІХ: видно поточний крок, що було і що попереду"])\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff\n    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class LOAD,STALE,COLD,FIRST,GAPS,CALM,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,CACHED,NOPLAN,NOHIST state\n    class OPEN act\n    class PARTIAL,REST neutral\n    class OK ok</pre>\n<div class="note prose"><p><strong>Порожній день — три різні порожнечі.</strong> Плаский екран «на сьогодні нічого» приховав би дві з них. Клієнтів немає → «завести першого». Є клієнти <strong>без планів</strong> → «на сьогодні нічого, але N клієнтів без плану». Усе під контролем → спокій, і поруч шлях до клієнтів.</p></div><div class="note prose"><p><strong>Головний job залежить від R5.</strong> План відповідає тільки на «що далі». На «що було» відповідає хронологія, а наповнюють її нотатки. Фахівець, який три місяці не писав, відкриє картку й побачить кроки без жодного сліду розмов — і це позначено як <strong>частковий успіх</strong>, не провал.</p></div>  </article>\n', '  <article class="flow">\n    <h3>R5 — «Записати, поки не забула»</h3>\n    <p class="jobq">Коли зустріч щойно закінчилась і все ще свіже в голові, я хочу відразу записати головне, щоб за тиждень не згадувати, про що ми домовились.</p>\n    <pre class="mermaid">flowchart TD\n    FIN(["Зустріч щойно закінчилась"]) --&gt; WHERE{"Звідки заходить?"}\n    WHERE --&gt;|зі списку справ| TODAY["Сьогодні"]\n    WHERE --&gt;|з картки людини| CARD["Клієнт"]\n    TODAY --&gt; CLOSE[["Закрити крок"]]\n    CARD --&gt; CLOSE\n    CLOSE --&gt; DLOAD["Нотатка після кроку — завантаження чернетки"]\n    DLOAD --&gt; DOK{"Чернетка зібралась?"}\n    DOK --&gt;|ні, збій| DERR["Нотатка — чернетку не зібрано, порожнє поле + «спробувати ще»"]\n    DERR --&gt; INPUT\n    DOK --&gt;|ні, перша зустріч| BLANK["Нотатка — чернетки немає, писати з нуля"]\n    DOK --&gt;|так| FILLED["Нотатка — чернетка з відомого"]\n    BLANK --&gt; INPUT\n    FILLED --&gt; INPUT{"Текст чи голос?"}\n    INPUT --&gt;|текст| TYPE["Нотатка — введення тексту"]\n    INPUT --&gt;|голос| REC["Нотатка — запис мовлення"]\n    REC --&gt; ALONE{"Можна говорити вголос тут і зараз?"}\n    ALONE --&gt;|ні| TYPE\n    ALONE --&gt;|так| LANG{"Мова розпізнається на пристрої?"}\n    LANG --&gt;|ні| FALL["Нотатка — голос недоступний, лишається текст"]\n    FALL --&gt; TYPE\n    LANG --&gt;|так| DEC["Нотатка — розшифрований текст"]\n    TYPE --&gt; CONF{"Підтвердила?"}\n    DEC --&gt; CONF\n    CONF --&gt;|ні, перервали| KEPT["Нотатка збережена чернеткою"]\n    KEPT --&gt; PEND["Сьогодні — незакрита чернетка окремим рядком"]\n    PEND --&gt; BACKTO(["НЕЙТРАЛЬНО: можна повернутись будь-коли"])\n    CONF --&gt;|так| SAVE["Нотатка — збереження"]\n    SAVE --&gt; NET{"Мережа є?"}\n    NET --&gt;|ні| QUEUE["Нотатка — збережена локально, піде пізніше"]\n    NET --&gt;|так| SRV{"Сервер прийняв?"}\n    SRV --&gt;|ні| SERR["Нотатка — не збереглася на сервері, текст на пристрої"]\n    SERR --&gt; QUEUE\n    SRV --&gt;|так| OK(["УСПІХ: записано, фідбек піде в наступну чернетку"])\n    QUEUE --&gt; OK\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff\n    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class DLOAD,DERR,BLANK,FALL,SAVE,QUEUE,SERR,KEPT,PEND state\n    class CLOSE act\n    class BACKTO neutral\n    class OK ok</pre>\n<div class="note prose"><p><strong>Голос має дві гілки відмови, не одну.</strong> Технічну — мова може не розпізнаватись офлайн. І людську — поруч люди, вголос говорити незручно. Друга спрацьовує частіше й не лікується технікою.</p></div><div class="note prose"><p><strong>Незавершена чернетка лишається в «Сьогодні»</strong> окремим рядком. Раніше це був найтихіший тупик: запис існував, але про нього забували — і саме він не потрапляв у хронологію, від якої залежить main job.</p></div>  </article>\n', '  <article class="flow">\n    <h3>R2 — «Пам\'ятати, що я кому пообіцяла»</h3>\n    <p class="jobq">Коли я пообіцяла різним людям різні речі до різних дат, я хочу тримати всі обіцянки перед очима, щоб не носити чужі дати у своїй голові.</p>\n    <pre class="mermaid">flowchart TD\n    WORRY(["Неспокій: чи я нічого не забула"]) --&gt; TODAY["Сьогодні"]\n    TODAY --&gt; ENOUGH{"Достатньо побачити сьогоднішнє?"}\n    ENOUGH --&gt;|так| OK1(["УСПІХ: спокій на сьогодні"])\n    ENOUGH --&gt;|ні| WIDEN[["Розширити вікно"]]\n    WIDEN --&gt; TLOAD["Загальний таймлайн — завантаження"]\n    TLOAD --&gt; TOK{"Завантажився?"}\n    TOK --&gt;|ні| TERR["Загальний таймлайн — не вдалося, «спробувати ще»"]\n    TERR --&gt; TRETRY{"Повторила?"}\n    TRETRY --&gt;|так| TLOAD\n    TRETRY --&gt;|ні| TCACHE["Загальний таймлайн — кешовані дані, позначка «офлайн»"]\n    TCACHE --&gt; VIEW\n    TOK --&gt;|так| HAS{"Є зобов\'язання попереду?"}\n    HAS --&gt;|ні| WHY{"Чому порожньо?"}\n    WHY --&gt;|клієнтів ще немає| FIRST["Таймлайн — порожньо: «завести першого клієнта»"]\n    FIRST --&gt; NEW["Новий клієнт"]\n    WHY --&gt;|є клієнти без планів| GAPS["Таймлайн — порожньо, але N клієнтів без плану"]\n    GAPS --&gt; LIST["Список клієнтів"]\n    WHY --&gt;|усе зроблено| CLEAR(["УСПІХ: попереду справді чисто"])\n    HAS --&gt;|так| VIEW["Загальний таймлайн"]\n    VIEW --&gt; WRONG{"Щось стоїть не на своєму місці?"}\n    WRONG --&gt;|ні| OK2(["УСПІХ: бачить усі обіцянки, голова вільна"])\n    WRONG --&gt;|так| FIX{"Що робить?"}\n    FIX --&gt;|перенести прямо тут| MOVE["Загальний таймлайн — термін перенесено"]\n    MOVE --&gt; SRV{"Збереглося?"}\n    SRV --&gt;|ні| SERR["Таймлайн — не збереглося, зміна лишається на екрані"]\n    SERR --&gt; MOVE\n    SRV --&gt;|так| OK2\n    FIX --&gt;|розібратись із клієнтом| CARD["Клієнт"]\n    CARD --&gt; PLAN["План клієнта"]\n    PLAN --&gt; OK2\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class TLOAD,TERR,TCACHE,FIRST,GAPS,MOVE,SERR state\n    class WIDEN act\n    class OK1,OK2,CLEAR ok</pre>\n<div class="note prose"><p><strong>Малювання дало відповідь на відкрите питання.</strong> Три докази на користь <strong>режиму</strong>, а не окремого екрана: однакове джерело даних, буквально ті самі три причини порожнечі, однакові дії. Розділення означало б писати логіку порожніх станів двічі. Контраргумент лишається — список відмічають, вісь проглядають; остаточно вирішує ескіз.</p></div><div class="note prose"><p><strong>Перенос терміну прямо з таймлайну.</strong> Інакше дрібна правка коштувала б чотирьох тапів, і R4 про швидкість перестав би виконуватись.</p></div>  </article>\n', '  <article class="flow">\n    <h3>R1 — «Переграти план, а не заводити новий»</h3>\n    <p class="jobq">Коли клієнт посеред роботи передумав, я хочу змінити те, що попереду, щоб не заводити ще один окремий план і не тримати в голові, який із них тепер чинний.</p>\n    <pre class="mermaid">flowchart TD\n    TRIG(["Клієнт передумав посеред роботи"]) --&gt; CARD["Клієнт"]\n    CARD --&gt; PLOAD["План клієнта — завантаження"]\n    PLOAD --&gt; PERR{"План завантажився?"}\n    PERR --&gt;|ні| PFAIL["План клієнта — не вдалося завантажити, «спробувати ще»"]\n    PFAIL --&gt; PRETRY{"Повторила?"}\n    PRETRY --&gt;|так| PLOAD\n    PRETRY --&gt;|ні| LATER(["НЕЙТРАЛЬНО: перебудову відкладено, план цілий"])\n    PERR --&gt;|так| PLAN["План клієнта"]\n    PLAN --&gt; MODE["Режим «переграти план»"]\n    MODE --&gt; SPLIT["Пройдене замкнене, майбутнє відкрите"]\n    SPLIT --&gt; WHAT{"Що робить із кроком?"}\n    WHAT --&gt;|викинути| DROP["Крок прибрано з майбутнього"]\n    WHAT --&gt;|скласти вручну| MANUAL["Новий крок — назва, опис, термін"]\n    WHAT --&gt;|взяти з шаблону| TLOAD["Аркуш «Додати крок із шаблону» — завантаження"]\n    TLOAD --&gt; TOK{"Кроки завантажились?"}\n    TOK --&gt;|ні| TERR["Аркуш — не вдалося завантажити, «скласти вручну»"]\n    TERR --&gt; MANUAL\n    TOK --&gt;|так| HASTPL{"Є придатний крок?"}\n    HASTPL --&gt;|так| PICK["Крок узято, термін наново, аркуш лишається відкритим"]\n    HASTPL --&gt;|ні| NOTPL["Аркуш — порожньо, «скласти вручну»"]\n    NOTPL --&gt; MANUAL\n    DROP --&gt; MORE{"Ще зміни?"}\n    MANUAL --&gt; MORE\n    PICK --&gt; MORE\n    MORE --&gt;|так| WHAT\n    MORE --&gt;|ні| CONF{"Підтвердила перебудову?"}\n    CONF --&gt;|ні, вийшла| DRAFT["План клієнта — незавершена перебудова збережена"]\n    DRAFT --&gt; RESUME(["НЕЙТРАЛЬНО: у картці видно, що перебудова не закінчена"])\n    CONF --&gt;|так| SAVING["Режим «переграти план» — збереження"]\n    SAVING --&gt; SRV{"Збереглося?"}\n    SRV --&gt;|ні| SERR["Режим — не збереглося, зміни лишаються на екрані"]\n    SERR --&gt; CONF\n    SRV --&gt;|так| SUM["План клієнта — підсумок: було і стало"]\n    SUM --&gt; OK(["УСПІХ: одна нитка, а не дві версії"])\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class PLOAD,PFAIL,SPLIT,TLOAD,TERR,NOTPL,DRAFT,SAVING,SERR state\n    class LATER,RESUME neutral\n    class OK ok</pre>\n<div class="note prose"><p><strong>Персони немає.</strong> Операція підтверджена довідками трьох конкурентів, але жодного голосу практика не знайдено. Ключова ставка продукту без знайденого носія.</p></div><div class="note prose"><p><strong>Шаблон відкривається аркушем, не екраном.</strong> Перебудова не збережена, тож повноекранний перехід ризикує її втратити. Аркуш лишається відкритим після кожного кроку — їх зазвичай кілька.</p></div>  </article>\n', '  <article class="flow">\n    <h3>R7 — «Почати сьогодні, а не через тиждень»</h3>\n    <p class="jobq">Коли я нарешті беруся навести лад у своїх клієнтах, я хочу почати цього ж вечора, щоб не витратити тиждень на налаштування й не кинути на півдорозі.</p>\n    <pre class="mermaid">flowchart TD\n    GO(["Вирішила завести клієнта"]) --&gt; LLOAD["Список клієнтів — завантаження"]\n    LLOAD --&gt; LERR{"Список завантажився?"}\n    LERR --&gt;|ні| LFAIL["Список клієнтів — не вдалося, «спробувати ще» + «працювати офлайн»"]\n    LFAIL --&gt; LRETRY{"Повторила?"}\n    LRETRY --&gt;|так| LLOAD\n    LRETRY --&gt;|ні, офлайн| NEW\n    LERR --&gt;|так| ISFIRST{"Це перший клієнт?"}\n    ISFIRST --&gt;|так| FIRSTRUN["Список клієнтів — порожньо, перший запуск"]\n    ISFIRST --&gt;|ні| NEW["Новий клієнт"]\n    FIRSTRUN --&gt; NEW\n    NEW --&gt; SAVE1["Новий клієнт — збереження"]\n    SAVE1 --&gt; SRV{"Клієнт створився?"}\n    SRV --&gt;|ні| CERR["Новий клієнт — не збереглося, поля заповнені"]\n    CERR --&gt; AGAIN{"Повторила?"}\n    AGAIN --&gt;|так| SAVE1\n    AGAIN --&gt;|ні| LOCAL["Новий клієнт — збережено локально, піде пізніше"]\n    LOCAL --&gt; PATH\n    SRV --&gt;|так| PATH["Вибір шляху: пресет або з нуля"]\n    PATH --&gt; CHOICE{"Бере готовий пресет?"}\n    CHOICE --&gt;|так| TLOAD["Мої шаблони — завантаження"]\n    TLOAD --&gt; TOK{"Пресети завантажились?"}\n    TOK --&gt;|ні| TERR["Мої шаблони — не вдалося, «скласти з нуля»"]\n    TERR --&gt; SCRATCH\n    TOK --&gt;|так| ANY{"Є придатний пресет?"}\n    ANY --&gt;|так| APPLIED["План клієнта — кроки з пресету, терміни від сьогодні"]\n    ANY --&gt;|ні| NOTPL["Мої шаблони — порожньо, «скласти з нуля»"]\n    NOTPL --&gt; SCRATCH\n    CHOICE --&gt;|ні| SCRATCH["План клієнта — порожній, кроки вручну"]\n    SCRATCH --&gt; ADDED{"Додала хоч один крок?"}\n    ADDED --&gt;|так| APPLIED\n    ADDED --&gt;|ні| NOSTEP["Клієнт — плану немає, «обрати шлях роботи»"]\n    NOSTEP --&gt; PATH\n    NOSTEP --&gt; PAUSE(["НЕЙТРАЛЬНО: клієнт заведений, план можна додати пізніше"])\n    APPLIED --&gt; OK(["УСПІХ: клієнт у роботі, перший крок має термін"])\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class LLOAD,LFAIL,FIRSTRUN,SAVE1,CERR,LOCAL,TLOAD,TERR,SCRATCH,NOTPL,NOSTEP state\n    class PAUSE neutral\n    class OK ok</pre>\n<div class="note prose"><p><strong>Найдорожча помилка продукту тут.</strong> Якщо список не завантажився на першому запуску, людина ще нічого не вклала й легко йде. Тому повтор і офлайн-старт обов\'язкові саме на цьому екрані.</p></div>  </article>\n', '  <article class="flow">\n    <h3>R6 — «Не платити як велика практика»</h3>\n    <p class="jobq">Коли в мене п\'ять клієнтів, а не п\'ятдесят, я хочу платити відповідно до цього, щоб інструмент не з\'їдав дохід, якого ще немає.</p>\n    <pre class="mermaid">flowchart TD\n    GO(["Хоче завести ще одного клієнта"]) --&gt; LIST["Список клієнтів"]\n    LIST --&gt; ADD[["+ Новий клієнт"]]\n    ADD --&gt; SLOT{"Є вільне місце в тарифі?"}\n    SLOT --&gt;|так| NEW["Новий клієнт"]\n    NEW --&gt; OK1(["УСПІХ: клієнт заведений, межі не помітила"])\n    SLOT --&gt;|ні| TLOAD["Тариф і ліміт — завантаження"]\n    TLOAD --&gt; TOK{"Дані тарифу завантажились?"}\n    TOK --&gt;|ні| TERR["Тариф — не вдалося завантажити, «спробувати ще»"]\n    TERR --&gt; TRETRY{"Повторила?"}\n    TRETRY --&gt;|так| TLOAD\n    TRETRY --&gt;|ні| BLOCK(["НЕЙТРАЛЬНО: клієнта не заведено, наявні в роботі"])\n    TOK --&gt;|так| LIMIT["Тариф і ліміт — межу вичерпано, два виходи"]\n    LIMIT --&gt; HOW{"Що робить?"}\n    HOW --&gt;|звільнити місце| ARCH["Список клієнтів — завершені, «архівувати»"]\n    ARCH --&gt; HASDONE{"Є кого архівувати?"}\n    HASDONE --&gt;|так| FREED["Місце звільнено"]\n    FREED --&gt; NEW\n    HASDONE --&gt;|ні| NOONE["Список — завершених немає, лишається оплата"]\n    NOONE --&gt; HOW\n    HOW --&gt;|оформити Pro| PAY["Тариф і ліміт — оплата"]\n    PAY --&gt; PRES{"Платіж пройшов?"}\n    PRES --&gt;|ні| PERR["Тариф — платіж не пройшов, спосіб можна змінити"]\n    PERR --&gt; HOW\n    PRES --&gt;|так| OK2(["УСПІХ: межі немає, клієнта заведено"])\n    HOW --&gt;|відкласти| STAY(["НЕЙТРАЛЬНО: лишається на безкоштовному, працює з наявними"])\n\n    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff\n    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff\n    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff\n    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff\n    class TLOAD,TERR,LIMIT,ARCH,NOONE,PAY,PERR,FREED state\n    class ADD act\n    class BLOCK,STAY neutral\n    class OK1,OK2 ok</pre>\n<div class="note prose"><p><strong>Два виходи, не тільки оплата.</strong> §10 ставить межу на <strong>активних</strong> клієнтах, тож архівувати завершеного — легальний спосіб звільнити місце. Це коштує частини конверсії, але P3 приходить саме від того, що «ціна не сходиться на малій практиці», і продукт без іншого виходу підтвердив би її найгірший досвід.</p></div><div class="note prose"><p><strong>Заразом закрито дефект навігації:</strong> перевірка ліміту відбувається при спробі додати клієнта. Людина не шукає екран тарифу — тариф знаходить її.</p></div>  </article>\n')</div></section>
 
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class LOAD,STALE,COLD,FIRST,GAPS,CALM,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,CACHED,NOPLAN,NOHIST state
-    class OPEN act
-    class PARTIAL,REST neutral
-    class OK ok</pre>
-    <div class="note prose"><p><strong>Порожній день — три різні порожнечі.</strong>
-    Плаский екран «на сьогодні нічого» приховав би дві з них. Клієнтів ще немає
-    → «завести першого». Є клієнти <strong>без планів</strong> → «на сьогодні
-    нічого, але N клієнтів без плану». Усе під контролем → спокій.</p>
-    <p>Другий варіант закриває дефект 4.4: клієнт без кроків невидимий скрізь,
-    і людина вважає, що все гаразд, поки продукт мовчить. Порожній день —
-    єдине доречне місце для такої підказки, бо саме тут вона питає «що в мене
-    сьогодні».</p></div>
-    <div class="callout prose"><p><strong>Залежність, яку виявив цей потік.</strong>
-    План відповідає тільки на «що далі». На «що було» відповідає хронологія,
-    а наповнюють її нотатки. Отже <strong>main job виконується лише тоді, коли
-    раніше виконувався R5</strong> — фахівець, який три місяці не писав, відкриє
-    картку й побачить кроки без жодного сліду розмов.</p></div>
-  </div>
-  <div class="flow">
-    <h3>R5 — «Записати, поки не забула»</h3>
-    <p class="jobq">Коли зустріч щойно закінчилась і все ще свіже в голові, я хочу
-    відразу записати головне, щоб за тиждень не згадувати, про що ми домовились.</p>
-    <pre class="mermaid">flowchart TD
-    FIN(["Зустріч щойно закінчилась"]) --&gt; WHERE{"Звідки заходить?"}
-    WHERE --&gt;|зі списку справ| TODAY["Сьогодні"]
-    WHERE --&gt;|з картки людини| CARD["Клієнт"]
-    TODAY --&gt; CLOSE[["Закрити крок"]]
-    CARD --&gt; CLOSE
-    CLOSE --&gt; DLOAD["Нотатка після кроку — завантаження чернетки"]
-    DLOAD --&gt; DOK{"Чернетка зібралась?"}
-    DOK --&gt;|ні, збій| DERR["Нотатка — чернетку не зібрано, порожнє поле + «спробувати ще»"]
-    DERR --&gt; INPUT
-    DOK --&gt;|ні, перша зустріч| BLANK["Нотатка — чернетки немає, писати з нуля"]
-    DOK --&gt;|так| FILLED["Нотатка — чернетка з відомого"]
-    BLANK --&gt; INPUT
-    FILLED --&gt; INPUT{"Текст чи голос?"}
-    INPUT --&gt;|текст| TYPE["Нотатка — введення тексту"]
-    INPUT --&gt;|голос| REC["Нотатка — запис мовлення"]
-    REC --&gt; ALONE{"Можна говорити вголос тут і зараз?"}
-    ALONE --&gt;|ні| TYPE
-    ALONE --&gt;|так| LANG{"Мова розпізнається на пристрої?"}
-    LANG --&gt;|ні| FALL["Нотатка — голос недоступний, лишається текст"]
-    FALL --&gt; TYPE
-    LANG --&gt;|так| DEC["Нотатка — розшифрований текст"]
-    TYPE --&gt; CONF{"Підтвердила?"}
-    DEC --&gt; CONF
-    CONF --&gt;|ні, перервали| KEPT["Нотатка збережена чернеткою"]
-    KEPT --&gt; PEND["Сьогодні — незакрита чернетка окремим рядком"]
-    PEND --&gt; BACKTO(["НЕЙТРАЛЬНО: можна повернутись будь-коли"])
-    CONF --&gt;|так| SAVE["Нотатка — збереження"]
-    SAVE --&gt; NET{"Мережа є?"}
-    NET --&gt;|ні| QUEUE["Нотатка — збережена локально, піде пізніше"]
-    NET --&gt;|так| SRV{"Сервер прийняв?"}
-    SRV --&gt;|ні| SERR["Нотатка — не збереглася на сервері, текст на пристрої"]
-    SERR --&gt; QUEUE
-    SRV --&gt;|так| OK(["УСПІХ: записано, фідбек піде в наступну чернетку"])
-    QUEUE --&gt; OK
-
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class DLOAD,DERR,BLANK,FALL,SAVE,QUEUE,SERR,KEPT,PEND state
-    class CLOSE act
-    class BACKTO neutral
-    class OK ok</pre>
-    <div class="note prose"><p><strong>Голос має дві гілки відмови, не одну.</strong>
-    Технічну — мова може не розпізнаватись офлайн. І людську — поруч люди, вголос
-    говорити незручно. Друга спрацьовує частіше й не лікується технікою.</p></div>
-  </div>
-  <div class="flow">
-    <h3>R2 — «Пам'ятати, що я кому пообіцяла»</h3>
-    <p class="jobq">Коли я пообіцяла різним людям різні речі до різних дат,
-    я хочу тримати всі обіцянки перед очима, щоб не носити чужі дати
-    у своїй голові.</p>
-    <pre class="mermaid">flowchart TD
-    WORRY(["Неспокій: чи я нічого не забула"]) --&gt; TODAY["Сьогодні"]
-    TODAY --&gt; ENOUGH{"Достатньо побачити сьогоднішнє?"}
-    ENOUGH --&gt;|так| OK1(["УСПІХ: спокій на сьогодні"])
-    ENOUGH --&gt;|ні| WIDEN[["Розширити вікно"]]
-    WIDEN --&gt; TLOAD["Загальний таймлайн — завантаження"]
-    TLOAD --&gt; TOK{"Завантажився?"}
-    TOK --&gt;|ні| TERR["Загальний таймлайн — не вдалося, «спробувати ще»"]
-    TERR --&gt; TRETRY{"Повторила?"}
-    TRETRY --&gt;|так| TLOAD
-    TRETRY --&gt;|ні| TCACHE["Загальний таймлайн — кешовані дані, позначка «офлайн»"]
-    TCACHE --&gt; VIEW
-    TOK --&gt;|так| HAS{"Є зобов'язання попереду?"}
-    HAS --&gt;|ні| WHY{"Чому порожньо?"}
-    WHY --&gt;|клієнтів ще немає| FIRST["Таймлайн — порожньо: «завести першого клієнта»"]
-    FIRST --&gt; NEW["Новий клієнт"]
-    WHY --&gt;|є клієнти без планів| GAPS["Таймлайн — порожньо, але N клієнтів без плану"]
-    GAPS --&gt; LIST["Список клієнтів"]
-    WHY --&gt;|усе зроблено| CLEAR(["УСПІХ: попереду справді чисто"])
-    HAS --&gt;|так| VIEW["Загальний таймлайн"]
-    VIEW --&gt; WRONG{"Щось стоїть не на своєму місці?"}
-    WRONG --&gt;|ні| OK2(["УСПІХ: бачить усі обіцянки, голова вільна"])
-    WRONG --&gt;|так| FIX{"Що робить?"}
-    FIX --&gt;|перенести прямо тут| MOVE["Загальний таймлайн — термін перенесено"]
-    MOVE --&gt; SRV{"Збереглося?"}
-    SRV --&gt;|ні| SERR["Таймлайн — не збереглося, зміна лишається на екрані"]
-    SERR --&gt; MOVE
-    SRV --&gt;|так| OK2
-    FIX --&gt;|розібратись із клієнтом| CARD["Клієнт"]
-    CARD --&gt; PLAN["План клієнта"]
-    PLAN --&gt; OK2
-
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class TLOAD,TERR,TCACHE,FIRST,GAPS,MOVE,SERR state
-    class WIDEN act
-    class OK1,OK2,CLEAR ok</pre>
-    <div class="callout prose"><p><strong>Малювання дало відповідь на відкрите
-    питання.</strong> «Загальний таймлайн — окремий екран чи режим «Сьогодні»?»
-    висіло з 22 вересня. Три докази на користь <strong>режиму</strong>: однакове
-    джерело даних, буквально ті самі три причини порожнечі, однакові дії.
-    Розділення означало б писати логіку порожніх станів двічі.</p>
-    <p>Контраргумент лишається: «Сьогодні» це список, який відмічають, а таймлайн —
-    вісь, яку проглядають. <strong>Рекомендація:</strong> проєктувати режимом;
-    якщо ескіз покаже конфлікт двох способів читання — розділити.</p></div>
-    <div class="note prose"><p><strong>Перенос терміну прямо з таймлайну.</strong>
-    Інакше дрібна правка коштувала б чотирьох тапів, і R4 про швидкість
-    перестав би виконуватись. Патерн із Todoist, де Reschedule стоїть
-    поруч зі списком.</p></div>
-  </div>
-
-  <div class="flow">
-    <h3>R1 — «Переграти план, а не заводити новий»</h3>
-    <p class="jobq">Коли клієнт посеред роботи передумав, я хочу змінити те, що
-    попереду, щоб не заводити ще один окремий план і не тримати в голові, який
-    із них тепер чинний.</p>
-    <pre class="mermaid">flowchart TD
-    TRIG(["Клієнт передумав посеред роботи"]) --&gt; CARD["Клієнт"]
-    CARD --&gt; PLOAD["План клієнта — завантаження"]
-    PLOAD --&gt; PERR{"План завантажився?"}
-    PERR --&gt;|ні| PFAIL["План клієнта — не вдалося завантажити, «спробувати ще»"]
-    PFAIL --&gt; PRETRY{"Повторила?"}
-    PRETRY --&gt;|так| PLOAD
-    PRETRY --&gt;|ні| LATER(["НЕЙТРАЛЬНО: перебудову відкладено, план цілий"])
-    PERR --&gt;|так| PLAN["План клієнта"]
-    PLAN --&gt; MODE["Режим «переграти план»"]
-    MODE --&gt; SPLIT["Пройдене замкнене, майбутнє відкрите"]
-    SPLIT --&gt; WHAT{"Що робить із кроком?"}
-    WHAT --&gt;|викинути| DROP["Крок прибрано з майбутнього"]
-    WHAT --&gt;|скласти вручну| MANUAL["Новий крок — назва, опис, термін"]
-    WHAT --&gt;|взяти з шаблону| TLOAD["Аркуш «Додати крок із шаблону» — завантаження"]
-    TLOAD --&gt; TOK{"Кроки завантажились?"}
-    TOK --&gt;|ні| TERR["Аркуш — не вдалося завантажити, «скласти вручну»"]
-    TERR --&gt; MANUAL
-    TOK --&gt;|так| HASTPL{"Є придатний крок?"}
-    HASTPL --&gt;|так| PICK["Крок узято, термін наново, аркуш лишається відкритим"]
-    HASTPL --&gt;|ні| NOTPL["Аркуш — порожньо, «скласти вручну»"]
-    NOTPL --&gt; MANUAL
-    DROP --&gt; MORE{"Ще зміни?"}
-    MANUAL --&gt; MORE
-    PICK --&gt; MORE
-    MORE --&gt;|так| WHAT
-    MORE --&gt;|ні| CONF{"Підтвердила перебудову?"}
-    CONF --&gt;|ні, вийшла| DRAFT["План клієнта — незавершена перебудова збережена"]
-    DRAFT --&gt; RESUME(["НЕЙТРАЛЬНО: у картці видно, що перебудова не закінчена"])
-    CONF --&gt;|так| SAVING["Режим «переграти план» — збереження"]
-    SAVING --&gt; SRV{"Збереглося?"}
-    SRV --&gt;|ні| SERR["Режим — не збереглося, зміни лишаються на екрані"]
-    SERR --&gt; CONF
-    SRV --&gt;|так| SUM["План клієнта — підсумок: було і стало"]
-    SUM --&gt; OK(["УСПІХ: одна нитка, а не дві версії"])
-
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class PLOAD,PFAIL,SPLIT,TLOAD,TERR,NOTPL,DRAFT,SAVING,SERR state
-    class LATER,RESUME neutral
-    class OK ok</pre>
-    <div class="note prose"><p><strong>Персони немає.</strong> Операція підтверджена
-    довідками трьох конкурентів, але жодного голосу практика не знайдено. Ключова
-    ставка продукту без знайденого носія.</p>
-    <p><strong>Шаблон відкривається аркушем, не екраном.</strong> Перебудова
-    не збережена, тож повноекранний перехід ризикує її втратити. Аркуш лишає
-    перебудову за собою й не закривається після кожного кроку — їх зазвичай
-    кілька. Ескіз: <code>wireframes/templates-two-scenarios.md</code></p></div>
-  </div>
-  <div class="flow">
-    <h3>R7 — «Почати сьогодні, а не через тиждень»</h3>
-    <p class="jobq">Коли я нарешті беруся навести лад у своїх клієнтах, я хочу почати
-    цього ж вечора, щоб не витратити тиждень на налаштування й не кинути на півдорозі.</p>
-    <pre class="mermaid">flowchart TD
-    GO(["Вирішила завести клієнта"]) --&gt; LLOAD["Список клієнтів — завантаження"]
-    LLOAD --&gt; LERR{"Список завантажився?"}
-    LERR --&gt;|ні| LFAIL["Список клієнтів — не вдалося, «спробувати ще» + «працювати офлайн»"]
-    LFAIL --&gt; LRETRY{"Повторила?"}
-    LRETRY --&gt;|так| LLOAD
-    LRETRY --&gt;|ні, офлайн| NEW
-    LERR --&gt;|так| ISFIRST{"Це перший клієнт?"}
-    ISFIRST --&gt;|так| FIRSTRUN["Список клієнтів — порожньо, перший запуск"]
-    ISFIRST --&gt;|ні| NEW["Новий клієнт"]
-    FIRSTRUN --&gt; NEW
-    NEW --&gt; SAVE1["Новий клієнт — збереження"]
-    SAVE1 --&gt; SRV{"Клієнт створився?"}
-    SRV --&gt;|ні| CERR["Новий клієнт — не збереглося, поля заповнені"]
-    CERR --&gt; AGAIN{"Повторила?"}
-    AGAIN --&gt;|так| SAVE1
-    AGAIN --&gt;|ні| LOCAL["Новий клієнт — збережено локально, піде пізніше"]
-    LOCAL --&gt; PATH
-    SRV --&gt;|так| PATH["Вибір шляху: пресет або з нуля"]
-    PATH --&gt; CHOICE{"Бере готовий пресет?"}
-    CHOICE --&gt;|так| TLOAD["Мої шаблони — завантаження"]
-    TLOAD --&gt; TOK{"Пресети завантажились?"}
-    TOK --&gt;|ні| TERR["Мої шаблони — не вдалося, «скласти з нуля»"]
-    TERR --&gt; SCRATCH
-    TOK --&gt;|так| ANY{"Є придатний пресет?"}
-    ANY --&gt;|так| APPLIED["План клієнта — кроки з пресету, терміни від сьогодні"]
-    ANY --&gt;|ні| NOTPL["Мої шаблони — порожньо, «скласти з нуля»"]
-    NOTPL --&gt; SCRATCH
-    CHOICE --&gt;|ні| SCRATCH["План клієнта — порожній, кроки вручну"]
-    SCRATCH --&gt; ADDED{"Додала хоч один крок?"}
-    ADDED --&gt;|так| APPLIED
-    ADDED --&gt;|ні| NOSTEP["Клієнт — плану немає, «обрати шлях роботи»"]
-    NOSTEP --&gt; PATH
-    NOSTEP --&gt; PAUSE(["НЕЙТРАЛЬНО: клієнт заведений, план можна додати пізніше"])
-    APPLIED --&gt; OK(["УСПІХ: клієнт у роботі, перший крок має термін"])
-
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class LLOAD,LFAIL,FIRSTRUN,SAVE1,CERR,LOCAL,TLOAD,TERR,SCRATCH,NOTPL,NOSTEP state
-    class PAUSE neutral
-    class OK ok</pre>
-  </div>
-  <div class="flow">
-    <h3>R6 — «Не платити як велика практика»</h3>
-    <p class="jobq">Коли в мене п'ять клієнтів, а не п'ятдесят, я хочу платити
-    відповідно до цього, щоб інструмент не з'їдав дохід, якого ще немає.</p>
-    <pre class="mermaid">flowchart TD
-    GO(["Хоче завести ще одного клієнта"]) --&gt; LIST["Список клієнтів"]
-    LIST --&gt; ADD[["+ Новий клієнт"]]
-    ADD --&gt; SLOT{"Є вільне місце в тарифі?"}
-    SLOT --&gt;|так| NEW["Новий клієнт"]
-    NEW --&gt; OK1(["УСПІХ: клієнт заведений, межі не помітила"])
-    SLOT --&gt;|ні| TLOAD["Тариф і ліміт — завантаження"]
-    TLOAD --&gt; TOK{"Дані тарифу завантажились?"}
-    TOK --&gt;|ні| TERR["Тариф — не вдалося завантажити, «спробувати ще»"]
-    TERR --&gt; TRETRY{"Повторила?"}
-    TRETRY --&gt;|так| TLOAD
-    TRETRY --&gt;|ні| BLOCK(["НЕЙТРАЛЬНО: клієнта не заведено, наявні в роботі"])
-    TOK --&gt;|так| LIMIT["Тариф і ліміт — межу вичерпано, два виходи"]
-    LIMIT --&gt; HOW{"Що робить?"}
-    HOW --&gt;|звільнити місце| ARCH["Список клієнтів — завершені, «архівувати»"]
-    ARCH --&gt; HASDONE{"Є кого архівувати?"}
-    HASDONE --&gt;|так| FREED["Місце звільнено"]
-    FREED --&gt; NEW
-    HASDONE --&gt;|ні| NOONE["Список — завершених немає, лишається оплата"]
-    NOONE --&gt; HOW
-    HOW --&gt;|оформити Pro| PAY["Тариф і ліміт — оплата"]
-    PAY --&gt; PRES{"Платіж пройшов?"}
-    PRES --&gt;|ні| PERR["Тариф — платіж не пройшов, спосіб можна змінити"]
-    PERR --&gt; HOW
-    PRES --&gt;|так| OK2(["УСПІХ: межі немає, клієнта заведено"])
-    HOW --&gt;|відкласти| STAY(["НЕЙТРАЛЬНО: лишається на безкоштовному, працює з наявними"])
-
-    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
-    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class TLOAD,TERR,LIMIT,ARCH,NOONE,PAY,PERR,FREED state
-    class ADD act
-    class BLOCK,STAY neutral
-    class OK1,OK2 ok</pre>
-    <div class="note prose"><p><strong>Два виходи, не тільки оплата.</strong>
-    §10 ставить межу на <strong>активних</strong> клієнтах, тож архівувати
-    завершеного — легальний спосіб звільнити місце, і ховати його було б нечесно.
-    Це коштує частини конверсії. Але P3 прийшла саме від того, що «ціна
-    не сходиться на малій практиці», і продукт, який у цей момент не лишає
-    виходу крім оплати, підтверджує її найгірший досвід.</p>
-    <p><strong>Заразом закрито дефект навігації:</strong> перевірка ліміту
-    відбувається при спробі додати клієнта. Людина не шукає екран тарифу —
-    тариф знаходить її.</p></div>
-  </div>
-</div></section>
 <section id="trace"><div class="wrap">
   <div class="shead"><div class="idx">05</div><h2>Трасування</h2></div>
-  <p class="prose">Матриця покриття. Рядки — <strong>всі</strong> jobs,
-  включно з emotional і social. Колонки — <strong>всі</strong> екрани.
-  <code>✓</code> означає одне: екран реально бере участь у закритті job.
-  Без градацій — попередня версія мала «головний / допоміжний» і позначку
-  для наскрізних вимог, і саме вона ховала дві дірки.</p>
-
+  <p class="prose">Матриця покриття після рішень по сиротах. Рядки — всі jobs,
+  включно з emotional і social. <code>✓</code> означає одне: екран реально бере
+  участь у закритті job. <span style="color:var(--ok)">Зеленим</span> — зв'язки,
+  додані рішеннями по сиротах.</p>
   <div class="tscroll"><table class="trace">
     <thead><tr><th>Job</th><th>Сг</th><th>Тл</th><th>Сп</th><th>Кл</th><th>Нт</th>
-      <th>Пл</th><th>Пб</th><th>Нв</th><th>Вш</th><th>Шб</th><th>Тр</th><th>Нл</th><th>Вх</th></tr></thead>
-    <tbody>
-      <tr><td class="job">Main на чому зупинились</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R1 переграти план</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R2 що я кому пообіцяла</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">R3 все в одному місці</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">R4 встигати між зустрічами</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R5 записати, поки не забула</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R6 не платити як велика</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R7 почати сьогодні</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">E1 щоб не з'їдало вечори</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">E2 нічого не випало</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">Social — порожній розділ</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-    </tbody>
+      <th>Пл</th><th>Пб</th><th>Нв</th><th>Вш</th><th>Шб</th><th>Тр</th>
+      <th class="orphan">Нл</th></tr></thead>
+    <tbody><tr class=""><td class="job">Main на чому зупинились</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R1 переграти план</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R2 що я кому пообіцяла</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R3 все в одному місці</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c new">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R4 встигати між зустрічами</td><td class="c new">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c new">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R5 записати, поки не забула</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">R6 не платити як велика</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c oc"></td></tr><tr class=""><td class="job">R7 почати сьогодні</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">E1 щоб не з'їдало вечори</td><td class="c new">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c new">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class=""><td class="job">E2 нічого не випало</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr><tr class="orphan"><td class="job">Social — порожній розділ</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c oc"></td></tr></tbody>
   </table></div>
-  <p class="cap" style="font-family:var(--mono);font-size:12px;color:var(--faint)">
-  Сг Сьогодні · Тл Загальний таймлайн · Сп Список клієнтів · Кл Клієнт
-  · Нт Нотатка · Пл План · Пб Переграти · Нв Новий клієнт · Вш Вибір шляху
-  · Шб Шаблони · Тр Тариф · Нл Налаштування · Вх Вхід</p>
+  <p class="meta" style="margin-top:10px">Сг Сьогодні · Тл Загальний таймлайн
+  · Сп Список клієнтів · Кл Клієнт · Нт Нотатка · Пл План · Пб Переграти
+  · Нв Новий клієнт · Вш Вибір шляху · Шб Шаблони · Тр Тариф · Нл Налаштування</p>
 
-  <div class="callout prose"><p><strong>Чотири порожні рядки й дві порожні
-  колонки.</strong> Обидва — дефекти, не «так і має бути».</p></div>
-
-  <h4>Екрани-сироти — колонка без жодного ✓</h4>
+  <h4>Що залишилось підсвіченим</h4>
   <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Екран</th><th>Навіщо існував</th><th>Рішення</th></tr></thead>
+    <thead><tr><th>Сирота</th><th>Рішення</th></tr></thead>
     <tbody>
-      <tr><td>С-1</td><td><strong>Вхід і реєстрація</strong></td>
-        <td>§3 брифу обрав бекенд з акаунтами. Потреба технічна, не людська</td>
-        <td><span class="chip bad">видалити екран</span> Замінити системним аркушем
-        <strong>Sign in with Apple</strong>: без форми, без сторінки реєстрації.
-        Apple ховає пошту — це мовою §7, а не всупереч. І R7 просить «почати
-        цього ж вечора», а форма реєстрації — перша перешкода на цьому шляху</td></tr>
-      <tr><td>С-2</td><td><strong>Налаштування</strong></td>
-        <td>Лише ГJ3 і ГJ7 — обидві гіпотези</td>
-        <td><span class="chip dec">прив'язати до вимоги</span> Справжня причина —
-        експорт даних і видалення акаунта (App Store 5.1.1(v)) та згода на аналітику
-        (GDPR). Решту розкидати по місцях виникнення: час дайджесту — де він уперше
-        спрацьовує, біометрія — при вході, мова — системна. Проєктувати останнім</td></tr>
+      <tr><td><strong>Рядок «Social»</strong> — jobs немає взагалі</td>
+        <td><span class="chip hyp">backlog</span> Це діра в дослідженні, не в продукті. Вигадувати екран під власну здогадку не можна. Знімається, коли інтерв'ю покажуть, що фахівцю важливо, як він виглядає в очах клієнта або колег</td></tr>
+      <tr><td><strong>Колонка «Налаштування»</strong> — жодного job</td>
+        <td><span class="chip dec">прив'язано до вимоги</span> Експорт даних і видалення акаунта (App Store 5.1.1(v)), згода на аналітику (GDPR). Екран виправданий законом, не потребою людини — і це записано явно, щоб не виглядало прогалиною</td></tr>
     </tbody>
   </table></div>
 
-  <h4>Jobs-сироти — рядок без жодного ✓</h4>
+  <h4>Що змінили рішення по сиротах</h4>
   <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Job</th><th>Де людина має це робити</th><th>Рішення</th></tr></thead>
+    <thead><tr><th>#</th><th>Зміна</th><th>Дефект</th></tr></thead>
     <tbody>
-      <tr><td>J-1</td><td><strong>R3</strong> все в одному місці<br><span class="chip ok">підкріплено</span></td>
-        <td>Ніде — найкраще підкріплений job без екрана</td>
-        <td><span class="chip dec">прив'язати, звузивши job</span> Перечитування
-        показало помилку аналізу: ми трактували R3 як «звести весь бізнес-стек»
-        через цитати про platforms, але job каже <strong>«все про клієнта»</strong>.
-        У цьому читанні його закриває <strong>картка клієнта</strong>. Листування
-        й файли не закриваємо — у backlog, і саме через це програємо P2</td></tr>
-      <tr><td>J-2</td><td><strong>R4</strong> встигати між зустрічами<br><span class="chip ok">підкріплено</span></td>
-        <td>Ніде — job просить швидкості, а не місця</td>
-        <td><span class="chip dec">прив'язати як критерій приймання</span>
-        До <strong>«Сьогодні»</strong> і <strong>«Нотатки»</strong> — екранів, якими
-        користуються в проміжках. Критерій: відкрити й закрити однією рукою
-        за секунди. Окремого екрана не додаємо</td></tr>
-      <tr><td>J-3</td><td><strong>E1</strong> щоб не з'їдало вечори<br><span class="chip ok">підкріплено</span></td>
-        <td>Ніде — наслідок R4 і R5, не окрема дія</td>
-        <td><span class="chip dec">прив'язати + метрика</span> Ті самі два екрани,
-        плюс нова метрика в §12: <strong>частка нотаток, записаних у день зустрічі</strong>.
-        Якщо падає — робота переповзає на вечір, хай би екрани й були швидкими</td></tr>
-      <tr><td>J-4</td><td><strong>Social jobs</strong><br><span class="chip bad">нуль даних</span></td>
-        <td>Ніде — їх не сформульовано</td>
-        <td><span class="chip hyp">backlog</span> Це діра в дослідженні, не в продукті.
-        Вигадувати екран під власну здогадку не можна. Знімається з backlog, коли
-        інтерв'ю покажуть, що фахівцю важливо, як він виглядає в очах клієнта
-        або колег</td></tr>
+      <tr><td>1</td><td>Окремого екрана входу немає — Sign in with Apple</td><td>екран-сирота</td></tr>
+      <tr><td>2</td><td>Вміст «Налаштувань» диктує закон, не продукт</td><td>екран-сирота</td></tr>
+      <tr><td>3</td><td><strong>R3 звужено</strong> до «все про клієнта» й прив'язано до картки. Перечитування показало помилку аналізу: ми читали job як «звести бізнес-стек» через цитати, але він каже «все про клієнта»</td><td>job-сирота</td></tr>
+      <tr><td>4</td><td>R4 і E1 стали критерієм приймання «Сьогодні» і «Нотатки»</td><td>jobs-сироти</td></tr>
+      <tr><td>5</td><td>Нова метрика: частка нотаток, записаних у день зустрічі</td><td>job-сирота E1</td></tr>
     </tbody>
   </table></div>
-
-  <h4>Після рішень</h4>
-  <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Що змінилось у продукті</th><th>Через який дефект</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>Окремого екрана входу немає — Sign in with Apple</td><td>С-1</td></tr>
-      <tr><td>2</td><td>Вміст «Налаштувань» диктує закон, не продукт</td><td>С-2</td></tr>
-      <tr><td>3</td><td>R3 звужено до «все про клієнта» й прив'язано до картки</td><td>J-1</td></tr>
-      <tr><td>4</td><td>R4 і E1 стали критерієм приймання двох екранів</td><td>J-2, J-3</td></tr>
-      <tr><td>5</td><td>Нова метрика: частка нотаток у день зустрічі</td><td>J-3</td></tr>
-    </tbody>
-  </table></div>
-  <div class="note prose"><p><strong>Порожніх рядків лишилось: один</strong> — Social.
-  Це відсутність даних, а не відсутність рішення. Колонка «Налаштування» порожня
-  за jobs свідомо: екран виправданий вимогами App Store і GDPR, і це записано
-  явно, щоб не виглядало прогалиною.</p></div>
 </div></section>
 
-<section id="critique"><div class="wrap">
-  <div class="shead"><div class="idx">06</div><h2>Критика</h2></div>
-  <p class="prose">Чотири класи дефектів. Класи визначено тут, бо раніше ми їх
-  не фіксували.</p>
-  <h4>Клас 1 — Сироти</h4>
+<section id="open"><div class="wrap">
+  <div class="shead"><div class="idx">06</div><h2>Відкрите</h2></div>
+  <p class="prose">Усі сім пунктів плану робіт із критики закриті. Лишилось те,
+  що чекає не ескізу, а даних.</p>
   <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Дефект</th><th>Оцінка</th></tr></thead>
+    <thead><tr><th>Питання</th><th>Чому не закрите</th><th>Що його закриє</th></tr></thead>
     <tbody>
-      <tr><td>1.1</td><td><strong>R3 «все в одному місці»</strong> — найкраще підкріплений job, жодного екрана</td>
-        <td><span class="chip ok">вирішено частково</span> Job звужено до «все про клієнта» й прив'язано до картки; листування й файли — backlog. Див. J-1</td></tr>
-      <tr><td>1.2</td><td><strong>Вхід і реєстрація</strong> — екран без жодного job</td>
-        <td><span class="chip ok">вирішено</span> Видалено, замінено Sign in with Apple — див. трасування, С-1</td></tr>
-      <tr><td>1.3</td><td><strong>Налаштування</strong> — лише ГJ3 і ГJ7, обидві гіпотези</td>
-        <td><span class="chip ok">вирішено</span> Прив'язано до вимог App Store і GDPR — див. С-2</td></tr>
-      <tr><td>1.4</td><td><strong>R4 і E1</strong> — підкріплені jobs без екранів</td>
-        <td><span class="chip ok">вирішено</span> Критерій приймання «Сьогодні» і «Нотатки» плюс метрика — див. J-2, J-3</td></tr>
+      <tr><td><strong>Персона для R1</strong></td>
+        <td>Операцію підтверджено довідками трьох конкурентів, але носія потреби не знайдено. Це наша ключова відмінність</td>
+        <td>Інтерв'ю з фахівцем, який веде структуровану програму й уже стикався зі зміною запиту на середині</td></tr>
+      <tr><td><strong>Соціальні jobs</strong></td>
+        <td>Нуль даних — не «мало», а нуль</td>
+        <td>Інтерв'ю</td></tr>
+      <tr><td><strong>Таймлайн: режим чи екран</strong></td>
+        <td>Потік дав рекомендацію (режим), але контраргумент про два способи читання лишається</td>
+        <td>Ескіз «Сьогодні» з перемиканням вікна</td></tr>
+      <tr><td><strong>Чи архівують завершених клієнтів</strong></td>
+        <td>Потік R6 спирається на це як на другий вихід із ліміту. Поведінку не перевірено</td>
+        <td>Інтерв'ю, питання про статуси клієнтів</td></tr>
+      <tr><td><strong>Голос українською офлайн</strong></td>
+        <td>Apple переліку офлайн-мов не публікує</td>
+        <td>Перевірка на живому пристрої, початок Ф4</td></tr>
     </tbody>
   </table></div>
-  <h4>Клас 2 — Тупики</h4>
-  <p class="prose">Десять у чотирьох потоках, <strong>шість мовчазних</strong> —
-  на екрані жодної помилки, усе виглядає справним.</p>
-  <div class="tscroll"><table>
-    <thead><tr><th>Тупик</th><th>Потік</th><th>Мовчазний</th></tr></thead>
-    <tbody>
-      <tr><td>Хронологія порожня — кроки видно, контексту ні</td><td>MAIN</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>Клієнт без плану — не з'явиться в «Сьогодні»</td><td>R7</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>Незавершена чернетка висить</td><td>R5</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>Вийшла, не підтвердивши перебудову</td><td>R1</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>Людини в базі немає</td><td>MAIN</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>План не завантажився, перебудову відклали</td><td>R1</td><td><span class="chip bad">так</span></td></tr>
-      <tr><td>Перший запуск без мережі</td><td>MAIN</td><td>ні</td></tr>
-      <tr><td>Стіна прострочених після паузи</td><td>MAIN</td><td>ні</td></tr>
-      <tr><td>Помилка картки, не повторила</td><td>MAIN</td><td>ні</td></tr>
-      <tr><td>Список не завантажився на першому запуску</td><td>R7</td><td>ні</td></tr>
-    </tbody>
-  </table></div>
-  <div class="note prose"><p><strong>Перші два мають один корінь.</strong> Об'єкт існує,
-  але порожній, і продукт про нього мовчить. Це не десять окремих випадків, а одне
-  правило, якого бракує: <strong>порожній стан має пояснювати причину й давати
-  наступний крок</strong>.</p></div>
-  <h4>Клас 3 — Двозначність</h4>
-  <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Дефект</th><th>Стан</th></tr></thead>
-    <tbody>
-      <tr><td>3.1</td><td>«Вибір шляху» мав дві назви — через тире й через двокрапку</td>
-        <td><span class="chip ok">виправлено</span></td></tr>
-      <tr><td>3.2</td><td><strong>«Мої шаблони» роблять дві різні речі</strong> — застосувати шаблон цілком (R7) і взяти окремий крок (R1)</td>
-        <td><span class="chip bad">відкрито</span> два режими чи два екрани — вирішується ескізом</td></tr>
-      <tr><td>3.3</td><td><strong>«Сьогодні» і «Загальний таймлайн»</strong> — ті самі дані у двох вікнах</td>
-        <td><span class="chip bad">відкрито</span> якщо це один екран із режимами, двозначність зникає сама</td></tr>
-      <tr><td>3.4</td><td>Нотатка досяжна зі «Сьогодні» і з картки</td>
-        <td>Не дефект. Різні входи, один результат</td></tr>
-    </tbody>
-  </table></div>
-  <h4>Клас 4 — Розрив із моделлю</h4>
-  <div class="tscroll"><table>
-    <thead><tr><th>#</th><th>Розрив</th><th>Наслідок</th></tr></thead>
-    <tbody>
-      <tr><td>4.1</td><td><strong>Main job залежить від R5</strong></td>
-        <td>Головний job не виконається в того, хто не писав нотаток. Найсерйозніший розрив</td></tr>
-      <tr><td>4.2</td><td><strong>Чернетка потребує попереднього фідбеку</strong></td>
-        <td>Обіцянка «не порожня форма» не діє саме там, де людина вперше бачить продукт</td></tr>
-      <tr><td>4.3</td><td><strong>Вага проти терміну</strong> — модель знає тільки термін</td>
-        <td>Не блокує, поки main job про орієнтацію</td></tr>
-      <tr><td>4.4</td><td><strong>Клієнт без кроків невидимий</strong></td>
-        <td>Корінь двох мовчазних тупиків</td></tr>
-    </tbody>
-  </table></div>
-  <h3>Що робити першим</h3>
-  <div class="prose"><ul>
-    <li><strong>Правило порожніх станів</strong> — знімає два мовчазні тупики
-    й розрив 4.4. Порожньо = причина плюс наступний крок, ніколи не просто порожньо.</li>
-    <li><strong>Ескіз «Моїх шаблонів» у двох сценаріях</strong> — знімає 3.2.</li>
-    <li><strong>Ескіз «Сьогодні» з режимом горизонту</strong> — знімає 3.3.</li>
-    <li><strong>Налаштування проєктувати останніми</strong> — поки нічого
-    не диктує їхній вміст.</li>
-  </ul></div>
 </div></section>
+
 </main>
+
 <footer><div class="wrap">
   TheBrain · інформаційна архітектура · 4 жовтня 2026<br>
   Джерела: sitemap.md · flows.md · research/jtbd.md · Палітра: tokens/tokens.json
 </div></footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
 <script>
 mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{
