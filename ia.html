@@ -262,8 +262,13 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
 </div></section>
 <section id="flows"><div class="wrap">
   <div class="shead"><div class="idx">04</div><h2>Потоки</h2></div>
-  <p class="prose">Чотири потоки з рішеннями, станами й тупиками — не лише щасливим
-  шляхом. <code>[[подвійна рамка]]</code> — дія, не екран.</p>
+  <p class="prose">П'ять потоків із рішеннями, станами й виходами з відмов —
+  не лише щасливим шляхом. <code>[[подвійна рамка]]</code> — дія, не екран.</p>
+  <div class="note prose"><p><strong>Правило виходу.</strong> Кожен стан відмови
+  веде кудись: не завантажилось — повтор або кеш; не збереглося — локально,
+  набране не зникає; порожньо — причина плюс дія; людина перервалась —
+  незавершене лишається видимим. Кінець, де людина свідомо вийшла, не є тупиком:
+  тупик — це коли продукт не дав вибору.</p></div>
   <div class="flow">
     <h3>MAIN JOB — «На чому ми зупинились і що далі»</h3>
     <p class="jobq">Коли я веду клієнта вже кілька місяців, я хочу в будь-який момент
@@ -273,49 +278,51 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     START(["Скоро зустріч, треба зорієнтуватись"]) --&gt; LOAD["Сьогодні — завантаження"]
     LOAD --&gt; SYNC{"Дані підтягнулись?"}
     SYNC --&gt;|ні| CACHE{"Є кеш на пристрої?"}
-    CACHE --&gt;|ні| DEAD1(["ТУПИК: порожній екран, дивитись нема на що"])
     CACHE --&gt;|так| STALE["Сьогодні — кешовані дані, позначка «офлайн»"]
+    CACHE --&gt;|ні| COLD["Сьогодні — офлайн і порожньо: пояснення + «завести клієнта»"]
+    COLD --&gt; NEW["Новий клієнт"]
     SYNC --&gt;|так| TODAY["Сьогодні"]
     STALE --&gt; TODAY
     TODAY --&gt; PILE{"Після паузи накопичилась стіна прострочених?"}
-    PILE --&gt;|так| BACK["Сьогодні — повернення після паузи, масовий перенос"]
-    BACK --&gt; RESCH{"Розібралась зі стіною?"}
-    RESCH --&gt;|ні| DEAD2(["ТУПИК: стіна лякає, закрила застосунок"])
-    RESCH --&gt;|так| INLIST
+    PILE --&gt;|так| BACK["Сьогодні — стіна прострочених, «перенести все» одним тапом"]
+    BACK --&gt; RESCH{"Що робить зі стіною?"}
+    RESCH --&gt;|перенесла все| INLIST
+    RESCH --&gt;|пропустила| INLIST
     PILE --&gt;|ні| INLIST{"Потрібна людина є в списку на сьогодні?"}
     INLIST --&gt;|так| OPEN
     INLIST --&gt;|ні| LIST["Список клієнтів"]
     LIST --&gt; FOUND{"Знайшла людину?"}
     FOUND --&gt;|так| OPEN[["Відкрити клієнта"]]
-    FOUND --&gt;|ні| NOTFOUND["Список клієнтів — нічого не знайшлось"]
+    FOUND --&gt;|ні| NOTFOUND["Список клієнтів — нічого не знайшлось, підказка про фільтр"]
     NOTFOUND --&gt; PAUSED{"Може, вона на паузі або завершена?"}
     PAUSED --&gt;|так| ARCHIVE["Список клієнтів — показані завершені"]
     ARCHIVE --&gt; OPEN
-    PAUSED --&gt;|ні| DEAD3(["ТУПИК: людини в базі немає"])
-    DEAD3 --&gt; NEW["Новий клієнт"]
+    PAUSED --&gt;|ні| NEW
     OPEN --&gt; CLOAD["Клієнт — завантаження"]
     CLOAD --&gt; CERR{"Картка завантажилась?"}
-    CERR --&gt;|ні| ERROR["Клієнт — не вдалося завантажити, спробувати ще"]
+    CERR --&gt;|ні| ERROR["Клієнт — не вдалося завантажити, «спробувати ще»"]
     ERROR --&gt; RETRY{"Повторила?"}
     RETRY --&gt;|так| CLOAD
-    RETRY --&gt;|ні| DEAD4(["ТУПИК: йде на зустріч без контексту"])
+    RETRY --&gt;|ні| CACHED["Клієнт — кешована копія, позначка «дані можуть бути застарілі»"]
+    CACHED --&gt; CARD
     CERR --&gt;|так| CARD["Клієнт"]
     CARD --&gt; HASPLAN{"У клієнта є план?"}
-    HASPLAN --&gt;|ні| NOPLAN["Клієнт — плану ще немає"]
+    HASPLAN --&gt;|ні| NOPLAN["Клієнт — плану ще немає, «обрати шлях роботи»"]
     NOPLAN --&gt; PATH["Вибір шляху: пресет або з нуля"]
     PATH --&gt; CARD
     HASPLAN --&gt;|так| HIST{"У картці є історія попередніх зустрічей?"}
-    HIST --&gt;|ні| NOHIST["Клієнт — хронологія порожня, записів не вели"]
-    NOHIST --&gt; DEAD5(["ТУПИК: кроки видно, а на чому зупинились — ні"])
+    HIST --&gt;|ні| NOHIST["Клієнт — хронологія порожня: причина + «записати першу нотатку»"]
+    NOHIST --&gt; NOTE["Нотатка після кроку"]
+    NOHIST --&gt; PARTIAL(["ЧАСТКОВО: план видно, контексту розмов немає"])
     HIST --&gt;|так| OK(["УСПІХ: видно поточний крок, що було і що попереду"])
 
     classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
     classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef dead fill:#4a2320,stroke:#E08A80,color:#ffffff
+    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
     classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class LOAD,STALE,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,NOPLAN,NOHIST state
+    class LOAD,STALE,COLD,BACK,NOTFOUND,ARCHIVE,CLOAD,ERROR,CACHED,NOPLAN,NOHIST state
     class OPEN act
-    class DEAD1,DEAD2,DEAD3,DEAD4,DEAD5 dead
+    class PARTIAL neutral
     class OK ok</pre>
     <div class="callout prose"><p><strong>Залежність, яку виявив цей потік.</strong>
     План відповідає тільки на «що далі». На «що було» відповідає хронологія,
@@ -333,12 +340,14 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     WHERE --&gt;|з картки людини| CARD["Клієнт"]
     TODAY --&gt; CLOSE[["Закрити крок"]]
     CARD --&gt; CLOSE
-    CLOSE --&gt; DLOAD["Нотатка після кроку — завантаження"]
-    DLOAD --&gt; HASD{"Чернетка зібралась?"}
-    HASD --&gt;|так| FILLED["Нотатка — чернетка з відомого"]
-    HASD --&gt;|ні| BLANK["Нотатка — чернетки немає, перша зустріч"]
-    FILLED --&gt; INPUT{"Текст чи голос?"}
+    CLOSE --&gt; DLOAD["Нотатка після кроку — завантаження чернетки"]
+    DLOAD --&gt; DOK{"Чернетка зібралась?"}
+    DOK --&gt;|ні, збій| DERR["Нотатка — чернетку не зібрано, порожнє поле + «спробувати ще»"]
+    DERR --&gt; INPUT
+    DOK --&gt;|ні, перша зустріч| BLANK["Нотатка — чернетки немає, писати з нуля"]
+    DOK --&gt;|так| FILLED["Нотатка — чернетка з відомого"]
     BLANK --&gt; INPUT
+    FILLED --&gt; INPUT{"Текст чи голос?"}
     INPUT --&gt;|текст| TYPE["Нотатка — введення тексту"]
     INPUT --&gt;|голос| REC["Нотатка — запис мовлення"]
     REC --&gt; ALONE{"Можна говорити вголос тут і зараз?"}
@@ -349,24 +358,25 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     LANG --&gt;|так| DEC["Нотатка — розшифрований текст"]
     TYPE --&gt; CONF{"Підтвердила?"}
     DEC --&gt; CONF
-    CONF --&gt;|ні, перервали| KEPT["Нотатка лишилась незавершеною чернеткою"]
-    KEPT --&gt; DEAD1(["ТУПИК: чернетка висить, про неї легко забути"])
+    CONF --&gt;|ні, перервали| KEPT["Нотатка збережена чернеткою"]
+    KEPT --&gt; PEND["Сьогодні — незакрита чернетка окремим рядком"]
+    PEND --&gt; BACKTO(["НЕЙТРАЛЬНО: можна повернутись будь-коли"])
     CONF --&gt;|так| SAVE["Нотатка — збереження"]
     SAVE --&gt; NET{"Мережа є?"}
     NET --&gt;|ні| QUEUE["Нотатка — збережена локально, піде пізніше"]
     NET --&gt;|так| SRV{"Сервер прийняв?"}
-    SRV --&gt;|ні| SERR["Нотатка — не збереглася, текст збережено на пристрої"]
+    SRV --&gt;|ні| SERR["Нотатка — не збереглася на сервері, текст на пристрої"]
     SERR --&gt; QUEUE
     SRV --&gt;|так| OK(["УСПІХ: записано, фідбек піде в наступну чернетку"])
     QUEUE --&gt; OK
 
     classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
     classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
-    classDef dead fill:#4a2320,stroke:#E08A80,color:#ffffff
+    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
     classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class DLOAD,BLANK,FALL,SAVE,QUEUE,SERR,KEPT state
+    class DLOAD,DERR,BLANK,FALL,SAVE,QUEUE,SERR,KEPT,PEND state
     class CLOSE act
-    class DEAD1 dead
+    class BACKTO neutral
     class OK ok</pre>
     <div class="note prose"><p><strong>Голос має дві гілки відмови, не одну.</strong>
     Технічну — мова може не розпізнаватись офлайн. І людську — поруч люди, вголос
@@ -381,38 +391,43 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     TRIG(["Клієнт передумав посеред роботи"]) --&gt; CARD["Клієнт"]
     CARD --&gt; PLOAD["План клієнта — завантаження"]
     PLOAD --&gt; PERR{"План завантажився?"}
-    PERR --&gt;|ні| PFAIL["План клієнта — не вдалося завантажити"]
-    PFAIL --&gt; DEAD1(["ТУПИК: перебудову відкладено на потім"])
+    PERR --&gt;|ні| PFAIL["План клієнта — не вдалося завантажити, «спробувати ще»"]
+    PFAIL --&gt; PRETRY{"Повторила?"}
+    PRETRY --&gt;|так| PLOAD
+    PRETRY --&gt;|ні| LATER(["НЕЙТРАЛЬНО: перебудову відкладено, план цілий"])
     PERR --&gt;|так| PLAN["План клієнта"]
     PLAN --&gt; MODE["Режим «переграти план»"]
     MODE --&gt; SPLIT["Пройдене замкнене, майбутнє відкрите"]
     SPLIT --&gt; WHAT{"Що робить із кроком?"}
     WHAT --&gt;|викинути| DROP["Крок прибрано з майбутнього"]
     WHAT --&gt;|скласти вручну| MANUAL["Новий крок — назва, опис, термін"]
-    WHAT --&gt;|взяти з шаблону| TPL["Мої шаблони"]
-    TPL --&gt; HASTPL{"Є придатний шаблон?"}
+    WHAT --&gt;|взяти з шаблону| TLOAD["Мої шаблони — завантаження"]
+    TLOAD --&gt; TOK{"Шаблони завантажились?"}
+    TOK --&gt;|ні| TERR["Мої шаблони — не вдалося завантажити"]
+    TERR --&gt; MANUAL
+    TOK --&gt;|так| HASTPL{"Є придатний шаблон?"}
     HASTPL --&gt;|так| PICK["Крок узято, термін призначається наново"]
-    HASTPL --&gt;|ні| NOTPL["Мої шаблони — порожньо"]
+    HASTPL --&gt;|ні| NOTPL["Мої шаблони — порожньо, «скласти вручну»"]
     NOTPL --&gt; MANUAL
     DROP --&gt; MORE{"Ще зміни?"}
     MANUAL --&gt; MORE
     PICK --&gt; MORE
     MORE --&gt;|так| WHAT
     MORE --&gt;|ні| CONF{"Підтвердила перебудову?"}
-    CONF --&gt;|ні, вийшла| CANCEL["План лишився без змін"]
-    CANCEL --&gt; DEAD2(["ТУПИК: клієнт передумав, а план і далі старий"])
+    CONF --&gt;|ні, вийшла| DRAFT["План клієнта — незавершена перебудова збережена"]
+    DRAFT --&gt; RESUME(["НЕЙТРАЛЬНО: у картці видно, що перебудова не закінчена"])
     CONF --&gt;|так| SAVING["Режим «переграти план» — збереження"]
     SAVING --&gt; SRV{"Збереглося?"}
-    SRV --&gt;|ні| SERR["Режим «переграти план» — не збереглося, зміни на місці"]
+    SRV --&gt;|ні| SERR["Режим — не збереглося, зміни лишаються на екрані"]
     SERR --&gt; CONF
     SRV --&gt;|так| SUM["План клієнта — підсумок: було і стало"]
     SUM --&gt; OK(["УСПІХ: одна нитка, а не дві версії"])
 
     classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef dead fill:#4a2320,stroke:#E08A80,color:#ffffff
+    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
     classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class PLOAD,PFAIL,SPLIT,NOTPL,CANCEL,SAVING,SERR state
-    class DEAD1,DEAD2 dead
+    class PLOAD,PFAIL,SPLIT,TLOAD,TERR,NOTPL,DRAFT,SAVING,SERR state
+    class LATER,RESUME neutral
     class OK ok</pre>
     <div class="note prose"><p><strong>Персони немає.</strong> Операція підтверджена
     довідками трьох конкурентів, але жодного голосу практика не знайдено. Ключова
@@ -425,35 +440,94 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     <pre class="mermaid">flowchart TD
     GO(["Вирішила завести клієнта"]) --&gt; LLOAD["Список клієнтів — завантаження"]
     LLOAD --&gt; LERR{"Список завантажився?"}
-    LERR --&gt;|ні| LFAIL["Список клієнтів — не вдалося завантажити"]
-    LFAIL --&gt; DEAD1(["ТУПИК: перше враження — застосунок не працює"])
+    LERR --&gt;|ні| LFAIL["Список клієнтів — не вдалося, «спробувати ще» + «працювати офлайн»"]
+    LFAIL --&gt; LRETRY{"Повторила?"}
+    LRETRY --&gt;|так| LLOAD
+    LRETRY --&gt;|ні, офлайн| NEW
     LERR --&gt;|так| ISFIRST{"Це перший клієнт?"}
     ISFIRST --&gt;|так| FIRSTRUN["Список клієнтів — порожньо, перший запуск"]
     ISFIRST --&gt;|ні| NEW["Новий клієнт"]
     FIRSTRUN --&gt; NEW
     NEW --&gt; SAVE1["Новий клієнт — збереження"]
     SAVE1 --&gt; SRV{"Клієнт створився?"}
-    SRV --&gt;|ні| CERR["Новий клієнт — не збереглося, дані в полях"]
-    CERR --&gt; SAVE1
+    SRV --&gt;|ні| CERR["Новий клієнт — не збереглося, поля заповнені"]
+    CERR --&gt; AGAIN{"Повторила?"}
+    AGAIN --&gt;|так| SAVE1
+    AGAIN --&gt;|ні| LOCAL["Новий клієнт — збережено локально, піде пізніше"]
+    LOCAL --&gt; PATH
     SRV --&gt;|так| PATH["Вибір шляху: пресет або з нуля"]
     PATH --&gt; CHOICE{"Бере готовий пресет?"}
-    CHOICE --&gt;|так| TPL["Мої шаблони"]
-    CHOICE --&gt;|ні| SCRATCH["План клієнта — порожній, кроки вручну"]
-    TPL --&gt; ANY{"Є придатний пресет?"}
+    CHOICE --&gt;|так| TLOAD["Мої шаблони — завантаження"]
+    TLOAD --&gt; TOK{"Пресети завантажились?"}
+    TOK --&gt;|ні| TERR["Мої шаблони — не вдалося, «скласти з нуля»"]
+    TERR --&gt; SCRATCH
+    TOK --&gt;|так| ANY{"Є придатний пресет?"}
     ANY --&gt;|так| APPLIED["План клієнта — кроки з пресету, терміни від сьогодні"]
-    ANY --&gt;|ні| NOTPL["Мої шаблони — порожньо"]
+    ANY --&gt;|ні| NOTPL["Мої шаблони — порожньо, «скласти з нуля»"]
     NOTPL --&gt; SCRATCH
+    CHOICE --&gt;|ні| SCRATCH["План клієнта — порожній, кроки вручну"]
     SCRATCH --&gt; ADDED{"Додала хоч один крок?"}
     ADDED --&gt;|так| APPLIED
-    ADDED --&gt;|ні| DEAD2(["ТУПИК: клієнт є, плану немає, у «Сьогодні» він не з'явиться"])
+    ADDED --&gt;|ні| NOSTEP["Клієнт — плану немає, «обрати шлях роботи»"]
+    NOSTEP --&gt; PATH
+    NOSTEP --&gt; PAUSE(["НЕЙТРАЛЬНО: клієнт заведений, план можна додати пізніше"])
     APPLIED --&gt; OK(["УСПІХ: клієнт у роботі, перший крок має термін"])
 
     classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
-    classDef dead fill:#4a2320,stroke:#E08A80,color:#ffffff
+    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
     classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
-    class LLOAD,LFAIL,FIRSTRUN,SAVE1,CERR,SCRATCH,NOTPL state
-    class DEAD1,DEAD2 dead
+    class LLOAD,LFAIL,FIRSTRUN,SAVE1,CERR,LOCAL,TLOAD,TERR,SCRATCH,NOTPL,NOSTEP state
+    class PAUSE neutral
     class OK ok</pre>
+  </div>
+  <div class="flow">
+    <h3>R6 — «Не платити як велика практика»</h3>
+    <p class="jobq">Коли в мене п'ять клієнтів, а не п'ятдесят, я хочу платити
+    відповідно до цього, щоб інструмент не з'їдав дохід, якого ще немає.</p>
+    <pre class="mermaid">flowchart TD
+    GO(["Хоче завести ще одного клієнта"]) --&gt; LIST["Список клієнтів"]
+    LIST --&gt; ADD[["+ Новий клієнт"]]
+    ADD --&gt; SLOT{"Є вільне місце в тарифі?"}
+    SLOT --&gt;|так| NEW["Новий клієнт"]
+    NEW --&gt; OK1(["УСПІХ: клієнт заведений, межі не помітила"])
+    SLOT --&gt;|ні| TLOAD["Тариф і ліміт — завантаження"]
+    TLOAD --&gt; TOK{"Дані тарифу завантажились?"}
+    TOK --&gt;|ні| TERR["Тариф — не вдалося завантажити, «спробувати ще»"]
+    TERR --&gt; TRETRY{"Повторила?"}
+    TRETRY --&gt;|так| TLOAD
+    TRETRY --&gt;|ні| BLOCK(["НЕЙТРАЛЬНО: клієнта не заведено, наявні в роботі"])
+    TOK --&gt;|так| LIMIT["Тариф і ліміт — межу вичерпано, два виходи"]
+    LIMIT --&gt; HOW{"Що робить?"}
+    HOW --&gt;|звільнити місце| ARCH["Список клієнтів — завершені, «архівувати»"]
+    ARCH --&gt; HASDONE{"Є кого архівувати?"}
+    HASDONE --&gt;|так| FREED["Місце звільнено"]
+    FREED --&gt; NEW
+    HASDONE --&gt;|ні| NOONE["Список — завершених немає, лишається оплата"]
+    NOONE --&gt; HOW
+    HOW --&gt;|оформити Pro| PAY["Тариф і ліміт — оплата"]
+    PAY --&gt; PRES{"Платіж пройшов?"}
+    PRES --&gt;|ні| PERR["Тариф — платіж не пройшов, спосіб можна змінити"]
+    PERR --&gt; HOW
+    PRES --&gt;|так| OK2(["УСПІХ: межі немає, клієнта заведено"])
+    HOW --&gt;|відкласти| STAY(["НЕЙТРАЛЬНО: лишається на безкоштовному, працює з наявними"])
+
+    classDef state fill:#3a2a28,stroke:#E08A80,color:#ffffff
+    classDef act fill:#242c4a,stroke:#8A97F0,color:#ffffff
+    classDef neutral fill:#2b2a27,stroke:#6E6862,color:#ffffff
+    classDef ok fill:#24402f,stroke:#5FBF92,color:#ffffff
+    class TLOAD,TERR,LIMIT,ARCH,NOONE,PAY,PERR,FREED state
+    class ADD act
+    class BLOCK,STAY neutral
+    class OK1,OK2 ok</pre>
+    <div class="note prose"><p><strong>Два виходи, не тільки оплата.</strong>
+    §10 ставить межу на <strong>активних</strong> клієнтах, тож архівувати
+    завершеного — легальний спосіб звільнити місце, і ховати його було б нечесно.
+    Це коштує частини конверсії. Але P3 прийшла саме від того, що «ціна
+    не сходиться на малій практиці», і продукт, який у цей момент не лишає
+    виходу крім оплати, підтверджує її найгірший досвід.</p>
+    <p><strong>Заразом закрито дефект навігації:</strong> перевірка ліміту
+    відбувається при спробі додати клієнта. Людина не шукає екран тарифу —
+    тариф знаходить її.</p></div>
   </div>
 </div></section>
 <section id="trace"><div class="wrap">
