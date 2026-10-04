@@ -204,8 +204,11 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
 <b>МОЄ ГОСПОДАРСТВО</b> — куди заходять рідко
 ├── <b>Мої шаблони</b>                    <i>R7, R1</i>        [?]
 ├── <b>Тариф і ліміт</b>                  <i>R6</i>            P3
-├── <b>Налаштування</b>                   <u>лише гіпотези</u> P1
-└── <b>Вхід і реєстрація</b>              <u>[СИРОТА]</u>      P1</pre>
+└── <b>Налаштування</b>                   <u>вимоги, не jobs</u> P1
+      <u>App Store 5.1.1(v) і GDPR</u>
+
+<u>Видалено: «Вхід і реєстрація» — екран-сирота, замінено
+системним аркушем Sign in with Apple</u></pre>
   <div class="note prose"><p><strong>Два підкріплені jobs не дали жодного екрана.</strong>
   R4 «встигати між зустрічами» і E1 «щоб не з'їдало вечори» — це вимоги
   до <strong>всіх</strong> екранів одразу: відкриватись і закриватись однією
@@ -455,69 +458,104 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
 </div></section>
 <section id="trace"><div class="wrap">
   <div class="shead"><div class="idx">05</div><h2>Трасування</h2></div>
-  <p class="prose">Jobs проти екранів. Мета — знайти неузгодженості, а не описати
-  задумане. <span style="color:var(--accent)">●</span> головний екран для job
-  · <span style="color:var(--faint)">○</span> допоміжний
-  · <span style="color:var(--faint);font-size:12px">—</span> наскрізна вимога.</p>
+  <p class="prose">Матриця покриття. Рядки — <strong>всі</strong> jobs,
+  включно з emotional і social. Колонки — <strong>всі</strong> екрани.
+  <code>✓</code> означає одне: екран реально бере участь у закритті job.
+  Без градацій — попередня версія мала «головний / допоміжний» і позначку
+  для наскрізних вимог, і саме вона ховала дві дірки.</p>
+
   <div class="tscroll"><table class="trace">
-    <thead><tr><th>Job</th><th>Статус</th><th>Сьогодні</th><th>Таймлайн</th><th>Список</th>
-      <th>Клієнт</th><th>Нотатка</th><th>План</th><th>Переграти</th><th>Новий</th>
-      <th>Вибір</th><th>Шаблони</th><th>Тариф</th><th>Налашт.</th><th>Вхід</th></tr></thead>
+    <thead><tr><th>Job</th><th>Сг</th><th>Тл</th><th>Сп</th><th>Кл</th><th>Нт</th>
+      <th>Пл</th><th>Пб</th><th>Нв</th><th>Вш</th><th>Шб</th><th>Тр</th><th>Нл</th><th>Вх</th></tr></thead>
     <tbody>
-      <tr><td class="job">Main на чому зупинились</td><td><span class="chip dec">рішення</span></td>
-        <td class="c sec">○</td><td class="c"></td><td class="c sec">○</td><td class="c">●</td>
-        <td class="c sec">○</td><td class="c sec">○</td><td class="c"></td><td class="c"></td>
-        <td class="c sec">○</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R1 переграти план</td><td><span class="chip dec">рішення</span></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c sec">○</td>
-        <td class="c"></td><td class="c">●</td><td class="c">●</td><td class="c"></td>
-        <td class="c"></td><td class="c sec">○</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R2 що я кому пообіцяла</td><td><span class="chip dec">рішення</span></td>
-        <td class="c">●</td><td class="c">●</td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">R3 все в одному місці</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R4 встигати між зустрічами</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td></tr>
-      <tr><td class="job">R5 записати, поки не забула</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c sec">○</td><td class="c"></td><td class="c"></td><td class="c sec">○</td>
-        <td class="c">●</td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R6 не платити як велика</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c">●</td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">R7 почати сьогодні</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c"></td><td class="c"></td><td class="c sec">○</td><td class="c"></td>
-        <td class="c"></td><td class="c sec">○</td><td class="c"></td><td class="c">●</td>
-        <td class="c">●</td><td class="c">●</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">E1 щоб не з'їдало вечори</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td>
-        <td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td><td class="c na">—</td></tr>
-      <tr><td class="job">E2 нічого не випало</td><td><span class="chip ok">підкріплено</span></td>
-        <td class="c">●</td><td class="c sec">○</td><td class="c sec">○</td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr class="empty"><td class="job">Соціальні jobs</td><td><span class="chip bad">нуль даних</span></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
-      <tr><td class="job">ГJ3, ГJ7</td><td><span class="chip hyp">гіпотези</span></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
-        <td class="c"></td><td class="c"></td><td class="c"></td><td class="c sec">○</td><td class="c"></td></tr>
+      <tr><td class="job">Main на чому зупинились</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">R1 переграти план</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">R2 що я кому пообіцяла</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr class="empty"><td class="job">R3 все в одному місці</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr class="empty"><td class="job">R4 встигати між зустрічами</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">R5 записати, поки не забула</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">R6 не платити як велика</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">R7 почати сьогодні</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr class="empty"><td class="job">E1 щоб не з'їдало вечори</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td class="job">E2 нічого не випало</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr class="empty"><td class="job">Social — порожній розділ</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
     </tbody>
   </table></div>
-  <div class="callout prose"><p><strong>Дві порожні колонки й один порожній
-  рядок.</strong> Колонки «Налаштування» і «Вхід» не мають жодного підкріпленого
-  job. Рядок R3 — найкраще підкріплений job у наборі — не має жодного екрана.</p></div>
+  <p class="cap" style="font-family:var(--mono);font-size:12px;color:var(--faint)">
+  Сг Сьогодні · Тл Загальний таймлайн · Сп Список клієнтів · Кл Клієнт
+  · Нт Нотатка · Пл План · Пб Переграти · Нв Новий клієнт · Вш Вибір шляху
+  · Шб Шаблони · Тр Тариф · Нл Налаштування · Вх Вхід</p>
+
+  <div class="callout prose"><p><strong>Чотири порожні рядки й дві порожні
+  колонки.</strong> Обидва — дефекти, не «так і має бути».</p></div>
+
+  <h4>Екрани-сироти — колонка без жодного ✓</h4>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Екран</th><th>Навіщо існував</th><th>Рішення</th></tr></thead>
+    <tbody>
+      <tr><td>С-1</td><td><strong>Вхід і реєстрація</strong></td>
+        <td>§3 брифу обрав бекенд з акаунтами. Потреба технічна, не людська</td>
+        <td><span class="chip bad">видалити екран</span> Замінити системним аркушем
+        <strong>Sign in with Apple</strong>: без форми, без сторінки реєстрації.
+        Apple ховає пошту — це мовою §7, а не всупереч. І R7 просить «почати
+        цього ж вечора», а форма реєстрації — перша перешкода на цьому шляху</td></tr>
+      <tr><td>С-2</td><td><strong>Налаштування</strong></td>
+        <td>Лише ГJ3 і ГJ7 — обидві гіпотези</td>
+        <td><span class="chip dec">прив'язати до вимоги</span> Справжня причина —
+        експорт даних і видалення акаунта (App Store 5.1.1(v)) та згода на аналітику
+        (GDPR). Решту розкидати по місцях виникнення: час дайджесту — де він уперше
+        спрацьовує, біометрія — при вході, мова — системна. Проєктувати останнім</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Jobs-сироти — рядок без жодного ✓</h4>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Job</th><th>Де людина має це робити</th><th>Рішення</th></tr></thead>
+    <tbody>
+      <tr><td>J-1</td><td><strong>R3</strong> все в одному місці<br><span class="chip ok">підкріплено</span></td>
+        <td>Ніде — найкраще підкріплений job без екрана</td>
+        <td><span class="chip dec">прив'язати, звузивши job</span> Перечитування
+        показало помилку аналізу: ми трактували R3 як «звести весь бізнес-стек»
+        через цитати про platforms, але job каже <strong>«все про клієнта»</strong>.
+        У цьому читанні його закриває <strong>картка клієнта</strong>. Листування
+        й файли не закриваємо — у backlog, і саме через це програємо P2</td></tr>
+      <tr><td>J-2</td><td><strong>R4</strong> встигати між зустрічами<br><span class="chip ok">підкріплено</span></td>
+        <td>Ніде — job просить швидкості, а не місця</td>
+        <td><span class="chip dec">прив'язати як критерій приймання</span>
+        До <strong>«Сьогодні»</strong> і <strong>«Нотатки»</strong> — екранів, якими
+        користуються в проміжках. Критерій: відкрити й закрити однією рукою
+        за секунди. Окремого екрана не додаємо</td></tr>
+      <tr><td>J-3</td><td><strong>E1</strong> щоб не з'їдало вечори<br><span class="chip ok">підкріплено</span></td>
+        <td>Ніде — наслідок R4 і R5, не окрема дія</td>
+        <td><span class="chip dec">прив'язати + метрика</span> Ті самі два екрани,
+        плюс нова метрика в §12: <strong>частка нотаток, записаних у день зустрічі</strong>.
+        Якщо падає — робота переповзає на вечір, хай би екрани й були швидкими</td></tr>
+      <tr><td>J-4</td><td><strong>Social jobs</strong><br><span class="chip bad">нуль даних</span></td>
+        <td>Ніде — їх не сформульовано</td>
+        <td><span class="chip hyp">backlog</span> Це діра в дослідженні, не в продукті.
+        Вигадувати екран під власну здогадку не можна. Знімається з backlog, коли
+        інтерв'ю покажуть, що фахівцю важливо, як він виглядає в очах клієнта
+        або колег</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Після рішень</h4>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Що змінилось у продукті</th><th>Через який дефект</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Окремого екрана входу немає — Sign in with Apple</td><td>С-1</td></tr>
+      <tr><td>2</td><td>Вміст «Налаштувань» диктує закон, не продукт</td><td>С-2</td></tr>
+      <tr><td>3</td><td>R3 звужено до «все про клієнта» й прив'язано до картки</td><td>J-1</td></tr>
+      <tr><td>4</td><td>R4 і E1 стали критерієм приймання двох екранів</td><td>J-2, J-3</td></tr>
+      <tr><td>5</td><td>Нова метрика: частка нотаток у день зустрічі</td><td>J-3</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note prose"><p><strong>Порожніх рядків лишилось: один</strong> — Social.
+  Це відсутність даних, а не відсутність рішення. Колонка «Налаштування» порожня
+  за jobs свідомо: екран виправданий вимогами App Store і GDPR, і це записано
+  явно, щоб не виглядало прогалиною.</p></div>
 </div></section>
+
 <section id="critique"><div class="wrap">
   <div class="shead"><div class="idx">06</div><h2>Критика</h2></div>
   <p class="prose">Чотири класи дефектів. Класи визначено тут, бо раніше ми їх
@@ -527,13 +565,13 @@ footer{border-top:1px solid var(--border);margin-top:80px;padding:32px 0 60px;
     <thead><tr><th>#</th><th>Дефект</th><th>Оцінка</th></tr></thead>
     <tbody>
       <tr><td>1.1</td><td><strong>R3 «все в одному місці»</strong> — найкраще підкріплений job, жодного екрана</td>
-        <td>Не дефект IA, а продуктове рішення. Але це єдиний job із двома прямими цитатами, і він не закритий</td></tr>
+        <td><span class="chip ok">вирішено частково</span> Job звужено до «все про клієнта» й прив'язано до картки; листування й файли — backlog. Див. J-1</td></tr>
       <tr><td>1.2</td><td><strong>Вхід і реєстрація</strong> — екран без жодного job</td>
-        <td>Неминучий. Наслідок рішення про власний бекенд</td></tr>
+        <td><span class="chip ok">вирішено</span> Видалено, замінено Sign in with Apple — див. трасування, С-1</td></tr>
       <tr><td>1.3</td><td><strong>Налаштування</strong> — лише ГJ3 і ГJ7, обидві гіпотези</td>
-        <td><strong>Справжня сирота.</strong> Екран потрібен, але вміст зараз не диктує ніщо. Проєктувати останнім</td></tr>
+        <td><span class="chip ok">вирішено</span> Прив'язано до вимог App Store і GDPR — див. С-2</td></tr>
       <tr><td>1.4</td><td><strong>R4 і E1</strong> — підкріплені jobs без екранів</td>
-        <td>Не дефект. Наскрізні вимоги. Небезпека протилежна — спокуса домалювати їм екран</td></tr>
+        <td><span class="chip ok">вирішено</span> Критерій приймання «Сьогодні» і «Нотатки» плюс метрика — див. J-2, J-3</td></tr>
     </tbody>
   </table></div>
   <h4>Клас 2 — Тупики</h4>
