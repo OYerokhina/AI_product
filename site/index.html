@@ -1,11 +1,81 @@
 <!doctype html>
+<html lang="uk">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI_product</title>
+<title>TheBrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
-  :root { color-scheme: light dark; }
-  body { font: 16px/1.6 system-ui, sans-serif; max-width: 42rem; margin: 4rem auto; padding: 0 1.5rem; }
-  code { background: color-mix(in srgb, currentColor 12%, transparent); padding: .15em .4em; border-radius: 4px; }
+:root{--ground:#141311;--surface:#1E1D1A;--border:#33312D;--border-soft:#2A2825;
+--text:#F2F0ED;--dim:#A19C95;--faint:#6E6862;--accent:#8A97F0;
+--serif:"Newsreader",Georgia,serif;--sans:"Inter",-apple-system,sans-serif;
+--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:0 28px}
+header{padding:88px 0 40px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,60px);
+line-height:1.05;margin:0 0 18px;letter-spacing:-.015em}
+.lede{font-size:19px;color:var(--dim);margin:0 0 10px;max-width:52ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--faint);margin-top:22px}
+h2{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;
+text-transform:uppercase;color:var(--faint);margin:52px 0 14px}
+.links{display:grid;gap:1px;background:var(--border-soft);
+border:1px solid var(--border-soft);border-radius:10px;overflow:hidden}
+a.card{display:block;background:var(--surface);padding:18px 22px;text-decoration:none;
+color:var(--text);transition:background .15s}
+a.card:hover{background:#24221F}
+a.card .t{font-weight:600;font-size:15.5px;margin-bottom:3px}
+a.card .d{font-size:14px;color:var(--dim)}
+footer{border-top:1px solid var(--border);margin-top:64px;padding:26px 0 56px;
+font-family:var(--mono);font-size:12px;color:var(--faint)}
+footer a{color:var(--dim)}
+@media(max-width:640px){header{padding:56px 0 28px}.wrap{padding:0 18px}}
 </style>
-<h1>AI_product</h1>
-<p>Deployed from <code>site/</code> via GitHub Actions.</p>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>TheBrain</h1>
+  <p class="lede">Планер для фахівців, які ведуть клієнтів через повторювані
+  зустрічі. Тримає контекст по кожному клієнту й підказує наступний крок.</p>
+  <p class="meta">Фаза Ф1–Ф2 · дослідження та інформаційна архітектура</p>
+</div></header>
+
+<main><div class="wrap">
+  <h2>Робочі документи</h2>
+  <div class="links">
+    <a class="card" href="https://thebrain-research.vercel.app/">
+      <div class="t">Дослідження</div>
+      <div class="d">15 конкурентів, бенчмарк вводу даних, патерни, висновки</div>
+    </a>
+    <a class="card" href="https://thebrain-research.vercel.app/personas.html">
+      <div class="t">Персони та jobs</div>
+      <div class="d">Три персони, ієрархія jobs, матриця важливості</div>
+    </a>
+    <a class="card" href="https://github.com/OYerokhina/AI_product/blob/main/sitemap.md">
+      <div class="t">Сутності, екрани, навігація</div>
+      <div class="d">Інвентар об'єктів, дерево екранів, трасування і критика IA</div>
+    </a>
+    <a class="card" href="https://github.com/OYerokhina/AI_product/blob/main/flows.md">
+      <div class="t">User flows</div>
+      <div class="d">Чотири потоки з рішеннями, станами й тупиками</div>
+    </a>
+  </div>
+
+  <h2>Репозиторій</h2>
+  <div class="links">
+    <a class="card" href="https://github.com/OYerokhina/AI_product">
+      <div class="t">github.com/OYerokhina/AI_product</div>
+      <div class="d">Бриф у CLAUDE.md, дослідження в research/</div>
+    </a>
+  </div>
+</div></main>
+
+<footer><div class="wrap">
+  Публічний репозиторій: без імен реальних клієнтів і сирих записів інтерв'ю.
+</div></footer>
+</body>
+</html>
